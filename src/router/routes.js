@@ -25,6 +25,14 @@ const routes = [
   },
 
   {
+    path: '/edit-anons',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EditAnonsePage.vue') }
+    ]
+  },
+
+  {
     path: '/add-category',
     component: () => import('layouts/MainLayout.vue'),
     children: [

@@ -5,9 +5,9 @@
         <div
           class="menu__item"
           v-for="category in categories"
-          :key="category.id"
+          :key="category?.id"
         >
-          <button class="menu__btn">{{ category.title }}</button>
+          <button class="menu__btn">{{ category?.title }}</button>
         </div>
       </div>
     </q-scroll-area>
@@ -15,31 +15,31 @@
       <div
         class="category"
         v-for="category in categories"
-        :key="category.id"
+        :key="category?.id"
       >
         <div class="category__top">
           <div class="category__box">
-            <div class="category__title">{{ category.title }}</div>
-            <router-link :to="'category/' + category.id" class="category__edit">редактировать категорию</router-link>
+            <div class="category__title">{{ category?.title }}</div>
+            <router-link :to="'category/' + category?.id" class="category__edit">редактировать категорию</router-link>
           </div>
-          <div class="category__description">Описание категории, самые лучшие кроссовки, в описание вмещается до 256 символов</div>
+          <div class="category__description">{{ category?.des }}</div>
         </div>
         <div class="category__list">
           <div
             class="category__item"
             v-for="product in getProducts(category)"
-            :key="product"
+            :key="product?.id"
           >
             <div
               class="category__img"
-              :style="'background-image: url(' + background(product.id) + ');'"
+              :style="'background-image: url(' + background(product?.id) + ');'"
             ></div>
             <div class="category__content">
-              <div class="category__title">{{ product.title }}</div>
-              <div class="category__des">{{ product.des }}</div>
-              <div class="category__price">{{ product.price.toLocaleString() }} ₽</div>
+              <div class="category-title">{{ product?.title }}</div>
+              <div class="category__des">{{ product?.des }}</div>
+              <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
               <router-link
-                :to="'product/' + product.id"
+                :to="'product/' + product?.id"
                 class="category__btn"
               >Редактировать</router-link>
             </div>
@@ -67,52 +67,28 @@
       </router-link>
     </div>
     <div class="footer">
-      <router-link to="/add-anons" class="footer__btn">Написать анонс</router-link>
+      <router-link to="/add-anons" class="footer__btn" v-if="anonse == ''">Написать анонс</router-link>
+      <router-link to="/edit-anons" class="footer__btn" v-else>Изменить анонс</router-link>
     </div>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import { useContentStore } from 'stores/content'
 
 export default defineComponent({
   name: 'MainPage',
-  data() {
+  setup() {
+    const store = useContentStore()
+    const anonse = store.getAnonse
+    const categories = store.getCategories
+    const products = store.getProducts
     return {
-      categories: [
-        {
-          id: 1,
-          title: 'Кроссовки'
-        },
-        {
-          id: 2,
-          title: 'Толстовки'
-        }
-      ],
-      products: [
-        {
-          id: 1,
-          title: 'Nike Air Force I',
-          des: 'Культовые кроссовки известного бренда',
-          price: 12999,
-          category: 1
-        },
-        {
-          id: 2,
-          title: 'Adidas Superstar',
-          des: 'Культовые кроссовки известного бренда',
-          price: 7999,
-          category: 1
-        },
-        {
-          id: 3,
-          title: 'Nike Air Max',
-          des: 'Культовые кроссовки известного бренда',
-          price: 6500,
-          category: 1
-        }
-      ]
-    }
+      anonse,
+      categories,
+      products
+    };
   },
   methods: {
     background (id) {
@@ -120,7 +96,7 @@ export default defineComponent({
     },
     getProducts(category) {
       var products = this.products
-      return products.filter(product => product.category == category.id)
+      return products.filter(product => product.category == category?.id)
     }
   }
 })
@@ -223,7 +199,7 @@ export default defineComponent({
         border-bottom-right-radius: 12px;
         padding: 8px;
       }
-      &__title{
+      &-title{
         font-weight: 600;
         line-height: 16px;
         font-size: 15px;

@@ -20,7 +20,7 @@
       </div>
       <div class="anonse-footer">
         <router-link to="/main" class="footer-btn1">Назад</router-link>
-        <q-btn label="Опубликовать" type="submit" class="footer-btn2"/>
+        <q-btn label="Обновить" type="submit" class="footer-btn2"/>
       </div>
     </q-form>
   </q-page>
@@ -37,17 +37,17 @@ export default {
     const $q = useQuasar()
     const $router = useRouter()
     const store = useContentStore()
-    const { addAnonse } = store
     const { anonse } = storeToRefs(store)
+    const { updateAnonse } = store
     return {
       anonse,
       onSubmit () {
         $q.notify({
           type: 'positive',
-          message: 'Анонс добавлен',
+          message: 'Анонс обновлен',
           position: 'top-right'
         })
-        addAnonse(anonse)
+        updateAnonse(anonse)
         $router.push('/main')
       }
     }

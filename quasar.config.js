@@ -15,29 +15,27 @@ module.exports = configure(function (ctx) {
   return {
     supportTS: false,
     boot: [
-      'axios',
+      'axios'
     ],
     css: [
       'app.scss'
     ],
     extras: [
-      'roboto-font', // optional, you are not bound to it
-      'material-icons', // optional, you are not bound to it
+      'roboto-font',
+      'material-icons',
     ],
-
-    // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
+    preFetch: true,
     build: {
       vueRouterMode: 'hash',
-      chainWebpack (/* chain */) {}
+      chainWebpack () {}
     },
     devServer: {
       server: {
         type: 'http'
       },
       port: 8080,
-      open: true // opens browser window automatically
+      open: true
     },
-
     framework: {
       plugins: [
         'Notify'
@@ -46,49 +44,29 @@ module.exports = configure(function (ctx) {
         notify: { /* look at QuasarConfOptions from the API card */ }
       }
     },
-
-    // animations: 'all', // --- includes all animations
-    // https://quasar.dev/options/animations
     animations: [],
-
-    // https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/configuring-ssr
     ssr: {
       pwa: false,
-
-      // manualStoreHydration: true,
-      // manualPostHydrationTrigger: true,
-
-      prodPort: 3000, // The default port that the production server should use
-                      // (gets superseded if process.env.PORT is specified at runtime)
-
+      prodPort: 3000,
       maxAge: 1000 * 60 * 60 * 24 * 30,
-        // Tell browser when a file from the server should expire from cache (in ms)
-
-
       chainWebpackWebserver (/* chain */) {},
-
-
       middlewares: [
         ctx.prod ? 'compression' : '',
         'render' // keep this as last one
       ]
     },
 
-    // https://v2.quasar.dev/quasar-cli-webpack/developing-pwa/configuring-pwa
     pwa: {
-      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxPluginMode: 'GenerateSW',
+      workboxOptions: {},
 
-      // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
-      // if using workbox in InjectManifest mode
-
-      chainWebpackCustomSW (/* chain */) {},
+      chainWebpackCustomSW () {},
 
 
       manifest: {
-        name: `Quasar App`,
-        short_name: `Quasar App`,
-        description: `A Quasar Project`,
+        name: `Yarmarka`,
+        short_name: `Yarmarka`,
+        description: `Yarmarka`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

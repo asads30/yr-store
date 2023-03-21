@@ -35,23 +35,43 @@
 
 <script>
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
+import { useContentStore } from 'stores/content'
 import { ref } from 'vue'
 
 export default {
   setup () {
     const $q = useQuasar()
+    const $router = useRouter()
+    const store = useContentStore()
+
+    const { addCategory } = store
+    const getId = store.getNewIdCategories
     const name = ref(null)
     const des = ref(null)
     return {
       name,
       des,
       onSubmit () {
-        $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Успешно'
-        })
+        const category = {
+          id: getId,
+          title: name.value,
+          des: des.value
+        }
+        try {
+          addCategory(category)
+          $q.notify({
+            type: 'positive',
+            message: 'Категория добавлена',
+            position: 'top-right'
+          })
+          $router.push('/main')
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            message: 'Ошибка.'
+          })
+        }
       }
     }
   }
