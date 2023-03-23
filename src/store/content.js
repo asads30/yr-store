@@ -15,11 +15,7 @@ export const useContentStore = defineStore('content', {
         des: 'Описание категории, самые лучшие кроссовки, в описание вмещается до 256 символов'
       }
     ],
-    category: {
-      id: 0,
-      title: '',
-      des: ''
-    },
+    category: null,
     products: [
       {
         id: 1,
@@ -53,7 +49,7 @@ export const useContentStore = defineStore('content', {
       return state.categories
     },
     getCategory: (state) => {
-      return state.category
+      return (catId) => state.categories.filter((category) => category.id === catId)
     },
     getProducts(state){
       return state.products
@@ -70,15 +66,15 @@ export const useContentStore = defineStore('content', {
     addCategory (category) {
       this.categories.push(category)
     },
-    fetchCategory(id) {
-      const categoryAdd = this.categories.find(category => category.id == id)
-      this.category = categoryAdd
-    },
     updateCategory (category) {
-      this.category = category
+      this.categories.push(category)
     },
     addProduct (item) {
       this.products.push({ id: item.id, title: item.title, des: item.des, price: item.price, category: item.category_id })
+    },
+    fetchCategory(id) {
+      const categoryAdd = this.categories.find(category => category.id == id)
+      this.state.category = categoryAdd
     }
   }
 })

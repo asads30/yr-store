@@ -6,20 +6,27 @@
     >
       <div class="anonse-main">
         <div class="page-title">
-          <h3>Добавление анонса</h3>
+          <h3>Изменить категорию №{{ id }}</h3>
         </div>
         <q-input
           outlined
-          type="textarea"
-          v-model="anonse"
-          label="Текст анонса *"
+          v-model="title"
+          label="Название *"
           lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
+          hint="Максимум 128 символов"
+        />
+        <q-input
+          outlined
+          type="textarea"
+          v-model="description"
+          label="Описание *"
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
           hint="Максимум 255 символов"
-          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите текст']"
         />
       </div>
       <div class="anonse-footer">
-        <router-link to="/main" class="footer-btn1">Назад</router-link>
         <q-btn label="Опубликовать" type="submit" class="footer-btn2"/>
       </div>
     </q-form>
@@ -28,26 +35,33 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
-import { storeToRefs } from 'pinia'
 
 export default {
   setup () {
     const $q = useQuasar()
+    const $route = useRoute()
     const $router = useRouter()
     const store = useContentStore()
-    const { addAnonse } = store
-    const { text } = storeToRefs(store)
+    const { getCategory } = store
+    const { updateCategory } = store
+    const id = $route.params.id
     return {
-      text,
+      title: getCategory.title,
+      description: getCategory.des,
+      id,
       onSubmit () {
+        const category = {
+          id: id,
+          title: getCategory.title
+        }
         $q.notify({
           type: 'positive',
-          message: 'Анонс добавлен',
+          message: 'Обновлено',
           position: 'top-right'
         })
-        addAnonse(text)
+        updateCategory(category)
         $router.push('/main')
       }
     }
@@ -101,6 +115,7 @@ export default {
     font-size: 18px;
     color: #fff;
     text-transform: none;
+    padding: 0;
   }
   .q-field{
     padding-bottom: 30px;

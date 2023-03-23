@@ -1,6 +1,9 @@
 <template>
   <q-page class="flex flex-start column main">
-    <q-scroll-area style="height: 39px; width: 100%;" class="menu">
+    <div
+      style="height: 41px;width: 100%;"
+      class="menu"
+    >
       <div class="menu__list">
         <div
           class="menu__item"
@@ -10,7 +13,7 @@
           <button class="menu__btn">{{ category?.title }}</button>
         </div>
       </div>
-    </q-scroll-area>
+    </div>
     <div class="categories">
       <div
         class="category"
@@ -20,7 +23,7 @@
         <div class="category__top">
           <div class="category__box">
             <div class="category__title">{{ category?.title }}</div>
-            <router-link :to="'category/' + category?.id" class="category__edit">редактировать категорию</router-link>
+            <button @click="editCat(category?.id)" class="category__edit">редактировать категорию</button>
           </div>
           <div class="category__description">{{ category?.des }}</div>
         </div>
@@ -76,6 +79,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { useContentStore } from 'stores/content'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'MainPage',
@@ -84,10 +88,34 @@ export default defineComponent({
     const anonse = store.getAnonse
     const categories = store.getCategories
     const products = store.getProducts
+    const $router = useRouter()
+    const { fetchCategory } = store
     return {
       anonse,
       categories,
-      products
+      products,
+      thumbStyle: {
+        right: '2px',
+        borderRadius: '3.5px',
+        backgroundColor: '#3478F6',
+        width: '2px',
+        opacity: 0.3
+      },
+      barStyle: {
+        right: '1px',
+        borderRadius: '4.5px',
+        backgroundColor: '#3478F6',
+        width: '4px',
+        opacity: 0.1
+      },
+      editCat(id){
+        try {
+          fetchCategory(id)
+        } catch (error) {
+          console.log(error)
+        }
+        $router.push('/category/' + id)
+      }
     };
   },
   methods: {
@@ -97,6 +125,9 @@ export default defineComponent({
     getProducts(category) {
       var products = this.products
       return products.filter(product => product.category == category?.id)
+    },
+    editCat(){
+
     }
   }
 })
@@ -104,13 +135,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   .menu{
-    padding: 0 12px 12px;
-    overflow-x: scroll;
-    max-width: 100vw;
+    margin: 0 12px;
+    overflow: hidden;
+    max-width: calc(100vw - 24px);
+    padding: 0 0 10px;
     &__list{
       display: flex;
       flex-wrap: nowrap;
+      overflow-x: scroll;
       gap: 8px;
+      padding-bottom: 3px;
     }
     &__btn{
       height: 27px;
@@ -126,7 +160,8 @@ export default defineComponent({
   }
   .categories{
     padding: 0 12px 10px;
-    height: calc(100vh - 203px);
+    height: calc(100vh - 205px);
+    overflow-x: hidden;
     overflow-y: scroll;
     .category{
       &__add{
