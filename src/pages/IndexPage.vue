@@ -27,23 +27,19 @@ import { api } from 'boot/axios'
 export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
-    const $q = useQuasar()
     const $store = useContentStore()
-    const idStore = $q.localStorage.getItem('id_store')
-    const initData = $q.localStorage.getItem('init_data')
-    const initUser = $q.localStorage.getItem('init_user')
     const { fetchCategory } = $store
     window.Telegram.WebApp.expand()
-    if(!idStore){
-      $q.localStorage.set('id_store', currentRoute.params.id)
+    if(!localStorage.getItem('id_store')){
+      localStorage.setItem('id_store', currentRoute.params.id)
     }
-    if(!initData){
-      $q.localStorage.set('init_data', window.Telegram.WebApp.initData)
+    if(!localStorage.getItem('init_data')){
+      localStorage.setItem('init_data', window.Telegram.WebApp.initData)
     }
-    if(!initUser){
-      $q.localStorage.set('init_user', window.Telegram.WebApp.initDataUnsafe)
+    if(!localStorage.getItem('init_user')){
+      localStorage.setItem('init_user', window.Telegram.WebApp.initDataUnsafe)
     }
-    api.get(`shop/admin/shop/${idStore}`).then((response) => {
+    api.get(`shop/admin/shop/${currentRoute.params.id}`).then((response) => {
       fetchCategory(response.data)
       console.log(response)
     }).catch((error) => {
