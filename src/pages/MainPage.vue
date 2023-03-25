@@ -142,7 +142,7 @@ export default defineComponent({
     &__list{
       display: flex;
       flex-wrap: nowrap;
-      overflow-x: scroll;
+      overflow-x: auto;
       gap: 8px;
       padding-bottom: 3px;
     }
@@ -206,6 +206,9 @@ export default defineComponent({
         font-size: 11px;
         line-height: 15px;
         color: #3478F6;
+        background: none;
+        border: none;
+        padding: 0;
       }
       &__description{
         font-size: 11px;

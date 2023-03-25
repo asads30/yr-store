@@ -38,7 +38,9 @@ export const useContentStore = defineStore('content', {
         price: 6500,
         category: 1
       }
-    ]
+    ],
+    initData: null,
+    initUser: null
   }),
 
   getters: {
@@ -54,6 +56,12 @@ export const useContentStore = defineStore('content', {
     getProducts(state){
       return state.products
     },
+    getInitData(state){
+      return state.initData
+    },
+    getInitUser(state){
+      return state.initUser
+    }
   },
 
   actions: {
@@ -75,6 +83,9 @@ export const useContentStore = defineStore('content', {
     fetchCategory(id) {
       const categoryAdd = this.categories.find(category => category.id == id)
       this.state.category = categoryAdd
+    },
+    fetchInitData(data){
+      this.initData = data
     }
   }
 })
