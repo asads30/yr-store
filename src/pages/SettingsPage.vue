@@ -5,17 +5,22 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue'
+import { useContentStore } from 'stores/content'
 import { useRoute } from 'vue-router'
 
-export default {
+export default defineComponent({
+  name: 'SettingsPage',
   setup() {
     const route = useRoute()
+    const store = useContentStore()
     const id = route.params.id
+
     return {
       id
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

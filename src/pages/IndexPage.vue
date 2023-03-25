@@ -1,16 +1,16 @@
 <template>
-  <q-page class="flex flex-start justify-between column start">
+  <q-page class="start">
     <div class="start__logo">
       <img src="~assets/logo.svg">
     </div>
-    <div class="start__box flex column justify-between">
+    <div class="start__box">
       <div class="start__top">
         <div class="start__img">
           <img src="~assets/start.png" alt="">
         </div>
         <div class="start__title">Здравствуйте!<br />Здесь вы можете настроить свой интернет-магазин, добавить товары и категории.</div>
       </div>
-      <div class="start__bottom flex column">
+      <div class="start__bottom">
         <q-btn outline color="primary" label="Вернуться в Телеграм" class="start__back" @click="backTelegram" />
         <q-btn color="primary" label="Продолжить" class="start__next" to="/main" />
       </div>
@@ -20,14 +20,37 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useQuasar } from 'quasar'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'MainPage',
+  preFetch ({ currentRoute }) {
+    console.log(currentRoute, 0)
+  },
   setup() {
-    const initData = window.Telegram.WebApp.initData
-    const initUser = window.Telegram.WebApp.initDataUnsafe
-    console.log(initUser)
-    console.log(initData)
+    const $q = useQuasar()
+    const initData = $q.cookies.has('initData')
+    const route = useRoute()
+    const id = route.params.id
+    if(initData){
+      $q.cookies.set('initData', window.Telegram.WebApp.initData)
+    }
+    if(!$q.localStorage.getItem('init_data')){
+      $q.localStorage.set('init_data', window.Telegram.WebApp.initData)
+    }
+    if(!$q.localStorage.getItem('init_user')){
+      $q.localStorage.set('init_user', window.Telegram.WebApp.initDataUnsafe)
+    }
+    if(!$q.localStorage.getItem('shop_id')){
+      $q.localStorage.set('shop_id', id)
+    }
+    return{
+      id,
+      backTelegram() {
+        window.Telegram.WebApp.close()
+      }
+    }
   }
 })
 </script>
@@ -36,6 +59,9 @@ export default defineComponent({
   .start{
     background: radial-gradient(101.94% 101.94% at 50% -1.94%, #330081 0%, #1F004D 100%);
     padding: 0 12px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     &__logo{
       padding: 16px 0 26px;
       height: 76px;
@@ -49,6 +75,9 @@ export default defineComponent({
       border-radius: 12px;
       background: #fff;
       padding: 12px 12px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     &__img{
       margin-bottom: 12px;
@@ -82,6 +111,10 @@ export default defineComponent({
       font-size: 18px;
       text-transform: none;
       border-radius: 10px;
+    }
+    &__bottom{
+      display: flex;
+      flex-direction: column;
     }
   }
 </style>

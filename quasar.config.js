@@ -38,7 +38,9 @@ module.exports = configure(function (ctx) {
     },
     framework: {
       plugins: [
-        'Notify'
+        'Notify',
+        'Cookies',
+        'LocalStorage'
       ],
       config: {
         notify: { /* look at QuasarConfOptions from the API card */ }

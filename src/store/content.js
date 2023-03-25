@@ -39,8 +39,7 @@ export const useContentStore = defineStore('content', {
         category: 1
       }
     ],
-    initData: null,
-    initUser: null
+    store: []
   }),
 
   getters: {
@@ -84,11 +83,8 @@ export const useContentStore = defineStore('content', {
       const categoryAdd = this.categories.find(category => category.id == id)
       this.state.category = categoryAdd
     },
-    fetchInitData(data){
-      this.initData = data
-    },
-    fetchInitUser(data){
-      this.initUser = data
+    fetchStore(data){
+      this.stire = data
     }
   }
 })
