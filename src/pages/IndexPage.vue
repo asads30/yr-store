@@ -21,32 +21,37 @@
 <script>
 import { defineComponent } from 'vue'
 import { useQuasar } from 'quasar'
-import { useRoute } from 'vue-router'
+import { useContentStore } from 'stores/content'
+import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
-    console.log(currentRoute, 0)
-  },
-  setup() {
     const $q = useQuasar()
-    const initData = $q.cookies.has('initData')
-    const route = useRoute()
-    const id = route.params.id
-    if(initData){
-      $q.cookies.set('initData', window.Telegram.WebApp.initData)
+    const $store = useContentStore()
+    const idStore = $q.localStorage.getItem('id_store')
+    const initData = $q.localStorage.getItem('init_data')
+    const initUser = $q.localStorage.getItem('init_user')
+    const { fetchCategory } = $store
+    window.Telegram.WebApp.expand()
+    if(!idStore){
+      $q.localStorage.set('id_store', currentRoute.params.id)
     }
-    if(!$q.localStorage.getItem('init_data')){
+    if(!initData){
       $q.localStorage.set('init_data', window.Telegram.WebApp.initData)
     }
-    if(!$q.localStorage.getItem('init_user')){
+    if(!initUser){
       $q.localStorage.set('init_user', window.Telegram.WebApp.initDataUnsafe)
     }
-    if(!$q.localStorage.getItem('shop_id')){
-      $q.localStorage.set('shop_id', id)
-    }
+    api.get(`shop/admin/shop/${idStore}`).then((response) => {
+      fetchCategory(response.data)
+      console.log(response)
+    }).catch((error) => {
+      console.log(error)
+    })
+  },
+  setup() {
     return{
-      id,
       backTelegram() {
         window.Telegram.WebApp.close()
       }

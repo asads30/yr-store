@@ -55,11 +55,8 @@ export const useContentStore = defineStore('content', {
     getProducts(state){
       return state.products
     },
-    getInitData(state){
-      return state.initData
-    },
-    getInitUser(state){
-      return state.initUser
+    getStore(state){
+      return state.store
     }
   },
 
@@ -84,7 +81,7 @@ export const useContentStore = defineStore('content', {
       this.state.category = categoryAdd
     },
     fetchStore(data){
-      this.stire = data
+      this.store = data
     }
   }
 })
