@@ -86,6 +86,9 @@ export const useContentStore = defineStore('content', {
     },
     fetchInitData(data){
       this.initData = data
+    },
+    fetchInitUser(data){
+      this.initUser = data
     }
   }
 })

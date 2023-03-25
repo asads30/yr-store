@@ -20,19 +20,13 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useContentStore } from 'stores/content'
-import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'MainPage',
   setup() {
-    const store = useContentStore()
-    const { fetchInitData } = store
     const initData = window.Telegram.WebApp.initData
-    const router = useRouter()
-    const shopId = router.params.id
-    fetchInitData(initData)
-    console.log(shopId)
+    const initUser = window.Telegram.WebApp.initDataUnsafe
+    console.log(initUser)
     console.log(initData)
   }
 })
