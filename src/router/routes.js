@@ -50,7 +50,7 @@ const routes = [
 
   {
     path: '/shop/:id/settings',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/StartLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') }
     ]
@@ -58,7 +58,7 @@ const routes = [
 
   {
     path: '/category/:id',
-    component: () => import('layouts/StartLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/EditCategoryPage.vue') }
     ]

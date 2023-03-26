@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL: 'https://yr-store.netlify.app/api',
   timeout: 5000,
   headers: {
-    Authorization: localStorage.getItem('init_user')
+    Authorization: localStorage.getItem('init_data')
   }
 })
 
