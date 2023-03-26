@@ -58,7 +58,7 @@ const routes = [
 
   {
     path: '/category/:id',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/StartLayout.vue'),
     children: [
       { path: '', component: () => import('pages/EditCategoryPage.vue') }
     ]

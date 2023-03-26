@@ -2,7 +2,7 @@ import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'https://yr-store.netlify.app/api',
   timeout: 5000,
   headers: {
     Authorization: localStorage.getItem('init_user')
