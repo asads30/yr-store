@@ -20,23 +20,22 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useContentStore } from 'stores/content'
 import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
-    const $store = useContentStore()
-    const { fetchData, fetchCategories } = $store
-    window.Telegram.WebApp.expand()
+    const tg = window.Telegram.WebApp
+    const id = currentRoute.params.id
+    tg.expand()
     if(!localStorage.getItem('id_store')){
-      localStorage.setItem('id_store', currentRoute.params.id)
+      localStorage.setItem('id_store', id)
     }
     if(!localStorage.getItem('init_data')){
-      localStorage.setItem('init_data', window.Telegram.WebApp.initData)
+      localStorage.setItem('init_data', tg.initData)
     }
     if(!localStorage.getItem('init_user')){
-      localStorage.setItem('init_user', window.Telegram.WebApp.initDataUnsafe)
+      localStorage.setItem('init_user', tg.initDataUnsafe)
     }
     try {
       api.get(`shop/admin/shop/${currentRoute.params.id}`).then((response) => {
