@@ -81,7 +81,7 @@ export default defineComponent({
     const { getData, getCategories } = $store
     return{
       categories: getCategories,
-      anonse: getData?.name
+      anonse: getData
     }
   }
 })

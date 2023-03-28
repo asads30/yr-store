@@ -20,6 +20,9 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useContentStore } from 'stores/content'
+import { api } from 'boot/axios'
+
 export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
@@ -34,6 +37,26 @@ export default defineComponent({
     }
     if(!localStorage.getItem('init_user')){
       localStorage.setItem('init_user', tg.initDataUnsafe)
+    }
+    const $store = useContentStore()
+    const { fetchData, fetchCategories } = $store
+    try {
+      api.get(`shop/admin/shop/${id}`).then((response) => {
+        fetchData(response.data)
+      }).catch((error) => {
+        console.log(error)
+      });
+      try {
+        api.get(`shop/admin/category/${id}`).then((response) => {
+          fetchCategories(response.data.categories)
+        }).catch((error) => {
+          console.log(error)
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    } catch (error) {
+      console.log(error)
     }
   },
   setup() {
