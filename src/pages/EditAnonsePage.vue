@@ -6,16 +6,23 @@
     >
       <div class="anonse-main">
         <div class="page-title">
-          <h3>Добавление анонса</h3>
+          <h3>Изменение анонса</h3>
         </div>
         <q-input
           outlined
+          v-model="name"
+          label="Название"
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
+        />
+        <q-input
+          outlined
           type="textarea"
-          v-model="anonse"
-          label="Текст анонса *"
+          v-model="description"
+          label="Описание *"
           lazy-rules
           hint="Максимум 255 символов"
-          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите текст']"
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
       </div>
       <div class="anonse-footer">
@@ -30,25 +37,49 @@
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
-import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+import { api } from 'boot/axios'
 
 export default {
   setup () {
     const $q = useQuasar()
     const $router = useRouter()
     const store = useContentStore()
-    const { anonse } = storeToRefs(store)
-    const { updateAnonse } = store
+    const { getAnonse, updateAnonse } = store
+    const name = ref(getAnonse.name)
+    const description = ref(getAnonse.description)
+    const idStore = localStorage.getItem('id_store')
     return {
-      anonse,
+      name,
+      description,
       onSubmit () {
-        $q.notify({
-          type: 'positive',
-          message: 'Анонс обновлен',
-          position: 'top-right'
-        })
-        updateAnonse(anonse)
-        $router.push('/main')
+        const anonse = {
+          name: name.value,
+          description: description.value
+        }
+        try {
+          api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
+            if(response.status == 200){
+              updateAnonse(anonse)
+              $q.notify({
+                type: 'positive',
+                message: 'Анонс добавлен',
+                position: 'top-right'
+              })
+              $router.push('/main')
+            }
+          }).catch((error) => {
+            $q.notify({
+              type: 'negative',
+              message: error
+            })
+          });
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            message: error
+          })
+        }
       }
     }
   }

@@ -10,12 +10,19 @@
         </div>
         <q-input
           outlined
+          v-model="name"
+          label="Название"
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
+        />
+        <q-input
+          outlined
           type="textarea"
-          v-model="anonse"
-          label="Текст анонса *"
+          v-model="description"
+          label="Описание *"
           lazy-rules
           hint="Максимум 255 символов"
-          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите текст']"
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
       </div>
       <div class="anonse-footer">
@@ -31,6 +38,7 @@ import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
 import { storeToRefs } from 'pinia'
+import { api } from 'boot/axios'
 
 export default {
   setup () {
@@ -38,17 +46,39 @@ export default {
     const $router = useRouter()
     const store = useContentStore()
     const { addAnonse } = store
-    const { text } = storeToRefs(store)
+    const { name, description } = storeToRefs(store)
+    const idStore = localStorage.getItem('id_store')
     return {
-      text,
+      name,
+      description,
       onSubmit () {
-        $q.notify({
-          type: 'positive',
-          message: 'Анонс добавлен',
-          position: 'top-right'
-        })
-        addAnonse(text)
-        $router.push('/main')
+        const anonse = {
+          name: name.value,
+          description: description.value
+        }
+        try {
+          api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
+            if(response.status == 200){
+              addAnonse(anonse)
+              $q.notify({
+                type: 'positive',
+                message: 'Анонс добавлен',
+                position: 'top-right'
+              })
+              $router.push('/main')
+            }
+          }).catch((error) => {
+            $q.notify({
+              type: 'negative',
+              message: error
+            })
+          });
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            message: error
+          })
+        }
       }
     }
   }

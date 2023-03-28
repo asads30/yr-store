@@ -38,6 +38,7 @@ import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
 import { api } from 'boot/axios'
+import { ref } from 'vue'
 
 export default {
   setup () {
@@ -45,12 +46,11 @@ export default {
     const $route = useRoute()
     const $router = useRouter()
     const store = useContentStore()
-    const { getCategory } = store
-    const { updateCategory } = store
+    const { getCategory, updateCategory } = store
     const id = $route.params.id
     const name = ref(getCategory.name)
     const description = ref(getCategory.description)
-    const idStore = localStorage.getItem('id_store');
+    const idStore = localStorage.getItem('id_store')
     return {
       name,
       description,

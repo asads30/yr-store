@@ -4,13 +4,13 @@ export const useContentStore = defineStore('content', {
   state: () => ({
     data: null,
     categories: [],
-    anonse: '',
     products: [],
     category: {
       id: 0,
       name: '',
       description: ''
-    }
+    },
+    anonse: null
   }),
 
   getters: {
@@ -47,11 +47,11 @@ export const useContentStore = defineStore('content', {
     updateCategory(category){
       this.category = category
     },
-    addAnonse(text){
-      this.anonse = text
+    addAnonse(anonse){
+      this.anonse = anonse
     },
-    updateAnonse(text){
-      this.anonse = text
+    updateAnonse(anonse){
+      this.anonse = anonse
     },
     addProduct(item){
       this.products.push({ id: item.id, name: item.name, description: item.description, price: item.price, category: item.category_id })

@@ -72,7 +72,7 @@
       </router-link>
     </div>
     <div class="footer">
-      <router-link to="/add-anons" class="footer__btn" v-if="anonse == ''">Написать анонс</router-link>
+      <router-link to="/add-anons" class="footer__btn" v-if="data.description">Написать анонс</router-link>
       <router-link to="/edit-anons" class="footer__btn" v-else>Изменить анонс</router-link>
     </div>
   </q-page>
@@ -88,14 +88,14 @@ export default defineComponent({
   name: 'MainPage',
   setup() {
     const store = useContentStore()
-    const anonse = store.getAnonse
+    const data = store.getData
     const categories = store.getCategories
     const products = store.getProducts
     const $router = useRouter()
     const { fetchCategory } = store
     const idStore = localStorage.getItem('id_store');
     return {
-      anonse,
+      data,
       categories,
       products,
       thumbStyle: {
