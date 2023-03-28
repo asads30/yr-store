@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useContentStore } from 'stores/content'
 import { ref } from 'vue'
