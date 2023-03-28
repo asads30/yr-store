@@ -77,9 +77,53 @@
 <script>
 import { defineComponent } from 'vue'
 import { useContentStore } from 'stores/content'
+import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
+  preFetch ({ currentRoute }) {
+    const tg = window.Telegram.WebApp
+    const id = currentRoute.params.id
+    tg.expand()
+    if(!localStorage.getItem('id_store')){
+      localStorage.setItem('id_store', id)
+    }
+    if(!localStorage.getItem('init_data')){
+      localStorage.setItem('init_data', tg.initData)
+    }
+    if(!localStorage.getItem('init_user')){
+      localStorage.setItem('init_user', tg.initDataUnsafe)
+    }
+    const $store = useContentStore()
+    const { fetchData, fetchCategories, fetchProducts } = $store
+    try {
+      api.get(`shop/admin/shop/${id}`).then((response) => {
+        fetchData(response.data)
+      }).catch((error) => {
+        console.log(error)
+      });
+    } catch (error) {
+      console.log(error)
+    }
+    try {
+      api.get(`shop/admin/category/${id}`).then((response) => {
+        fetchCategories(response.data.categories)
+      }).catch((error) => {
+        console.log(error)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+    try {
+      api.get(`shop/admin/product/${id}`).then((response) => {
+        fetchProducts(response.data.products)
+      }).catch((error) => {
+        console.log(error)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },
   setup() {
     const $store = useContentStore()
     const { getData, getCategories, getProducts } = $store
@@ -251,6 +295,7 @@ export default defineComponent({
     }
     &__not{
       text-decoration: none;
+      width: calc(50% - 8px);
       &-img{
         background: url(../assets/product.svg) 100% no-repeat;
         background-size: cover;
