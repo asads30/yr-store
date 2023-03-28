@@ -20,11 +20,11 @@ export const useContentStore = defineStore('content', {
     getCategories(state){
       return state.categories
     },
-    getAnonse (state) {
-      return state.anonse
-    },
     getCategory: (state) => {
       return state.category
+    },
+    getAnonse (state) {
+      return state.anonse
     },
     getProducts(state){
       return state.products
@@ -41,9 +41,8 @@ export const useContentStore = defineStore('content', {
     addCategory(category){
       this.categories.push(category)
     },
-    fetchCategory(id){
-      const categoryAdd = this.categories.find(category => category.id == id)
-      this.category = categoryAdd
+    fetchCategory(category){
+      this.category = category
     },
     updateCategory(category){
       this.category = category

@@ -82,6 +82,7 @@
 import { defineComponent } from 'vue'
 import { useContentStore } from 'stores/content'
 import { useRouter } from 'vue-router'
+import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
@@ -92,6 +93,7 @@ export default defineComponent({
     const products = store.getProducts
     const $router = useRouter()
     const { fetchCategory } = store
+    const idStore = localStorage.getItem('id_store');
     return {
       anonse,
       categories,
@@ -112,7 +114,11 @@ export default defineComponent({
       },
       editCat(id){
         try {
-          fetchCategory(id)
+          api.get(`shop/admin/category/${idStore}/${id}`).then((response) => {
+            fetchCategory(response.data)
+          }).catch((error) => {
+            console.log(error)
+          })
         } catch (error) {
           console.log(error)
         }
@@ -127,9 +133,6 @@ export default defineComponent({
     getProducts(category) {
       var products = this.products
       return products.filter(product => product.category == category?.id)
-    },
-    editCat(){
-
     }
   }
 })

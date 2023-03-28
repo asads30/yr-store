@@ -10,7 +10,7 @@
         </div>
         <q-input
           outlined
-          v-model="title"
+          v-model="name"
           label="Название *"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
@@ -37,6 +37,7 @@
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
+import { api } from 'boot/axios'
 
 export default {
   setup () {
@@ -47,22 +48,36 @@ export default {
     const { getCategory } = store
     const { updateCategory } = store
     const id = $route.params.id
+    const name = ref(getCategory.name)
+    const description = ref(getCategory.description)
+    const idStore = localStorage.getItem('id_store');
     return {
-      title: getCategory.title,
-      description: getCategory.des,
+      name,
+      description,
       id,
       onSubmit () {
         const category = {
           id: id,
-          title: getCategory.title
+          name: name.value,
+          description: description.value
         }
-        $q.notify({
-          type: 'positive',
-          message: 'Обновлено',
-          position: 'top-right'
-        })
-        updateCategory(category)
-        $router.push('/main')
+        try {
+          api.patch(`shop/admin/category/${idStore}/${id}`, category).then((response) => {
+            if(response.code == 200){
+              $q.notify({
+                type: 'positive',
+                message: 'Обновлено',
+                position: 'top-right'
+              })
+              updateCategory(category)
+              $router.push('/main')
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
   }

@@ -50,7 +50,7 @@ export default {
     const getId = store.getNewIdCategories
     const name = ref(null)
     const description = ref(null)
-    const idStore = localStorage.getItem('id_store');
+    const idStore = localStorage.getItem('id_store')
     return {
       name,
       description,
@@ -62,20 +62,21 @@ export default {
         }
         try {
           api.post(`shop/admin/category/${idStore}`, category).then((response) => {
-            if(response){
+            if(response.status == 200){
               addCategory(category)
+              $q.notify({
+                type: 'positive',
+                message: 'Категория добавлена',
+                position: 'top-right'
+              })
+              $router.push('/main')
             }
-            console.log(response)
           }).catch((error) => {
-            console.log(error)
+            $q.notify({
+              type: 'negative',
+              message: error
+            })
           });
-          addCategory(category)
-          $q.notify({
-            type: 'positive',
-            message: 'Категория добавлена',
-            position: 'top-right'
-          })
-          $router.push('/main')
         } catch (error) {
           $q.notify({
             type: 'negative',
