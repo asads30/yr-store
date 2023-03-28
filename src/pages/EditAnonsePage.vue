@@ -16,7 +16,6 @@
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
           :placeholder="anonse.name"
         />
-        <p>{{ anonse.name }}</p>
         <q-input
           outlined
           type="textarea"
@@ -26,7 +25,6 @@
           hint="Максимум 255 символов"
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
-        <p>{{ anonse.description }}</p>
       </div>
       <div class="anonse-footer">
         <router-link to="/main" class="footer-btn1">Назад</router-link>
@@ -49,7 +47,7 @@ export default {
     const $store = useContentStore()
     const name = ref('')
     const description = ref('')
-    const { getData } = $store
+    const { getData, fetchData } = $store
     const idStore = localStorage.getItem('id_store')
     const $router = useRouter()
     onMounted(() => {
@@ -68,6 +66,15 @@ export default {
         try {
           api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
             if(response){
+              try {
+                api.get(`shop/admin/shop/${idStore}`).then((response) => {
+                  fetchData(response.data)
+                }).catch((error) => {
+                  console.log(error)
+                });
+              } catch (error) {
+                console.log(error)
+              }
               $q.notify({
                 type: 'positive',
                 message: 'Анонс изменен',

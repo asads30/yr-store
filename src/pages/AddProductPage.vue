@@ -19,7 +19,7 @@
         <q-input
           outlined
           type="textarea"
-          v-model="des"
+          v-model="description"
           label="Описание *"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
@@ -29,7 +29,10 @@
           <q-uploader
             label="Фото"
             auto-upload
-            :url="getUrl"
+            :factory="setImage"
+            accept="image/*"
+            max-file-size="2097152"
+            hide-upload-btn="true"
           />
         </div>
         <q-input
@@ -40,25 +43,18 @@
           :rules="[ val => val && val.length > 0 && val > 0 || 'Пожалуйста, введите цену']"
           hint="Минимум 1 рубль"
         />
-        <q-select outlined v-model="category" :options="options" label="Категория" />
+        <q-select outlined v-model="category" :options="categories" label="Категория" />
         <div class="add-custom"></div>
         <div class="add-title">Покупатель получит это после совершения покупки</div>
         <q-input
           outlined
           type="textarea"
-          v-model="message"
+          v-model="comment_after_buy"
           label="Сообщение для покупателя"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите сообщение']"
           hint="Максимум 255 символов"
         />
-        <div class="upload">
-          <q-uploader
-            label="Прикреплённый файл или изображение"
-            auto-upload
-            :url="getUrl"
-          />
-        </div>
       </div>
       <div class="anonse-footer">
         <q-btn label="Опубликовать" type="submit" class="footer-btn2"/>
@@ -69,39 +65,86 @@
 
 <script>
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { useContentStore } from 'stores/content'
+import { api } from 'boot/axios'
 
 export default {
   setup () {
+    const fs = require('fs');
     const $q = useQuasar()
+    const $store = useContentStore()
+    const $router = useRouter()
     const name = ref(null)
-    const des = ref(null)
+    const description = ref(null)
     const price = ref(null)
     const category = ref(null)
-    const message = ref(null)
-
+    const comment_after_buy = ref(null)
+    const { getCategories, getData, fetchProducts } = $store
+    const initUser = localStorage.getItem('init_user')
+    const categories = []
+    getCategories.filter((value, index) => {
+      const item = {
+          label: value.name,
+          value: value.id
+      }
+      categories.push(item)
+    })
+    const image = ref(null)
+    const idStore = localStorage.getItem('id_store')
     return {
       name,
-      des,
+      description,
       price,
       category,
-      message,
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
+      categories,
+      comment_after_buy,
+      categories,
+      image,
       onSubmit () {
-        $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Успешно'
-        })
+        const data = new FormData()
+        const product = {
+          name: name.value,
+          description: description.value,
+          price: price.value,
+          channel_id: getData?.id,
+          comment_after_buy: comment_after_buy.value,
+          userId: initUser.user.id,
+          category_id: categories.value,
+        }
+        data.append(product)
+        data.append('image', fs.createReadStream(image))
+        try {
+          api.post(`shop/admin/product/${idStore}`, data).then((response) => {
+            if(response){
+              try {
+                api.get(`shop/admin/product/${idStore}`).then((response) => {
+                  fetchProducts(response.data)
+                }).catch((error) => {
+                  console.log(error)
+                });
+                $q.notify({
+                  type: 'positive',
+                  message: 'Товар добавлен',
+                  position: 'top-right'
+                })
+                $router.push('/main')
+              } catch (error) {
+                console.log(error)
+              }
+            }
+          })
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
   },
   methods: {
-    getUrl (files) {
-      return `http://localhost:4444/upload?count=${files.length}`
+    setImage (files) {
+      this.image = files[0]
+      console.log(files)
     }
   }
 }

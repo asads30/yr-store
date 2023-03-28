@@ -1,7 +1,6 @@
 <template>
   <q-page class="flex flex-start column main">
     <div
-      style="height: 41px;width: 100%;"
       class="menu"
     >
       <div class="menu__list">
@@ -33,13 +32,13 @@
       <div class="category__list">
         <div
           class="category__item"
-          v-for="product in products"
+          v-for="product in getProducts(category?.id)"
           :key="product?.id"
-          v-show="products"
+          v-show="getProducts(category?.id)"
         >
           <div
             class="category__img"
-            :style="'background-image: url(' + background(product?.id) + ');'"
+            :style="'background-image: url(' + product.image + ');'"
           ></div>
           <div class="category__content">
             <div class="category-title">{{ product?.title }}</div>
@@ -78,42 +77,9 @@
 <script>
 import { defineComponent } from 'vue'
 import { useContentStore } from 'stores/content'
-import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
-  preFetch () {
-    const $store = useContentStore()
-    const { fetchData, fetchCategories, fetchProducts } = $store
-    const idStore = localStorage.getItem('id_store');
-    try {
-      api.get(`shop/admin/shop/${idStore}`).then((response) => {
-        fetchData(response.data)
-      }).catch((error) => {
-        console.log(error)
-      });
-    } catch (error) {
-      console.log(error)
-    }
-    try {
-      api.get(`shop/admin/category/${idStore}`).then((response) => {
-        fetchCategories(response.data.categories)
-      }).catch((error) => {
-        console.log(error)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-    try {
-      api.get(`shop/admin/product/${idStore}`).then((response) => {
-        fetchProducts(response.data.products)
-      }).catch((error) => {
-        console.log(error)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  },
   setup() {
     const $store = useContentStore()
     const { getData, getCategories, getProducts } = $store
@@ -124,9 +90,9 @@ export default defineComponent({
     }
   },
   methods: {
-    getProducts(category) {
+    getProducts(category_id) {
       var products = this.products
-      return products.filter(product => product.category == category?.id)
+      return products.filter(product => product.category_id == category_id)
     },
     background (id) {
       return require('../assets/item-' + id + '.jpg')
@@ -141,6 +107,8 @@ export default defineComponent({
   overflow: hidden;
   max-width: calc(100vw - 24px);
   padding: 0 0 10px;
+  height: 41px;
+  width: 100%;
   &__list{
     display: flex;
     flex-wrap: nowrap;
@@ -222,6 +190,7 @@ export default defineComponent({
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
+      margin-bottom: 20px;
     }
     &__item{
       width: calc(50% - 8px);

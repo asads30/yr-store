@@ -108,7 +108,7 @@ export default {
     const $store = useContentStore()
     const name = ref('')
     const description = ref('')
-    const { getCategory } = $store
+    const { getCategory, fetchCategories } = $store
     const idStore = localStorage.getItem('id_store')
     const $router = useRouter()
     const idCategory = $route.params.id
@@ -127,6 +127,15 @@ export default {
         try {
           api.patch(`shop/admin/category/${idStore}/${idCategory}`, category).then((response) => {
             if(response){
+              try {
+                api.get(`shop/admin/category/${idStore}`).then((response) => {
+                  fetchCategories(response.data)
+                }).catch((error) => {
+                  console.log(error)
+                });
+              } catch (error) {
+                console.log(error)
+              }
               $q.notify({
                 type: 'positive',
                 message: 'Категория изменена',

@@ -19,7 +19,7 @@ export const useContentStore = defineStore('content', {
     getCategory(state){
       return state.category
     },
-    getProducts (state) {
+    getProducts(state) {
       return state.products
     },
     getProduct(state){
