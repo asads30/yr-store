@@ -1,8 +1,8 @@
 <template>
-  <q-page class="flex flex-start justify-between column anonse">
+  <q-page class="anonse">
     <q-form
       @submit="onSubmit"
-      class="anonse-form flex flex-start justify-between column"
+      class="q-form anonse-form"
     >
       <div class="anonse-main">
         <div class="page-title">
@@ -57,15 +57,13 @@ export default {
         }
         try {
           api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
-            if(response.status == 200){
-              addData(anonse)
-              $q.notify({
-                type: 'positive',
-                message: 'Анонс добавлен',
-                position: 'top-right'
-              })
-              $router.push('/main')
-            }
+            addData(anonse)
+            $q.notify({
+              type: 'positive',
+              message: 'Анонс добавлен',
+              position: 'top-right'
+            })
+            $router.push('/main')
           })
         } catch (error) {
           $q.notify({
@@ -83,9 +81,15 @@ export default {
   .anonse{
     padding: 12px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .anonse-form{
     height: calc(100vh - 112px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .q-uploader{
     width: calc(100% - 8px);

@@ -77,7 +77,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const $store = useStore()
+    const $store = useContentStore()
     const { getData, getCategories } = $store
     return {
       anonse: getData.name,

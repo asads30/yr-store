@@ -20,8 +20,6 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { api } from 'boot/axios'
-
 export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
@@ -36,24 +34,6 @@ export default defineComponent({
     }
     if(!localStorage.getItem('init_user')){
       localStorage.setItem('init_user', tg.initDataUnsafe)
-    }
-    try {
-      api.get(`shop/admin/shop/${currentRoute.params.id}`).then((response) => {
-        fetchData(response.data)
-      }).catch((error) => {
-        console.log(error)
-      });
-      try {
-        api.get(`shop/admin/category/${currentRoute.params.id}`).then((response) => {
-          fetchCategories(response.data.categories)
-        }).catch((error) => {
-          console.log(error)
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    } catch (error) {
-      console.log(error)
     }
   },
   setup() {
