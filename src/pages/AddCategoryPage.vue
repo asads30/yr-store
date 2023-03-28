@@ -19,7 +19,7 @@
         <q-input
           outlined
           type="textarea"
-          v-model="des"
+          v-model="description"
           label="Описание *"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
@@ -49,16 +49,16 @@ export default {
     const { addCategory } = store
     const getId = store.getNewIdCategories
     const name = ref(null)
-    const des = ref(null)
+    const description = ref(null)
     const idStore = localStorage.getItem('id_store');
     return {
       name,
-      des,
+      description,
       onSubmit () {
         const category = {
           id: getId,
-          title: name.value,
-          des: des.value
+          name: name.value,
+          description: description.value
         }
         try {
           api.post(`shop/admin/category/${idStore}`, category).then((response) => {
