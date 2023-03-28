@@ -37,7 +37,7 @@
           >
             <div
               class="category__img"
-              :style="'background-image: url(' + product.image + ');'"
+              :style="'background-image: url(' + background(product.thumbnail_buffer) + ');'"
             ></div>
             <div class="category__content">
               <div class="category-title">{{ product?.title }}</div>
@@ -134,8 +134,18 @@ export default defineComponent({
     }
   },
   methods: {
-    background (id) {
-      return require('../assets/item-' + id + '.jpg')
+    background (buffer) {
+      const $img = _arrayBufferToBase64(buffer)
+      return 'data:image/png;base64,' + $img
+    },
+    _arrayBufferToBase64( buffer ) {
+      var binary = '';
+      var bytes = new Uint8Array( buffer );
+      var len = bytes.byteLength;
+      for (var i = 0; i < len; i++) {
+          binary += String.fromCharCode( bytes[ i ] );
+      }
+      return window.btoa( binary );
     }
   },
 })
