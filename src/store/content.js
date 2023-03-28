@@ -94,8 +94,12 @@ export const useContentStore = defineStore('content', {
     fetchData(data){
       this.data = data
     },
+    addData(anonse){
+      this.data.name = anonse.name
+      this.data.description = anonse.description
+    },
     fetchCategories(categories){
       this.categories = categories
-    }
+    },
   }
 })

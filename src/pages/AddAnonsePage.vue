@@ -35,7 +35,6 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
 import { ref } from 'vue'
 import { api } from 'boot/axios'
@@ -43,12 +42,11 @@ import { api } from 'boot/axios'
 export default {
   setup () {
     const $q = useQuasar()
-    const $router = useRouter()
-    const store = useContentStore()
-    const { addAnonse } = store
+    const $store = useContentStore();
     const name = ref(null)
     const description = ref(null)
     const idStore = localStorage.getItem('id_store')
+    const { addData } = $store
     return {
       name,
       description,
@@ -60,7 +58,7 @@ export default {
         try {
           api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
             if(response.status == 200){
-              addAnonse(anonse)
+              addData(anonse)
               $q.notify({
                 type: 'positive',
                 message: 'Анонс добавлен',
@@ -68,16 +66,11 @@ export default {
               })
               $router.push('/main')
             }
-          }).catch((error) => {
-            $q.notify({
-              type: 'negative',
-              message: error
-            })
-          });
+          })
         } catch (error) {
           $q.notify({
             type: 'negative',
-            message: error
+            message: 'Ошибка.'
           })
         }
       }
