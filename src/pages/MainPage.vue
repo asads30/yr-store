@@ -40,7 +40,7 @@
       </router-link>
     </div>
     <div class="footer">
-      <router-link to="/add-anons" class="footer__btn" v-if="anonse == null">Написать анонс</router-link>
+      <router-link to="/add-anons" class="footer__btn" v-if="data.name == null">Написать анонс</router-link>
       <router-link to="/edit-anons" class="footer__btn" v-else>Изменить анонс</router-link>
     </div>
   </q-page>
@@ -78,10 +78,11 @@ export default defineComponent({
   },
   setup() {
     const $store = useContentStore()
-    const { getData, getCategories } = $store
+    const data = computed(() => $store.state.data)
+    const categories = computed(() => $store.state.categories)
     return {
-      anonse: getData?.name,
-      categories: getCategories
+      anonse: data,
+      categories: categories
     }
   }
 })
