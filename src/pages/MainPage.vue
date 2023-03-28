@@ -81,7 +81,7 @@ import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
-  preFetch ({ currentRoute }) {
+  preFetch () {
     const tg = window.Telegram.WebApp
     const idStore = localStorage.getItem('id_store')
     tg.expand()
