@@ -50,6 +50,7 @@
 import { defineComponent } from 'vue'
 import { useContentStore } from 'stores/content'
 import { api } from 'boot/axios'
+import { computed } from 'vue'
 
 export default defineComponent({
   name: 'MainPage',
@@ -78,11 +79,15 @@ export default defineComponent({
   },
   setup() {
     const $store = useContentStore()
-    const data = computed(() => $store.state.data)
-    const categories = computed(() => $store.state.categories)
-    return {
-      anonse: data,
-      categories: categories
+    const getData = computed(() => {
+      return $store.state.data
+    })
+    const getCategories = computed(() => {
+      return $store.state.data
+    })
+    return{
+      categories: (getCategories.length > 0) ? getCategories : null,
+      anonse: (getData.name == null) ? null : getData
     }
   }
 })

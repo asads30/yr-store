@@ -75,6 +75,7 @@ export default defineComponent({
       text-align: center;
       img{
         max-width: 100%;
+        max-height: 100px;
       }
     }
     &__title{
