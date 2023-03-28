@@ -3,46 +3,14 @@ import { defineStore } from 'pinia';
 export const useContentStore = defineStore('content', {
   state: () => ({
     anonse: '',
-    categories: [
-      {
-        id: 1,
-        title: 'Кроссовки',
-        des: 'Описание категории, самые лучшие кроссовки, в описание вмещается до 256 символов'
-      },
-      {
-        id: 2,
-        title: 'Толстовки',
-        des: 'Описание категории, самые лучшие кроссовки, в описание вмещается до 256 символов'
-      }
-    ],
+    categories: [],
+    products: [],
     category: {
       id: 0,
       title: '',
       des: ''
     },
-    products: [
-      {
-        id: 1,
-        title: 'Nike Air Force I',
-        des: 'Культовые кроссовки известного бренда',
-        price: 12999,
-        category: 1
-      },
-      {
-        id: 2,
-        title: 'Adidas Superstar',
-        des: 'Культовые кроссовки известного бренда',
-        price: 7999,
-        category: 1
-      },
-      {
-        id: 3,
-        title: 'Nike Air Max',
-        des: 'Культовые кроссовки известного бренда',
-        price: 6500,
-        category: 1
-      }
-    ]
+    data: null
   }),
 
   getters: {
@@ -58,6 +26,9 @@ export const useContentStore = defineStore('content', {
     getProducts(state){
       return state.products
     },
+    getData(state){
+      return state.data
+    }
   },
 
   actions: {
@@ -79,6 +50,9 @@ export const useContentStore = defineStore('content', {
     },
     addProduct (item) {
       this.products.push({ id: item.id, title: item.title, des: item.des, price: item.price, category: item.category_id })
+    },
+    addData(data){
+      this.data = data
     }
   }
 })

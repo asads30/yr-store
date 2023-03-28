@@ -20,7 +20,6 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useQuasar } from 'quasar'
 import { useContentStore } from 'stores/content'
 import { api } from 'boot/axios'
 
@@ -28,7 +27,7 @@ export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
     const $store = useContentStore()
-    const { fetchCategory } = $store
+    const { addData, addCategory } = $store
     window.Telegram.WebApp.expand()
     if(!localStorage.getItem('id_store')){
       localStorage.setItem('id_store', currentRoute.params.id)
@@ -39,12 +38,25 @@ export default defineComponent({
     if(!localStorage.getItem('init_user')){
       localStorage.setItem('init_user', window.Telegram.WebApp.initDataUnsafe)
     }
-    api.get(`shop/admin/shop/${currentRoute.params.id}`).then((response) => {
-      fetchCategory(response.data)
-      console.log(response)
-    }).catch((error) => {
+    try {
+      api.get(`shop/admin/shop/${currentRoute.params.id}`).then((response) => {
+        addData(response.data)
+      }).catch((error) => {
+        console.log(error)
+      });
+      try {
+        api.get(`shop/admin/category/${currentRoute.params.id}`).then((response) => {
+          addCategory(response.data)
+          console.log(response)
+        }).catch((error) => {
+          console.log(error)
+        })
+      } catch (error) {
+        
+      }
+    } catch (error) {
       console.log(error)
-    })
+    }
   },
   setup() {
     return{
