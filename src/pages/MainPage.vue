@@ -37,11 +37,11 @@
           >
             <div
               class="category__img"
-              :style="'background-image: url(' + background(product.thumbnail_buffer) + ');'"
+              :style="'background-image: url(' + background(product.thumbnail_buffer.data) + ');'"
             ></div>
             <div class="category__content">
-              <div class="category-title">{{ product?.title }}</div>
-              <div class="category__des">{{ product?.des }}</div>
+              <div class="category-title">{{ product?.name }}</div>
+              <div class="category__des">{{ product?.description }}</div>
               <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
             </div>
           </div>
@@ -82,18 +82,7 @@ import { api } from 'boot/axios'
 export default defineComponent({
   name: 'MainPage',
   preFetch () {
-    const tg = window.Telegram.WebApp
     const idStore = localStorage.getItem('id_store')
-    tg.expand()
-    if(!localStorage.getItem('id_store')){
-      localStorage.setItem('id_store', id)
-    }
-    if(!localStorage.getItem('init_data')){
-      localStorage.setItem('init_data', tg.initData)
-    }
-    if(!localStorage.getItem('init_user')){
-      localStorage.setItem('init_user', tg.initDataUnsafe)
-    }
     const $store = useContentStore()
     const { fetchData, fetchCategories, fetchProducts } = $store
     try {
