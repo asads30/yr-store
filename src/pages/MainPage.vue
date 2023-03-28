@@ -135,7 +135,7 @@ export default defineComponent({
   },
   methods: {
     background (buffer) {
-      const $img = _arrayBufferToBase64(buffer)
+      const $img = _arrayBufferToBase64(buffer.data)
       return 'data:image/png;base64,' + $img
     },
     _arrayBufferToBase64( buffer ) {
