@@ -31,9 +31,9 @@
         <div class="category__list">
           <div
             class="category__item"
-            v-for="product in getProducts(category?.id)"
+            v-for="product in products"
             :key="product?.id"
-            v-show="getProducts(category?.id)"
+            v-show="products"
           >
             <div
               class="category__img"
@@ -134,10 +134,6 @@ export default defineComponent({
     }
   },
   methods: {
-    getProducts(id) {
-      var products = this.products
-      return products.filter(product => product.category_id == id)
-    },
     background (id) {
       return require('../assets/item-' + id + '.jpg')
     }
