@@ -91,19 +91,11 @@ export default defineComponent({
       }).catch((error) => {
         console.log(error)
       });
-    } catch (error) {
-      console.log(error)
-    }
-    try {
       api.get(`shop/admin/category/${idStore}`).then((response) => {
         fetchCategories(response.data.categories)
       }).catch((error) => {
         console.log(error)
       })
-    } catch (error) {
-      console.log(error)
-    }
-    try {
       api.get(`shop/admin/product/${idStore}`).then((response) => {
         fetchProducts(response.data.products)
       }).catch((error) => {

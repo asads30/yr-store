@@ -29,15 +29,10 @@ export default defineComponent({
     const tg = window.Telegram.WebApp
     const id = currentRoute.params.id
     tg.expand()
-    if(!localStorage.getItem('id_store')){
-      localStorage.setItem('id_store', id)
-    }
-    if(!localStorage.getItem('init_data')){
-      localStorage.setItem('init_data', tg.initData)
-    }
-    if(!localStorage.getItem('init_user')){
-      localStorage.setItem('init_user', tg.initDataUnsafe)
-    }
+    tg.enableClosingConfirmation()
+    localStorage.setItem('id_store', id)
+    localStorage.setItem('init_data', tg.initData)
+    localStorage.setItem('init_user', tg.initDataUnsafe)
     const $store = useContentStore()
     const { fetchData, fetchCategories, fetchProducts } = $store
     try {
@@ -107,7 +102,7 @@ export default defineComponent({
       text-align: center;
       img{
         max-width: 100%;
-        max-height: 100px;
+        max-height: 199px;
       }
     }
     &__title{

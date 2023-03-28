@@ -34,59 +34,6 @@
 </template>
 
 <script>
-// import { useQuasar } from 'quasar'
-// import { useRouter } from 'vue-router'
-// import { useContentStore } from 'stores/content'
-// import { ref } from 'vue'
-// import { api } from 'boot/axios'
-
-// export default {
-//   setup () {
-//     const $q = useQuasar()
-//     const $router = useRouter()
-//     const store = useContentStore()
-
-//     const { addCategory } = store
-//     const getId = store.getNewIdCategories
-//     const name = ref(null)
-//     const description = ref(null)
-//     const idStore = localStorage.getItem('id_store')
-//     return {
-//       name,
-//       description,
-//       onSubmit () {
-//         const category = {
-//           id: getId,
-//           name: name.value,
-//           description: description.value
-//         }
-//         try {
-//           api.post(`shop/admin/category/${idStore}`, category).then((response) => {
-//             if(response.status == 200){
-//               addCategory(category)
-//               $q.notify({
-//                 type: 'positive',
-//                 message: 'Категория добавлена',
-//                 position: 'top-right'
-//               })
-//               $router.push('/main')
-//             }
-//           }).catch((error) => {
-//             $q.notify({
-//               type: 'negative',
-//               message: error
-//             })
-//           });
-//         } catch (error) {
-//           $q.notify({
-//             type: 'negative',
-//             message: 'Ошибка.'
-//           })
-//         }
-//       }
-//     }
-//   }
-// }
 
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
