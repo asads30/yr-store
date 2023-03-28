@@ -35,6 +35,7 @@
           class="category__item"
           v-for="product in products"
           :key="product?.id"
+          v-show="products"
         >
           <div
             class="category__img"
