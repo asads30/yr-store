@@ -109,9 +109,10 @@ export default {
           channel_id: getData?.id,
           comment_after_buy: comment_after_buy.value,
           userId: 386567097,
-          category_id: category.value,
-          image: image
+          category_id: category.value.value,
+          image: image.value
         }
+        console.log(initUser)
         try {
           api.post(`shop/admin/product/${idStore}`, product).then((response) => {
             if(response){
