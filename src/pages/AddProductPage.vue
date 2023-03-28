@@ -101,7 +101,6 @@ export default {
       categories,
       image,
       onSubmit () {
-        const data = new FormData()
         const idStore = localStorage.getItem('id_store')
         const product = {
           name: name.value,
@@ -113,10 +112,8 @@ export default {
           category_id: category.value,
           image: image
         }
-        console.log(initUser)
-        data.append(product)
         try {
-          api.post(`shop/admin/product/${idStore}`, data).then((response) => {
+          api.post(`shop/admin/product/${idStore}`, product).then((response) => {
             if(response){
               try {
                 api.get(`shop/admin/product/${idStore}`).then((response) => {
