@@ -45,18 +45,18 @@
               <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
             </div>
           </div>
+          <router-link to="/add-product" class="category__item category__not">
+            <div class="category__img category__not-img"></div>
+            <div class="category__content category__not-content">
+              <div class="category__not-icon">
+                <img src="~assets/add.svg" alt="">
+              </div>
+              <div class="category__not-title">
+                <span>Добавить товар</span>
+              </div>
+            </div>
+          </router-link>
         </div>
-        <router-link to="/add-product" class="category__item category__not">
-          <div class="category__img category__not-img"></div>
-          <div class="category__content category__not-content">
-            <div class="category__not-icon">
-              <img src="~assets/add.svg" alt="">
-            </div>
-            <div class="category__not-title">
-              <span>Добавить товар</span>
-            </div>
-          </div>
-        </router-link>
       </div>
       <router-link to="/add-category" class="category__add">
         <div class="category__add-icon">
