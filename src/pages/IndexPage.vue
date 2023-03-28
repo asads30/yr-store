@@ -39,22 +39,31 @@ export default defineComponent({
       localStorage.setItem('init_user', tg.initDataUnsafe)
     }
     const $store = useContentStore()
-    const { fetchData, fetchCategories } = $store
+    const { fetchData, fetchCategories, fetchProducts } = $store
     try {
       api.get(`shop/admin/shop/${id}`).then((response) => {
         fetchData(response.data)
       }).catch((error) => {
         console.log(error)
       });
-      try {
-        api.get(`shop/admin/category/${id}`).then((response) => {
-          fetchCategories(response.data.categories)
-        }).catch((error) => {
-          console.log(error)
-        })
-      } catch (error) {
+    } catch (error) {
+      console.log(error)
+    }
+    try {
+      api.get(`shop/admin/category/${id}`).then((response) => {
+        fetchCategories(response.data.categories)
+      }).catch((error) => {
         console.log(error)
-      }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+    try {
+      api.get(`shop/admin/product/${id}`).then((response) => {
+        fetchProducts(response.data.products)
+      }).catch((error) => {
+        console.log(error)
+      })
     } catch (error) {
       console.log(error)
     }

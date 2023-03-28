@@ -4,7 +4,9 @@ export const useContentStore = defineStore('content', {
   state: () => ({
     data: null,
     categories: [],
-    category: null
+    category: null,
+    products: [],
+    product: null
   }),
 
   getters: {
@@ -16,6 +18,12 @@ export const useContentStore = defineStore('content', {
     },
     getCategory(state){
       return state.category
+    },
+    getProducts (state) {
+      return state.products
+    },
+    getProduct(state){
+      return state.product
     }
   },
 
@@ -28,6 +36,12 @@ export const useContentStore = defineStore('content', {
     },
     fetchCategory(){
       this.category = category
+    },
+    fetchProducts(products){
+      this.products = products
+    },
+    fetchProduct(){
+      this.product = product
     }
   }
 })

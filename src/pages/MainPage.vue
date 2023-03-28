@@ -30,6 +30,34 @@
           <div class="category__description">{{ category?.description }}</div>
         </div>
       </div>
+      <div class="category__list">
+        <div
+          class="category__item"
+          v-for="product in products"
+          :key="product?.id"
+        >
+          <div
+            class="category__img"
+            :style="'background-image: url(' + background(product?.id) + ');'"
+          ></div>
+          <div class="category__content">
+            <div class="category-title">{{ product?.title }}</div>
+            <div class="category__des">{{ product?.des }}</div>
+            <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
+          </div>
+        </div>
+        <router-link to="/add-product" class="category__item category__not">
+          <div class="category__img category__not-img"></div>
+          <div class="category__content category__not-content">
+            <div class="category__not-icon">
+              <img src="~assets/add.svg" alt="">
+            </div>
+            <div class="category__not-title">
+              <span>Добавить товар</span>
+            </div>
+          </div>
+        </router-link>
+      </div>
       <router-link to="/add-category" class="category__add">
         <div class="category__add-icon">
           <img src="~assets/add.svg" alt="">
@@ -55,7 +83,7 @@ export default defineComponent({
   name: 'MainPage',
   preFetch () {
     const $store = useContentStore()
-    const { fetchData, fetchCategories } = $store
+    const { fetchData, fetchCategories, fetchProducts } = $store
     const idStore = localStorage.getItem('id_store');
     try {
       api.get(`shop/admin/shop/${idStore}`).then((response) => {
@@ -63,27 +91,46 @@ export default defineComponent({
       }).catch((error) => {
         console.log(error)
       });
-      try {
-        api.get(`shop/admin/category/${idStore}`).then((response) => {
-          fetchCategories(response.data.categories)
-        }).catch((error) => {
-          console.log(error)
-        })
-      } catch (error) {
+    } catch (error) {
+      console.log(error)
+    }
+    try {
+      api.get(`shop/admin/category/${idStore}`).then((response) => {
+        fetchCategories(response.data.categories)
+      }).catch((error) => {
         console.log(error)
-      }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+    try {
+      api.get(`shop/admin/product/${idStore}`).then((response) => {
+        fetchProducts(response.data.products)
+      }).catch((error) => {
+        console.log(error)
+      })
     } catch (error) {
       console.log(error)
     }
   },
   setup() {
     const $store = useContentStore()
-    const { getData, getCategories } = $store
+    const { getData, getCategories, getProducts } = $store
     return{
       categories: getCategories,
-      anonse: getData
+      anonse: getData,
+      products: getProducts
     }
-  }
+  },
+  methods: {
+    getProducts(category) {
+      var products = this.products
+      return products.filter(product => product.category == category?.id)
+    },
+    background (id) {
+      return require('../assets/item-' + id + '.jpg')
+    }
+  },
 })
 </script>
 
