@@ -45,8 +45,8 @@ export default {
     const $q = useQuasar()
     const $store = useContentStore()
     const $router = useRouter()
-    const name = ref(null)
-    const description = ref(null)
+    const name = ref('')
+    const description = ref('')
     const idStore = localStorage.getItem('id_store')
     const { addData } = $store
     return {

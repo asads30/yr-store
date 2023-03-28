@@ -14,6 +14,7 @@
           label="Название"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
+          :placeholder="anonse.name"
         />
         <p>{{ anonse.name }}</p>
         <q-input
@@ -36,9 +37,10 @@
 </template>
 
 <script>
+
 import { useQuasar } from 'quasar'
 import { useContentStore } from 'stores/content'
-import { ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { api } from 'boot/axios'
 export default {
   setup () {
@@ -48,6 +50,10 @@ export default {
     const description = ref('')
     const { getData } = $store
     const idStore = localStorage.getItem('id_store')
+    onMounted(() => {
+      name.value = getData?.name
+      description.value = getData?.description
+    })
     return {
       name,
       description,
