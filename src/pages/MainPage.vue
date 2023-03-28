@@ -135,17 +135,13 @@ export default defineComponent({
   },
   methods: {
     background (buffer) {
-      const $img = _arrayBufferToBase64(buffer.data)
-      return 'data:image/png;base64,' + $img
-    },
-    _arrayBufferToBase64( buffer ) {
       var binary = '';
       var bytes = new Uint8Array( buffer );
       var len = bytes.byteLength;
       for (var i = 0; i < len; i++) {
           binary += String.fromCharCode( bytes[ i ] );
       }
-      return window.btoa( binary );
+      return 'data:image/png;base64,' + window.btoa( binary )
     }
   },
 })
