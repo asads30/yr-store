@@ -19,3 +19,92 @@ body{
 ::-webkit-scrollbar-thumb {
     background-color: rgba(49, 118, 246, 0.4);
 }
+
+.start{
+  background: radial-gradient(101.94% 101.94% at 50% -1.94%, #330081 0%, #1F004D 100%);
+  padding: 0 12px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &__logo{
+    padding: 16px 0 26px;
+    height: 76px;
+    text-align: center;
+    img{
+      height: 34px;
+    }
+  }
+  &__box{
+    height: calc(100vh - 92px);
+    border-radius: 12px;
+    background: #fff;
+    padding: 12px 12px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  &__img{
+    margin-bottom: 12px;
+    text-align: center;
+    img{
+      max-width: 100%;
+      max-height: 199px;
+    }
+  }
+  &__title{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 125%;
+    color: #280064;
+    text-align: center;
+  }
+  &__back{
+    height: 47px;
+    line-height: 47px;
+    padding: 0;
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: none;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+  &__next{
+    height: 47px;
+    line-height: 47px;
+    padding: 0;
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: none;
+    border-radius: 10px;
+  }
+  &__bottom{
+    display: flex;
+    flex-direction: column;
+  }
+}
+.menu{
+  margin: 0 12px;
+  overflow: hidden;
+  max-width: calc(100vw - 24px);
+  padding: 0 0 10px;
+  height: 41px;
+  width: 100%;
+  &__list{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 3px;
+  }
+  &__btn{
+    height: 27px;
+    line-height: 27px;
+    border-radius: 12px;
+    background: #fff;
+    border: 0;
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+    padding: 0 8px;
+  }
+}

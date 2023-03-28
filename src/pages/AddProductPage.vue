@@ -52,7 +52,6 @@
           v-model="comment_after_buy"
           label="Сообщение для покупателя"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите сообщение']"
           hint="Максимум 255 символов"
         />
       </div>

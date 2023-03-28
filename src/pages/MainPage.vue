@@ -1,19 +1,5 @@
 <template>
   <q-page class="flex flex-start column main">
-    <div
-      class="menu"
-    >
-      <div class="menu__list">
-        <div
-          class="menu__item"
-          v-for="category in categories"
-          :key="category?.id"
-          v-show="categories"
-        >
-          <button class="menu__btn">{{ category?.name }}</button>
-        </div>
-      </div>
-    </div>
     <div class="categories">
       <div
         class="category"
@@ -67,51 +53,73 @@
         </div>
       </router-link>
     </div>
-    <div class="footer">
-      <router-link to="/add-anons" class="footer__btn" v-if="anonse?.name == null">Написать анонс</router-link>
-      <router-link to="/edit-anons" class="footer__btn" v-else>Изменить анонс</router-link>
-    </div>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
 import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
-  preFetch () {
-    const idStore = localStorage.getItem('id_store')
-    const $store = useContentStore()
-    const { fetchData, fetchCategories, fetchProducts } = $store
-    try {
-      api.get(`shop/admin/shop/${idStore}`).then((response) => {
-        fetchData(response.data)
-      }).catch((error) => {
-        console.log(error)
-      });
-      api.get(`shop/admin/category/${idStore}`).then((response) => {
-        fetchCategories(response.data.categories)
-      }).catch((error) => {
-        console.log(error)
-      })
-      api.get(`shop/admin/product/${idStore}`).then((response) => {
-        fetchProducts(response.data.products)
-      }).catch((error) => {
-        console.log(error)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  },
   setup() {
     const $store = useContentStore()
+    const $router = useRouter()
     const { getData, getCategories, getProducts } = $store
+    const id_store = localStorage.getItem('id_store')
+    const tg = window.Telegram.WebApp
+    onMounted(() => {
+      const { fetchData, fetchCategories, fetchProducts } = $store
+      try {
+        api.get(`shop/admin/shop/${id_store}`).then((response) => {
+          fetchData(response.data)
+        }).catch((error) => {
+          console.log(error)
+        });
+        api.get(`shop/admin/category/${id_store}`).then((response) => {
+          fetchCategories(response.data.categories)
+        }).catch((error) => {
+          console.log(error)
+        })
+        api.get(`shop/admin/product/${id_store}`).then((response) => {
+          fetchProducts(response.data.products)
+        }).catch((error) => {
+          console.log(error)
+        })
+      } catch (error) {
+        console.log(error)
+      }
+      tg.MainButton.show()
+      tg.MainButton.enable()
+      if(getData?.name.length > 0){
+        tg.MainButton.setParams({
+          color: '#3478F6',
+          text_color: '#fff',
+          text: 'Изменить анонс'
+        })
+        tg.onEvent('mainButtonClicked', this.goEditAnonse)
+      } else{
+        tg.MainButton.setParams({
+          color: '#3478F6',
+          text_color: '#fff',
+          text: 'Написать анонс'
+        })
+        tg.onEvent('mainButtonClicked', this.goAddAnonse)
+      }
+    })
     return{
       categories: getCategories,
       anonse: getData,
-      products: getProducts
+      products: getProducts,
+      goEditAnonse(){
+        $router.push('/edit-anons')
+      },
+      goAddAnonse(){
+        $router.push('/add-anons')
+      }
     }
   },
   methods: {
@@ -123,41 +131,16 @@ export default defineComponent({
           binary += String.fromCharCode( bytes[ i ] );
       }
       return 'data:image/png;base64,' + window.btoa( binary )
-    }
+    },
+
   },
 })
 </script>
 
 <style lang="scss" scoped>
-.menu{
-  margin: 0 12px;
-  overflow: hidden;
-  max-width: calc(100vw - 24px);
-  padding: 0 0 10px;
-  height: 41px;
-  width: 100%;
-  &__list{
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 8px;
-    padding-bottom: 3px;
-  }
-  &__btn{
-    height: 27px;
-    line-height: 27px;
-    border-radius: 12px;
-    background: #fff;
-    border: 0;
-    font-weight: 600;
-    font-size: 14px;
-    color: #000;
-    padding: 0 8px;
-  }
-}
 .categories{
   padding: 0 12px 10px;
-  height: calc(100vh - 205px);
+  height: calc(100vh - 130px);
   overflow-x: hidden;
   overflow-y: scroll;
   .category{
@@ -299,22 +282,6 @@ export default defineComponent({
         width: 134px;
       }
     }
-  }
-}
-.footer{
-  padding: 16px 12px;
-  &__btn{
-    background: #3478F6;
-    border-radius: 12px;
-    height: 44px;
-    width: 100%;
-    display: block;
-    line-height: 44px;
-    color: #fff;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
   }
 }
 </style>

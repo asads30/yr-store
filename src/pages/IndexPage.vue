@@ -20,50 +20,48 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { onMounted } from 'vue'
 import { useContentStore } from 'stores/content'
+import { useRouter } from 'vue-router'
 import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
     const tg = window.Telegram.WebApp
-    const id = currentRoute.params.id
+    const id_store = currentRoute.params.id
     tg.expand()
     tg.enableClosingConfirmation()
-    localStorage.setItem('id_store', id)
+    localStorage.setItem('id_store', id_store)
     localStorage.setItem('init_data', tg.initData)
     localStorage.setItem('init_user', tg.initDataUnsafe)
-    const $store = useContentStore()
-    const { fetchData, fetchCategories, fetchProducts } = $store
-    try {
-      api.get(`shop/admin/shop/${id}`).then((response) => {
-        fetchData(response.data)
-      }).catch((error) => {
-        console.log(error)
-      });
-    } catch (error) {
-      console.log(error)
-    }
-    try {
-      api.get(`shop/admin/category/${id}`).then((response) => {
-        fetchCategories(response.data.categories)
-      }).catch((error) => {
-        console.log(error)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-    try {
-      api.get(`shop/admin/product/${id}`).then((response) => {
-        fetchProducts(response.data.products)
-      }).catch((error) => {
-        console.log(error)
-      })
-    } catch (error) {
-      console.log(error)
-    }
   },
   setup() {
+    const $store = useContentStore()
+    const $router = useRouter()
+    const { fetchData, fetchCategories, fetchProducts } = $store
+    const id_store = $router.params.id
+    onMounted(() => {
+      try {
+        api.get(`shop/admin/shop/${id_store}`).then((response) => {
+          fetchData(response.data)
+        }).catch((error) => {
+          console.log(error)
+        });
+        api.get(`shop/admin/category/${id_store}`).then((response) => {
+          fetchCategories(response.data.categories)
+        }).catch((error) => {
+          console.log(error)
+        })
+        api.get(`shop/admin/product/${id_store}`).then((response) => {
+          fetchProducts(response.data.products)
+        }).catch((error) => {
+          console.log(error)
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    })
     return{
       backTelegram() {
         window.Telegram.WebApp.close()
@@ -72,68 +70,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-  .start{
-    background: radial-gradient(101.94% 101.94% at 50% -1.94%, #330081 0%, #1F004D 100%);
-    padding: 0 12px 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    &__logo{
-      padding: 16px 0 26px;
-      height: 76px;
-      text-align: center;
-      img{
-        height: 34px;
-      }
-    }
-    &__box{
-      height: calc(100vh - 92px);
-      border-radius: 12px;
-      background: #fff;
-      padding: 12px 12px 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    &__img{
-      margin-bottom: 12px;
-      text-align: center;
-      img{
-        max-width: 100%;
-        max-height: 199px;
-      }
-    }
-    &__title{
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 125%;
-      color: #280064;
-      text-align: center;
-    }
-    &__back{
-      height: 47px;
-      line-height: 47px;
-      padding: 0;
-      font-weight: 600;
-      font-size: 18px;
-      text-transform: none;
-      border-radius: 10px;
-      margin-bottom: 12px;
-    }
-    &__next{
-      height: 47px;
-      line-height: 47px;
-      padding: 0;
-      font-weight: 600;
-      font-size: 18px;
-      text-transform: none;
-      border-radius: 10px;
-    }
-    &__bottom{
-      display: flex;
-      flex-direction: column;
-    }
-  }
-</style>
