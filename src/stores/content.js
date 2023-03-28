@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
+import { api } from 'boot/axios'
 
 export const useContentStore = defineStore('content', {
   state: () => ({
@@ -51,8 +52,11 @@ export const useContentStore = defineStore('content', {
     addProduct (item) {
       this.products.push({ id: item.id, title: item.title, des: item.des, price: item.price, category: item.category_id })
     },
-    addData(data){
+    fetchData(data){
       this.data = data
+    },
+    fetchCategories(categories){
+      this.categories = categories
     }
   }
 })

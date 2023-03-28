@@ -9,6 +9,7 @@
           class="menu__item"
           v-for="category in categories"
           :key="category?.id"
+          v-show="categories"
         >
           <button class="menu__btn">{{ category?.title }}</button>
         </div>
@@ -19,6 +20,7 @@
         class="category"
         v-for="category in categories"
         :key="category?.id"
+        v-show="categories"
       >
         <div class="category__top">
           <div class="category__box">

@@ -38,6 +38,7 @@ import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
 import { ref } from 'vue'
+import { api } from 'boot/axios'
 
 export default {
   setup () {
@@ -49,6 +50,7 @@ export default {
     const getId = store.getNewIdCategories
     const name = ref(null)
     const des = ref(null)
+    const idStore = localStorage.getItem('id_store');
     return {
       name,
       des,
@@ -59,6 +61,14 @@ export default {
           des: des.value
         }
         try {
+          api.post(`shop/admin/category/${idStore}`, category).then((response) => {
+            if(response){
+              addCategory(category)
+            }
+            console.log(response)
+          }).catch((error) => {
+            console.log(error)
+          });
           addCategory(category)
           $q.notify({
             type: 'positive',
