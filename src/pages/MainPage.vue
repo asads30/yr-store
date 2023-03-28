@@ -11,7 +11,7 @@
           :key="category?.id"
           v-show="categories"
         >
-          <button class="menu__btn">{{ category?.title }}</button>
+          <button class="menu__btn">{{ category?.name }}</button>
         </div>
       </div>
     </div>
@@ -24,10 +24,10 @@
       >
         <div class="category__top">
           <div class="category__box">
-            <div class="category__title">{{ category?.title }}</div>
+            <div class="category__title">{{ category?.name }}</div>
             <button @click="editCat(category?.id)" class="category__edit">редактировать категорию</button>
           </div>
-          <div class="category__description">{{ category?.des }}</div>
+          <div class="category__description">{{ category?.description }}</div>
         </div>
         <div class="category__list">
           <div
@@ -40,7 +40,7 @@
               :style="'background-image: url(' + background(product?.id) + ');'"
             ></div>
             <div class="category__content">
-              <div class="category-title">{{ product?.title }}</div>
+              <div class="category-title">{{ product?.name }}</div>
               <div class="category__des">{{ product?.des }}</div>
               <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
               <router-link

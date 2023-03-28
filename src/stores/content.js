@@ -38,12 +38,6 @@ export const useContentStore = defineStore('content', {
     fetchCategories(categories){
       this.categories = categories
     },
-    addAnonse(text){
-      this.anonse = text
-    },
-    updateAnonse(text){
-      this.anonse = text
-    },
     addCategory(category){
       this.categories.push(category)
     },
@@ -54,8 +48,14 @@ export const useContentStore = defineStore('content', {
     updateCategory(category){
       this.category = category
     },
+    addAnonse(text){
+      this.anonse = text
+    },
+    updateAnonse(text){
+      this.anonse = text
+    },
     addProduct(item){
-      this.products.push({ id: item.id, title: item.title, des: item.des, price: item.price, category: item.category_id })
+      this.products.push({ id: item.id, name: item.name, description: item.description, price: item.price, category: item.category_id })
     }
   }
 })
