@@ -28,25 +28,25 @@
           </div>
           <div class="category__description">{{ category?.description }}</div>
         </div>
-      </div>
-      <div class="category__list">
-        <div
-          class="category__item"
-          v-for="product in getProducts(category?.id)"
-          :key="product?.id"
-          v-show="getProducts(category?.id)"
-        >
+        <div class="category__list">
           <div
-            class="category__img"
-            :style="'background-image: url(' + product.image + ');'"
-          ></div>
-          <div class="category__content">
-            <div class="category-title">{{ product?.title }}</div>
-            <div class="category__des">{{ product?.des }}</div>
-            <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
+            class="category__item"
+            v-for="product in getProducts(category?.id)"
+            :key="product?.id"
+            v-show="getProducts(category?.id)"
+          >
+            <div
+              class="category__img"
+              :style="'background-image: url(' + product.image + ');'"
+            ></div>
+            <div class="category__content">
+              <div class="category-title">{{ product?.title }}</div>
+              <div class="category__des">{{ product?.des }}</div>
+              <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
+            </div>
           </div>
         </div>
-        <router-link to="/add-product" class="category__item category__not" v-show="!getProducts(category?.id)">
+        <router-link to="/add-product" class="category__item category__not">
           <div class="category__img category__not-img"></div>
           <div class="category__content category__not-content">
             <div class="category__not-icon">
@@ -190,7 +190,6 @@ export default defineComponent({
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
     }
     &__item{
       width: calc(50% - 8px);
