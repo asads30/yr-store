@@ -48,8 +48,8 @@ export default {
     const { getData } = $store
     const idStore = localStorage.getItem('id_store')
     onMounted(() => {
-      name.value = getData.name ? getData.name : ''
-      description.value = getData.description ? getData.description : ''
+      name.value = getData?.name ? getData.name : ''
+      description.value = getData?.description ? getData.description : ''
     })
     return {
       name,
