@@ -83,7 +83,7 @@ export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
     const tg = window.Telegram.WebApp
-    const id = currentRoute.params.id
+    const idStore = localStorage.getItem('id_store')
     tg.expand()
     if(!localStorage.getItem('id_store')){
       localStorage.setItem('id_store', id)
@@ -97,7 +97,7 @@ export default defineComponent({
     const $store = useContentStore()
     const { fetchData, fetchCategories, fetchProducts } = $store
     try {
-      api.get(`shop/admin/shop/${id}`).then((response) => {
+      api.get(`shop/admin/shop/${idStore}`).then((response) => {
         fetchData(response.data)
       }).catch((error) => {
         console.log(error)
@@ -106,7 +106,7 @@ export default defineComponent({
       console.log(error)
     }
     try {
-      api.get(`shop/admin/category/${id}`).then((response) => {
+      api.get(`shop/admin/category/${idStore}`).then((response) => {
         fetchCategories(response.data.categories)
       }).catch((error) => {
         console.log(error)
@@ -115,7 +115,7 @@ export default defineComponent({
       console.log(error)
     }
     try {
-      api.get(`shop/admin/product/${id}`).then((response) => {
+      api.get(`shop/admin/product/${idStore}`).then((response) => {
         fetchProducts(response.data.products)
       }).catch((error) => {
         console.log(error)
