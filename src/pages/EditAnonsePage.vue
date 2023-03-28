@@ -39,8 +39,9 @@
 <script>
 
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { api } from 'boot/axios'
 export default {
   setup () {
@@ -48,8 +49,9 @@ export default {
     const $store = useContentStore()
     const name = ref('')
     const description = ref('')
-    const { getData } = $store
+    const { getData, fetchData } = $store
     const idStore = localStorage.getItem('id_store')
+    const $router = useRouter()
     onMounted(() => {
       name.value = getData?.name
       description.value = getData?.description
@@ -67,12 +69,7 @@ export default {
           api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
             if(response){
               try {
-                addData(anonse)
-              } catch (error) {
-                console.log(error)
-              }
-              try {
-                api.get(`shop/admin/shop/${id}`).then((response) => {
+                api.get(`shop/admin/shop/${idStore}`).then((response) => {
                   fetchData(response.data)
                 }).catch((error) => {
                   console.log(error)

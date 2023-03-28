@@ -48,7 +48,7 @@ export default {
     const name = ref('')
     const description = ref('')
     const idStore = localStorage.getItem('id_store')
-    const { addData } = $store
+    const { fetchData } = $store
     return {
       name,
       description,
@@ -61,12 +61,7 @@ export default {
           api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
             if(response){
               try {
-                addData(anonse)
-              } catch (error) {
-                console.log(error)
-              }
-              try {
-                api.get(`shop/admin/shop/${id}`).then((response) => {
+                api.get(`shop/admin/shop/${idStore}`).then((response) => {
                   fetchData(response.data)
                 }).catch((error) => {
                   console.log(error)

@@ -34,49 +34,121 @@
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { useRoute, useRouter } from 'vue-router'
-import { useContentStore } from 'stores/content'
-import { api } from 'boot/axios'
-import { ref } from 'vue'
+// import { useQuasar } from 'quasar'
+// import { useRoute, useRouter } from 'vue-router'
+// import { useContentStore } from 'stores/content'
+// import { api } from 'boot/axios'
+// import { ref } from 'vue'
 
+// export default {
+//   setup () {
+//     const $q = useQuasar()
+//     const $route = useRoute()
+//     const $router = useRouter()
+//     const store = useContentStore()
+//     const { getCategory, updateCategory } = store
+//     const id = $route.params.id
+//     const name = ref(getCategory.name)
+//     const description = ref(getCategory.description)
+//     const idStore = localStorage.getItem('id_store')
+//     return {
+//       name,
+//       description,
+//       id,
+//       onSubmit () {
+//         const category = {
+//           id: id,
+//           name: name.value,
+//           description: description.value
+//         }
+//         try {
+//           api.patch(`shop/admin/category/${idStore}/${id}`, category).then((response) => {
+//             if(response.code == 200){
+//               $q.notify({
+//                 type: 'positive',
+//                 message: 'Обновлено',
+//                 position: 'top-right'
+//               })
+//               updateCategory(category)
+//               $router.push('/main')
+//             }
+//           }).catch((error) => {
+//             console.log(error)
+//           })
+//         } catch (error) {
+//           console.log(error)
+//         }
+//       }
+//     }
+//   }
+// }
+import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
+import { useContentStore } from 'stores/content'
+import { onMounted, ref } from 'vue'
+import { api } from 'boot/axios'
 export default {
+  preFetch ({ currentRoute }) {
+    const id = currentRoute.params.id
+    const $store = useContentStore()
+    const { fetchCategory } = $store
+    const idStore = localStorage.getItem('id_store');
+    try {
+      api.get(`shop/admin/category/${idStore}/${id}`).then((response) => {
+        fetchCategory(response.data)
+      }).catch((error) => {
+        console.log(error)
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  },
   setup () {
     const $q = useQuasar()
-    const $route = useRoute()
-    const $router = useRouter()
-    const store = useContentStore()
-    const { getCategory, updateCategory } = store
-    const id = $route.params.id
-    const name = ref(getCategory.name)
-    const description = ref(getCategory.description)
+    const $store = useContentStore()
+    const name = ref('')
+    const description = ref('')
+    const { getCategory, fetchCategories } = $store
     const idStore = localStorage.getItem('id_store')
+    const $router = useRouter()
+    const idCategory = $route.params.id
+    onMounted(() => {
+      name.value = getCategory?.name
+      description.value = getCategory?.description
+    })
     return {
       name,
       description,
-      id,
       onSubmit () {
         const category = {
-          id: id,
           name: name.value,
           description: description.value
         }
         try {
-          api.patch(`shop/admin/category/${idStore}/${id}`, category).then((response) => {
-            if(response.code == 200){
+          api.patch(`shop/admin/category/${idStore}/${idCategory}`, category).then((response) => {
+            if(response){
+              try {
+                api.get(`shop/admin/category/${idStore}`).then((response) => {
+                  fetchCategories(response.data)
+                }).catch((error) => {
+                  console.log(error)
+                });
+              } catch (error) {
+                console.log(error)
+              }
               $q.notify({
                 type: 'positive',
-                message: 'Обновлено',
+                message: 'Категория изменена',
                 position: 'top-right'
               })
-              updateCategory(category)
               $router.push('/main')
             }
-          }).catch((error) => {
-            console.log(error)
           })
         } catch (error) {
-          console.log(error)
+          $q.notify({
+            type: 'negative',
+            message: 'Ошибка.'
+          })
         }
       }
     }

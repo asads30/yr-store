@@ -34,6 +34,60 @@
 </template>
 
 <script>
+// import { useQuasar } from 'quasar'
+// import { useRouter } from 'vue-router'
+// import { useContentStore } from 'stores/content'
+// import { ref } from 'vue'
+// import { api } from 'boot/axios'
+
+// export default {
+//   setup () {
+//     const $q = useQuasar()
+//     const $router = useRouter()
+//     const store = useContentStore()
+
+//     const { addCategory } = store
+//     const getId = store.getNewIdCategories
+//     const name = ref(null)
+//     const description = ref(null)
+//     const idStore = localStorage.getItem('id_store')
+//     return {
+//       name,
+//       description,
+//       onSubmit () {
+//         const category = {
+//           id: getId,
+//           name: name.value,
+//           description: description.value
+//         }
+//         try {
+//           api.post(`shop/admin/category/${idStore}`, category).then((response) => {
+//             if(response.status == 200){
+//               addCategory(category)
+//               $q.notify({
+//                 type: 'positive',
+//                 message: 'Категория добавлена',
+//                 position: 'top-right'
+//               })
+//               $router.push('/main')
+//             }
+//           }).catch((error) => {
+//             $q.notify({
+//               type: 'negative',
+//               message: error
+//             })
+//           });
+//         } catch (error) {
+//           $q.notify({
+//             type: 'negative',
+//             message: 'Ошибка.'
+//           })
+//         }
+//       }
+//     }
+//   }
+// }
+
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
@@ -43,27 +97,32 @@ import { api } from 'boot/axios'
 export default {
   setup () {
     const $q = useQuasar()
+    const $store = useContentStore()
     const $router = useRouter()
-    const store = useContentStore()
-
-    const { addCategory } = store
-    const getId = store.getNewIdCategories
-    const name = ref(null)
-    const description = ref(null)
+    const name = ref('')
+    const description = ref('')
     const idStore = localStorage.getItem('id_store')
+    const { fetchData } = $store
     return {
       name,
       description,
       onSubmit () {
         const category = {
-          id: getId,
           name: name.value,
           description: description.value
         }
         try {
           api.post(`shop/admin/category/${idStore}`, category).then((response) => {
-            if(response.status == 200){
-              addCategory(category)
+            if(response){
+              try {
+                api.get(`shop/admin/category/${idStore}`).then((response) => {
+                  fetchData(response.data)
+                }).catch((error) => {
+                  console.log(error)
+                });
+              } catch (error) {
+                console.log(error)
+              }
               $q.notify({
                 type: 'positive',
                 message: 'Категория добавлена',
@@ -71,12 +130,7 @@ export default {
               })
               $router.push('/main')
             }
-          }).catch((error) => {
-            $q.notify({
-              type: 'negative',
-              message: error
-            })
-          });
+          })
         } catch (error) {
           $q.notify({
             type: 'negative',

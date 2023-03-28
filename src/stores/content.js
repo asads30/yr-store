@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 export const useContentStore = defineStore('content', {
   state: () => ({
     data: null,
-    categories: []
+    categories: [],
+    category: null
   }),
 
   getters: {
@@ -12,6 +13,9 @@ export const useContentStore = defineStore('content', {
     },
     getCategories (state) {
       return state.categories
+    },
+    getCategory(state){
+      return state.category
     }
   },
 
@@ -19,12 +23,11 @@ export const useContentStore = defineStore('content', {
     fetchData(data){
       this.data = data
     },
-    addData(anonse){
-      this.data.name = anonse.name
-      this.data.description = anonse.description
-    },
     fetchCategories(categories){
       this.categories = categories
+    },
+    fetchCategory(){
+      this.category = category
     }
   }
 })
