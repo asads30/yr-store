@@ -46,12 +46,12 @@ export default {
     const $router = useRouter()
     const store = useContentStore()
     const { getAnonse, updateAnonse } = store
-    const name = ref(getAnonse.name)
-    const description = ref(getAnonse.description)
+    const name = ref(null)
+    const description = ref(null)
     const idStore = localStorage.getItem('id_store')
     return {
-      name,
-      description,
+      name: getAnonse.name,
+      description: getAnonse.description,
       onSubmit () {
         const anonse = {
           name: name.value,

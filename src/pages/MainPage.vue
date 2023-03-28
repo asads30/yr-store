@@ -72,7 +72,7 @@
       </router-link>
     </div>
     <div class="footer">
-      <router-link to="/add-anons" class="footer__btn" v-if="data.description">Написать анонс</router-link>
+      <router-link to="/add-anons" class="footer__btn" v-if="data.description == null">Написать анонс</router-link>
       <router-link to="/edit-anons" class="footer__btn" v-else>Изменить анонс</router-link>
     </div>
   </q-page>
