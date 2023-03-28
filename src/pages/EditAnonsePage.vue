@@ -15,6 +15,7 @@
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
         />
+        <p>{{ anonse.name }}</p>
         <q-input
           outlined
           type="textarea"
@@ -24,6 +25,7 @@
           hint="Максимум 255 символов"
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
+        <p>{{ anonse.description }}</p>
       </div>
       <div class="anonse-footer">
         <router-link to="/main" class="footer-btn1">Назад</router-link>
@@ -47,13 +49,10 @@ export default {
     const description = ref('')
     const { getData } = $store
     const idStore = localStorage.getItem('id_store')
-    onMounted(() => {
-      name.value = getData?.name ? getData.name : ''
-      description.value = getData?.description ? getData.description : ''
-    })
     return {
       name,
       description,
+      anonse: getData,
       onSubmit () {
         const anonse = {
           name: name.value,
