@@ -46,7 +46,7 @@
             <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
           </div>
         </div>
-        <router-link to="/add-product" class="category__item category__not">
+        <router-link to="/add-product" class="category__item category__not" v-show="!getProducts(category?.id)">
           <div class="category__img category__not-img"></div>
           <div class="category__content category__not-content">
             <div class="category__not-icon">
@@ -90,9 +90,9 @@ export default defineComponent({
     }
   },
   methods: {
-    getProducts(category_id) {
+    getProducts(id) {
       var products = this.products
-      return products.filter(product => product.category_id == category_id)
+      return products.filter(product => product.category_id == id)
     },
     background (id) {
       return require('../assets/item-' + id + '.jpg')
