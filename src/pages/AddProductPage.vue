@@ -72,7 +72,6 @@ import { api } from 'boot/axios'
 
 export default {
   setup () {
-    const fs = require('fs');
     const $q = useQuasar()
     const $store = useContentStore()
     const $router = useRouter()
@@ -92,7 +91,6 @@ export default {
       categories.push(item)
     })
     const image = ref(null)
-    const idStore = localStorage.getItem('id_store')
     return {
       name,
       description,
@@ -104,6 +102,7 @@ export default {
       image,
       onSubmit () {
         const data = new FormData()
+        const idStore = localStorage.getItem('id_store')
         const product = {
           name: name.value,
           description: description.value,
@@ -112,9 +111,9 @@ export default {
           comment_after_buy: comment_after_buy.value,
           userId: initUser.user.id,
           category_id: categories.value,
+          image: image
         }
         data.append(product)
-        data.append('image', fs.createReadStream(image))
         try {
           api.post(`shop/admin/product/${idStore}`, data).then((response) => {
             if(response){
@@ -144,7 +143,6 @@ export default {
   methods: {
     setImage (files) {
       this.image = files[0]
-      console.log(files)
     }
   }
 }
