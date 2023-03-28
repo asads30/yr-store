@@ -80,6 +80,7 @@ export default {
     const price = ref(null)
     const category = ref(null)
     const comment_after_buy = ref(null)
+    const image = ref(null)
     const { getCategories, getData, fetchProducts } = $store
     const initUser = localStorage.getItem('init_user')
     const categories = []
@@ -90,7 +91,6 @@ export default {
       }
       categories.push(item)
     })
-    const image = ref(null)
     return {
       name,
       description,
@@ -110,7 +110,7 @@ export default {
           channel_id: getData?.id,
           comment_after_buy: comment_after_buy.value,
           userId: 386567097,
-          category_id: categories.value,
+          category_id: category.value,
           image: image
         }
         console.log(initUser)
