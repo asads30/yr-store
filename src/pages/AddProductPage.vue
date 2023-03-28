@@ -109,10 +109,11 @@ export default {
           price: price.value,
           channel_id: getData?.id,
           comment_after_buy: comment_after_buy.value,
-          userId: initUser.user.id,
+          userId: 386567097,
           category_id: categories.value,
           image: image
         }
+        console.log(initUser)
         data.append(product)
         try {
           api.post(`shop/admin/product/${idStore}`, data).then((response) => {
