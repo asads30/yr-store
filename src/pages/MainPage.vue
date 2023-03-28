@@ -40,7 +40,7 @@
       </router-link>
     </div>
     <div class="footer">
-      <router-link to="/add-anons" class="footer__btn" v-if="anonse.name == null">Написать анонс</router-link>
+      <router-link to="/add-anons" class="footer__btn" v-if="anonse?.name == null">Написать анонс</router-link>
       <router-link to="/edit-anons" class="footer__btn" v-else>Изменить анонс</router-link>
     </div>
   </q-page>
@@ -50,7 +50,6 @@
 import { defineComponent } from 'vue'
 import { useContentStore } from 'stores/content'
 import { api } from 'boot/axios'
-import { computed } from 'vue'
 
 export default defineComponent({
   name: 'MainPage',
