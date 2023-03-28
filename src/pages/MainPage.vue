@@ -80,7 +80,7 @@ export default defineComponent({
     const $store = useContentStore()
     const { getData, getCategories } = $store
     return {
-      anonse: getData.name,
+      anonse: getData?.name,
       categories: getCategories
     }
   }
