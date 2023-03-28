@@ -37,7 +37,7 @@
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
-import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 import { api } from 'boot/axios'
 
 export default {
@@ -46,7 +46,8 @@ export default {
     const $router = useRouter()
     const store = useContentStore()
     const { addAnonse } = store
-    const { name, description } = storeToRefs(store)
+    const name = ref(null)
+    const description = ref(null)
     const idStore = localStorage.getItem('id_store')
     return {
       name,
