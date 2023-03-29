@@ -1,4 +1,1 @@
-export function id_store() {
-    let id = localStorage.getItem('id_store')
-    return id
-}
+export const id_store = localStorage.getItem('id_store')
