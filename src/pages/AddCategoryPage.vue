@@ -33,62 +33,57 @@
   </q-page>
 </template>
 
-<script>
-
-import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
-import { useContentStore } from 'stores/content'
+<script setup>
 import { ref } from 'vue'
-import { api } from 'boot/axios'
-
-export default {
-  setup () {
-    const $q = useQuasar()
-    const $store = useContentStore()
-    const $router = useRouter()
-    const name = ref('')
-    const description = ref('')
-    const idStore = localStorage.getItem('id_store')
-    const { fetchCategories } = $store
-    return {
-      name,
-      description,
-      onSubmit () {
-        const category = {
-          name: name.value,
-          description: description.value
-        }
-        try {
-          api.post(`shop/admin/category/${idStore}`, category).then((response) => {
-            if(response){
-              try {
-                api.get(`shop/admin/category/${idStore}`).then((response) => {
-                  fetchCategories(response.data)
-                }).catch((error) => {
-                  console.log(error)
-                });
-              } catch (error) {
-                console.log(error)
-              }
-              $q.notify({
-                type: 'positive',
-                message: 'Категория добавлена',
-                position: 'top-right'
-              })
-              $router.push('/main')
-            }
-          })
-        } catch (error) {
-          $q.notify({
-            type: 'negative',
-            message: 'Ошибка.'
-          })
-        }
-      }
-    }
+import { useContentStore } from 'stores/content'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
+const store = useContentStore()
+const router = useRouter()
+const $q = useQuasar()
+const name = ref('')
+const description = ref('')
+const tg = window.Telegram.WebApp
+tg.MainButton.show()
+tg.BackButton.show()
+tg.MainButton.enable()
+tg.BackButton.isVisible = true
+tg.MainButton.setParams({
+  color: '#3478F6',
+  text_color: '#fff',
+  text: 'Опубликовать'
+})
+tg.onEvent('mainButtonClicked', onSubmit)
+tg.onEvent('BackButtonClicked', goMain)
+function onSubmit (){
+  const category = {
+    name: name.value,
+    description: description.value
+  }
+  try {
+    store.addCategory(category)
+    $q.notify({
+      type: 'positive',
+      message: 'Категория добавлена',
+      position: 'top-right'
+    })
+    router.push('/main')
+    tg.offEvent('mainButtonClicked', onSubmit)
+    tg.offEvent('BackButtonClicked', goMain)
+  } catch (error) {
+    $q.notify({
+      type: 'negative',
+      message: error
+    })
   }
 }
+function goMain(){
+  router.push('/main')
+  tg.offEvent('mainButtonClicked', onSubmit)
+  tg.offEvent('BackButtonClicked', goMain)
+}
 </script>
+
 
 <style lang="scss" scoped>
   .anonse{

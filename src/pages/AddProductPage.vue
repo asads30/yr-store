@@ -141,6 +141,7 @@ export default {
   methods: {
     setImage (files) {
       this.image = files[0]
+      console.log(files)
     }
   }
 }

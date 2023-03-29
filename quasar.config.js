@@ -50,10 +50,12 @@ module.exports = configure(function (ctx) {
         'Notify',
         'Cookies',
         'LocalStorage',
-        'SessionStorage'
+        'SessionStorage',
+        'Loading'
       ],
       config: {
-        notify: { /* look at QuasarConfOptions from the API card */ }
+        notify: {},
+        loading: {}
       }
     },
     animations: [],

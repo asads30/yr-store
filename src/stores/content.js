@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { api } from 'boot/axios'
 
 export const useContentStore = defineStore('content', {
   state: () => ({
@@ -16,11 +17,11 @@ export const useContentStore = defineStore('content', {
     getCategories (state) {
       return state.categories
     },
-    getCategory(state){
-      return state.category
-    },
     getProducts(state) {
       return state.products
+    },
+    getCategory(state){
+      return state.category
     },
     getProduct(state){
       return state.product
@@ -28,17 +29,46 @@ export const useContentStore = defineStore('content', {
   },
 
   actions: {
-    fetchData(data){
-      this.data = data
+    async fetchData() {
+      try {
+        const res = await api.get(`shop/admin/shop/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`)
+        this.data = res.data
+      } catch (err) {
+        console.error(err)
+      }
     },
-    fetchCategories(categories){
-      this.categories = categories
+    async fetchCategories() {
+      try {
+        const res = await api.get(`shop/admin/category/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`)
+        this.categories = res.data.categories
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async fetchProducts() {
+      try {
+        const res = await api.get(`shop/admin/product/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`)
+        this.products = res.data.products
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async addAnonse(anonse) {
+      try {
+        await api.patch(`shop/admin/shop/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`, anonse)
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async addCategory(category) {
+      try {
+        await api.post(`shop/admin/category/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`, category)
+      } catch (err) {
+        console.error(err)
+      }
     },
     fetchCategory(){
       this.category = category
-    },
-    fetchProducts(products){
-      this.products = products
     },
     fetchProduct(){
       this.product = product

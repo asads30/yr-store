@@ -20,48 +20,18 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { onMounted } from 'vue'
-import { useContentStore } from 'stores/content'
-import { useRouter } from 'vue-router'
-import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
     const tg = window.Telegram.WebApp
-    const id_store = currentRoute.params.id
+    const id = currentRoute.params.id
     tg.expand()
     tg.enableClosingConfirmation()
-    localStorage.setItem('id_store', id_store)
-    localStorage.setItem('init_data', tg.initData)
-    localStorage.setItem('init_user', tg.initDataUnsafe)
+    localStorage.setItem('id_store', 'fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5')
+    localStorage.setItem('init_data', JSON.stringify(tg.initDataUnsafe))
   },
   setup() {
-    const $store = useContentStore()
-    const $router = useRouter()
-    const { fetchData, fetchCategories, fetchProducts } = $store
-    const id_store = $router.params.id
-    onMounted(() => {
-      try {
-        api.get(`shop/admin/shop/${id_store}`).then((response) => {
-          fetchData(response.data)
-        }).catch((error) => {
-          console.log(error)
-        });
-        api.get(`shop/admin/category/${id_store}`).then((response) => {
-          fetchCategories(response.data.categories)
-        }).catch((error) => {
-          console.log(error)
-        })
-        api.get(`shop/admin/product/${id_store}`).then((response) => {
-          fetchProducts(response.data.products)
-        }).catch((error) => {
-          console.log(error)
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    })
     return{
       backTelegram() {
         window.Telegram.WebApp.close()

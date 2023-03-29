@@ -1,7 +1,6 @@
 <template>
   <q-page class="anonse">
     <q-form
-      @submit="onSubmit"
       class="q-form anonse-form"
     >
       <div class="anonse-main">
@@ -25,67 +24,58 @@
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
       </div>
-      <div class="anonse-footer">
-        <router-link to="/main" class="footer-btn1">Назад</router-link>
-        <q-btn label="Опубликовать" type="submit" class="footer-btn2"/>
-      </div>
     </q-form>
   </q-page>
 </template>
 
-<script>
-import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
-import { useContentStore } from 'stores/content'
+<script setup>
 import { ref } from 'vue'
-import { api } from 'boot/axios'
-
-export default {
-  setup () {
-    const $q = useQuasar()
-    const $store = useContentStore()
-    const $router = useRouter()
-    const name = ref('')
-    const description = ref('')
-    const idStore = localStorage.getItem('id_store')
-    const {fetchData} = $store
-    return {
-      name,
-      description,
-      onSubmit () {
-        const anonse = {
-          name: name.value,
-          description: description.value
-        }
-        try {
-          api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
-            if(response){
-              try {
-                api.get(`shop/admin/shop/${idStore}`).then((response) => {
-                  fetchData(response.data)
-                }).catch((error) => {
-                  console.log(error)
-                });
-              } catch (error) {
-                console.log(error)
-              }
-              $q.notify({
-                type: 'positive',
-                message: 'Анонс добавлен',
-                position: 'top-right'
-              })
-              $router.push('/main')
-            }
-          })
-        } catch (error) {
-          $q.notify({
-            type: 'negative',
-            message: 'Ошибка.'
-          })
-        }
-      }
-    }
+import { useContentStore } from 'stores/content'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
+const store = useContentStore()
+const router = useRouter()
+const $q = useQuasar()
+const name = ref('')
+const description = ref('')
+const tg = window.Telegram.WebApp
+tg.MainButton.show()
+tg.BackButton.show()
+tg.MainButton.enable()
+tg.BackButton.isVisible = true
+tg.MainButton.setParams({
+  color: '#3478F6',
+  text_color: '#fff',
+  text: 'Опубликовать'
+})
+tg.onEvent('mainButtonClicked', onSubmit)
+tg.onEvent('BackButtonClicked', goMain)
+function onSubmit (){
+  const anonse = {
+    name: name.value,
+    description: description.value
   }
+  try {
+    store.addAnonse(anonse)
+    $q.notify({
+      type: 'positive',
+      message: 'Анонс добавлен',
+      position: 'top-right'
+    })
+    router.push('/main')
+    tg.offEvent('mainButtonClicked', onSubmit)
+    tg.offEvent('BackButtonClicked', goMain)
+  } catch (error) {
+    $q.notify({
+      type: 'negative',
+      message: error
+    })
+  }
+}
+function goMain(){
+  router.push('/main')
+  tg.offEvent('mainButtonClicked', onSubmit)
+  tg.offEvent('BackButtonClicked', goMain)
 }
 </script>
 
