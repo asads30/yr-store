@@ -14,7 +14,6 @@
           label="Название"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
-          :placeholder="anonse.name"
         />
         <q-input
           outlined
@@ -49,39 +48,50 @@ export default {
     onMounted(() => {
       name.value = getData?.name
       description.value = getData?.description
+      const tg = window.Telegram.WebApp
+      tg.MainButton.show()
+      tg.MainButton.enable()
+      tg.MainButton.setParams({
+        color: '#3478F6',
+        text_color: '#fff',
+        text: 'Опубликовать'
+      })
+      tg.BackButton.show()
+      tg.onEvent('mainButtonClicked', onSubmit)
+      tg.onEvent('backButtonClicked', goMain)
     })
+    function onSubmit () {
+      const anonse = {
+        name: name.value,
+        description: description.value
+      }
+      try {
+        api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
+          if(response){
+            $q.notify({
+              type: 'positive',
+              message: 'Анонс изменен',
+              position: 'top-right'
+            })
+            $router.push('/main')
+          }
+        })
+      } catch (error) {
+        $q.notify({
+          type: 'negative',
+          message: 'Ошибка.'
+        })
+      }
+    }
+    function goMain(){
+      $router.push('/main')
+      tg.offEvent('mainButtonClicked', onSubmit)
+      tg.offEvent('backButtonClicked', goMain)
+    }
     return {
       name,
       description,
-      anonse: getData,
-      onSubmit () {
-        const anonse = {
-          name: name.value,
-          description: description.value
-        }
-        try {
-          api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
-            if(response){
-              $q.notify({
-                type: 'positive',
-                message: 'Анонс изменен',
-                position: 'top-right'
-              })
-              $router.push('/main')
-            }
-          })
-        } catch (error) {
-          $q.notify({
-            type: 'negative',
-            message: 'Ошибка.'
-          })
-        }
-      },
-      goMain(){
-        $router.push('/main')
-        tg.offEvent('mainButtonClicked', onSubmit)
-        tg.offEvent('backButtonClicked', goMain)
-      }
+      anonse: getData
     }
   }
 }

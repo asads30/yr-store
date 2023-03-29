@@ -14,7 +14,6 @@
           label="Название"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
-          :placeholder="anonse.name"
         />
         <q-input
           outlined
