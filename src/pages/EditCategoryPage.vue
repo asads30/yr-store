@@ -36,7 +36,6 @@ import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
 import { onMounted, ref } from 'vue'
-import { api } from 'boot/axios'
 export default {
   setup () {
     const $q = useQuasar()
@@ -44,7 +43,6 @@ export default {
     const name = ref('')
     const description = ref('')
     const { getCategory } = $store
-    const idStore = localStorage.getItem('id_store')
     const $router = useRouter()
     onMounted(() => {
       name.value = getCategory?.name
@@ -55,28 +53,25 @@ export default {
       tg.MainButton.setParams({
         color: '#3478F6',
         text_color: '#fff',
-        text: 'Опубликовать'
+        text: 'СОХРАНИТЬ'
       })
       tg.BackButton.show()
       tg.onEvent('mainButtonClicked', onSubmit)
       tg.onEvent('backButtonClicked', goMain)
     })
     function onSubmit() {
-      const anonse = {
+      const category = {
         name: name.value,
         description: description.value
       }
       try {
-        api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
-          if(response){
-            $q.notify({
-              type: 'positive',
-              message: 'Анонс изменен',
-              position: 'top-right'
-            })
-            $router.push('/main')
-          }
+        $store.updateCategory(category)
+        $q.notify({
+          type: 'positive',
+          message: 'Анонс изменен',
+          position: 'top-right'
         })
+        $router.push('/main')
       } catch (error) {
         $q.notify({
           type: 'negative',
@@ -84,10 +79,15 @@ export default {
         })
       }
     }
+    function goMain(){
+      $router.push('/main')
+      tg.offEvent('mainButtonClicked', onSubmit)
+      tg.offEvent('backButtonClicked', goMain)
+    }
     return {
       name,
       description,
-      anonse: getData
+      category: getCategory
     }
   }
 }
@@ -107,46 +107,10 @@ export default {
     flex-direction: column;
     justify-content: space-between;
   }
-  .q-uploader{
-    width: calc(100% - 8px);
-  }
   .page-title>h3{
     margin: 0 0 25px;
     font-size: 18px;
     font-weight: 700;
     line-height: 20px;
-  }
-  .anonse-footer{
-    display: flex;
-    flex-direction: column;
-  }
-  .footer-btn1{
-    height: 44px;
-    line-height: 42px;
-    border: 1px solid #3478F6;
-    border-radius: 12px;
-    text-align: center;
-    margin-bottom: 8px;
-    background: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    color: #3478F6;
-  }
-  .footer-btn2{
-    height: 44px;
-    line-height: 44px;
-    border: 0;
-    border-radius: 12px;
-    text-align: center;
-    background: #3478F6;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    color: #fff;
-    text-transform: none;
-  }
-  .q-field{
-    padding-bottom: 30px;
   }
 </style>

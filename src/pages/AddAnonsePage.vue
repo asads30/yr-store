@@ -42,9 +42,9 @@
   tg.MainButton.show()
   tg.MainButton.enable()
   tg.MainButton.setParams({
-    color: '#3478F6',
+    color: '#280064',
     text_color: '#fff',
-    text: 'Опубликовать'
+    text: 'ОПУБЛИКОВАТЬ'
   })
   tg.BackButton.show()
   tg.onEvent('mainButtonClicked', onSubmit)

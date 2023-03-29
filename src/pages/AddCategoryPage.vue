@@ -46,9 +46,9 @@ tg.BackButton.show()
 tg.MainButton.enable()
 tg.BackButton.isVisible = true
 tg.MainButton.setParams({
-  color: '#3478F6',
+  color: '#280064',
   text_color: '#fff',
-  text: 'Опубликовать'
+  text: 'ОПУБЛИКОВАТЬ'
 })
 tg.onEvent('mainButtonClicked', onSubmit)
 tg.onEvent('backButtonClicked', goMain)

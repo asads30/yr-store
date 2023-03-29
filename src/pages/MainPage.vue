@@ -37,38 +37,24 @@ import Product from './Product.vue'
 const store = useContentStore()
 const router = useRouter()
 const { getCategories } = storeToRefs(store)
-const { getData } = storeToRefs(store)
 const { fetchCategories } = store
 const { fetchData } = store
 const { fetchCategory } = store
 const categories = getCategories
-const anonse = getData
 const tg = window.Telegram.WebApp
 tg.MainButton.show()
 tg.MainButton.enable()
-if(anonse.name != ''){
-  tg.MainButton.setParams({
-    color: '#3478F6',
-    text_color: '#fff',
-    text: 'Изменить анонс'
-  })
-  tg.onEvent('mainButtonClicked', goEditAnonse)
-} else {
-  tg.MainButton.setParams({
-    color: '#3478F6',
-    text_color: '#fff',
-    text: 'Написать анонс'
-  })
-  tg.onEvent('mainButtonClicked', goAddAnonse)
-}
+tg.MainButton.setParams({
+  color: '#280064',
+  text_color: '#fff',
+  text: 'ДАЛЕЕ'
+})
+tg.onEvent('mainButtonClicked', goAddAnonse)
 tg.BackButton.hide()
 onMounted(() => {
   fetchCategories()
   fetchData()
 })
-function goEditAnonse(){
-  router.push('/edit-anons')
-}
 function goAddAnonse(){
   router.push('/add-anons')
 }
