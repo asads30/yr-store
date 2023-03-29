@@ -73,7 +73,7 @@
   const price = ref('')
   const category = ref('')
   const comment_after_buy = ref('')
-  const { getCategories, getData } = store
+  const { getCategories, getData, addProduct } = store
   const categories = []
   getCategories.filter((value, index) => {
     const item = {
@@ -94,7 +94,7 @@
       category_id: category.value.value
     }
     try {
-      store.addProduct(product)
+      addProduct(product)
       $q.notify({
         type: 'positive',
         message: 'Товар добавлен',
