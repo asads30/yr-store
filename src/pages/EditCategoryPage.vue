@@ -1,20 +1,20 @@
 <template>
-  <q-page class="flex flex-start justify-between column anonse">
+  <q-page class="anonse">
     <q-form
       @submit="onSubmit"
-      class="anonse-form flex flex-start justify-between column"
+      class="anonse-form"
     >
       <div class="anonse-main">
         <div class="page-title">
-          <h3>Изменить категорию №{{ id }}</h3>
+          <h3>Изменение категории</h3>
         </div>
         <q-input
           outlined
           v-model="name"
-          label="Название *"
+          label="Название"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
-          hint="Максимум 128 символов"
+          :placeholder="anonse.name"
         />
         <q-input
           outlined
@@ -22,87 +22,72 @@
           v-model="description"
           label="Описание *"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
           hint="Максимум 255 символов"
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
-      </div>
-      <div class="anonse-footer">
-        <q-btn label="Опубликовать" type="submit" class="footer-btn2"/>
       </div>
     </q-form>
   </q-page>
 </template>
 
 <script>
+
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useContentStore } from 'stores/content'
 import { onMounted, ref } from 'vue'
 import { api } from 'boot/axios'
 export default {
-  preFetch ({ currentRoute }) {
-    const id = currentRoute.params.id
-    const $store = useContentStore()
-    const { fetchCategory } = $store
-    const idStore = localStorage.getItem('id_store');
-    try {
-      api.get(`shop/admin/category/${idStore}/${id}`).then((response) => {
-        fetchCategory(response.data)
-      }).catch((error) => {
-        console.log(error)
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  },
   setup () {
     const $q = useQuasar()
     const $store = useContentStore()
     const name = ref('')
     const description = ref('')
-    const { getCategory, fetchCategories } = $store
+    const { getCategory } = $store
     const idStore = localStorage.getItem('id_store')
     const $router = useRouter()
-    const idCategory = $route.params.id
     onMounted(() => {
       name.value = getCategory?.name
       description.value = getCategory?.description
+      const tg = window.Telegram.WebApp
+      tg.MainButton.show()
+      tg.MainButton.enable()
+      tg.MainButton.setParams({
+        color: '#3478F6',
+        text_color: '#fff',
+        text: 'Опубликовать'
+      })
+      tg.BackButton.show()
+      tg.onEvent('mainButtonClicked', onSubmit)
+      tg.onEvent('backButtonClicked', goMain)
     })
+    function onSubmit() {
+      const anonse = {
+        name: name.value,
+        description: description.value
+      }
+      try {
+        api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
+          if(response){
+            $q.notify({
+              type: 'positive',
+              message: 'Анонс изменен',
+              position: 'top-right'
+            })
+            $router.push('/main')
+          }
+        })
+      } catch (error) {
+        $q.notify({
+          type: 'negative',
+          message: 'Ошибка.'
+        })
+      }
+    }
     return {
       name,
       description,
-      onSubmit () {
-        const category = {
-          name: name.value,
-          description: description.value
-        }
-        try {
-          api.patch(`shop/admin/category/${idStore}/${idCategory}`, category).then((response) => {
-            if(response){
-              try {
-                api.get(`shop/admin/category/${idStore}`).then((response) => {
-                  fetchCategories(response.data)
-                }).catch((error) => {
-                  console.log(error)
-                });
-              } catch (error) {
-                console.log(error)
-              }
-              $q.notify({
-                type: 'positive',
-                message: 'Категория изменена',
-                position: 'top-right'
-              })
-              $router.push('/main')
-            }
-          })
-        } catch (error) {
-          $q.notify({
-            type: 'negative',
-            message: 'Ошибка.'
-          })
-        }
-      }
+      anonse: getData
     }
   }
 }
@@ -112,9 +97,15 @@ export default {
   .anonse{
     padding: 12px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .anonse-form{
     height: calc(100vh - 112px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .q-uploader{
     width: calc(100% - 8px);
@@ -154,7 +145,6 @@ export default {
     font-size: 18px;
     color: #fff;
     text-transform: none;
-    padding: 0;
   }
   .q-field{
     padding-bottom: 30px;

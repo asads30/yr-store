@@ -68,11 +68,21 @@ export const useContentStore = defineStore('content', {
         console.error(err)
       }
     },
-    fetchCategory(){
-      this.category = category
+    async fetchCategory(id) {
+      try {
+        const res = await api.get(`shop/admin/category/${id_store}/${id}`)
+        this.category = res.data
+      } catch (err) {
+        console.error(err)
+      }
     },
-    fetchProduct(){
-      this.product = product
+    async updateCategory(category) {
+      try {
+        await api.patch(`shop/admin/category/${id_store}/${category.id}`, category)
+        this.category = category
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 })

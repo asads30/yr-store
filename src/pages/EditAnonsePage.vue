@@ -46,17 +46,6 @@ export default {
     const { getData } = $store
     const idStore = localStorage.getItem('id_store')
     const $router = useRouter()
-    const tg = window.Telegram.WebApp
-    tg.MainButton.show()
-    tg.MainButton.enable()
-    tg.MainButton.setParams({
-      color: '#3478F6',
-      text_color: '#fff',
-      text: 'Сохранить'
-    })
-    tg.BackButton.show()
-    tg.onEvent('mainButtonClicked', onSubmit)
-    tg.onEvent('backButtonClicked', goMain)
     onMounted(() => {
       name.value = getData?.name
       description.value = getData?.description
@@ -79,8 +68,6 @@ export default {
                 position: 'top-right'
               })
               $router.push('/main')
-              tg.offEvent('mainButtonClicked', onSubmit)
-              tg.offEvent('backButtonClicked', goMain)
             }
           })
         } catch (error) {

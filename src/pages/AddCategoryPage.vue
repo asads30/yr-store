@@ -90,45 +90,11 @@ function goMain(){
   .anonse-form{
     height: calc(100vh - 112px);
   }
-  .q-uploader{
-    width: calc(100% - 8px);
-  }
   .page-title>h3{
     margin: 0 0 25px;
     font-size: 18px;
     font-weight: 700;
     line-height: 20px;
-  }
-  .anonse-footer{
-    display: flex;
-    flex-direction: column;
-  }
-  .footer-btn1{
-    height: 44px;
-    line-height: 42px;
-    border: 1px solid #3478F6;
-    border-radius: 12px;
-    text-align: center;
-    margin-bottom: 8px;
-    background: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    color: #3478F6;
-  }
-  .footer-btn2{
-    height: 44px;
-    line-height: 44px;
-    border: 0;
-    border-radius: 12px;
-    text-align: center;
-    background: #3478F6;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    color: #fff;
-    text-transform: none;
-    padding: 0;
   }
   .q-field{
     padding-bottom: 30px;
