@@ -43,7 +43,7 @@ export default {
     const $store = useContentStore()
     const name = ref('')
     const description = ref('')
-    const { getData, fetchData } = $store
+    const { getData } = $store
     const idStore = localStorage.getItem('id_store')
     const $router = useRouter()
     const tg = window.Telegram.WebApp
@@ -73,21 +73,14 @@ export default {
         try {
           api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
             if(response){
-              try {
-                api.get(`shop/admin/shop/${idStore}`).then((response) => {
-                  fetchData(response.data)
-                }).catch((error) => {
-                  console.log(error)
-                });
-              } catch (error) {
-                console.log(error)
-              }
               $q.notify({
                 type: 'positive',
                 message: 'Анонс изменен',
                 position: 'top-right'
               })
               $router.push('/main')
+              tg.offEvent('mainButtonClicked', onSubmit)
+              tg.offEvent('backButtonClicked', goMain)
             }
           })
         } catch (error) {
@@ -96,6 +89,11 @@ export default {
             message: 'Ошибка.'
           })
         }
+      },
+      goMain(){
+        $router.push('/main')
+        tg.offEvent('mainButtonClicked', onSubmit)
+        tg.offEvent('backButtonClicked', goMain)
       }
     }
   }

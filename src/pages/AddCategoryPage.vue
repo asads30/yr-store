@@ -26,9 +26,6 @@
           hint="Максимум 255 символов"
         />
       </div>
-      <div class="anonse-footer">
-        <q-btn label="Опубликовать" type="submit" class="footer-btn2"/>
-      </div>
     </q-form>
   </q-page>
 </template>
