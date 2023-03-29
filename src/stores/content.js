@@ -68,6 +68,13 @@ export const useContentStore = defineStore('content', {
         console.error(err)
       }
     },
+    async addProduct(product) {
+      try {
+        await api.post(`shop/admin/product/${id_store}`, product)
+      } catch (err) {
+        console.error(err)
+      }
+    },
     async fetchCategory(id) {
       try {
         const res = await api.get(`shop/admin/category/${id_store}/${id}`)
