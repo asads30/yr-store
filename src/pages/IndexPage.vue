@@ -25,11 +25,11 @@ export default defineComponent({
   name: 'MainPage',
   preFetch ({ currentRoute }) {
     const tg = window.Telegram.WebApp
-    const id = currentRoute.params.id ? currentRoute.params.id : '28e89f4a2cf3b8e5c61a80b131c2093f78770966b0e825f4553ad92777f44d3d'
+    const id = currentRoute.params.id
     tg.expand()
     tg.enableClosingConfirmation()
     localStorage.setItem('id_store', id)
-    localStorage.setItem('init_data', JSON.stringify(tg.initData))
+    localStorage.setItem('init_data', tg.initData)
   },
   setup() {
     return{
