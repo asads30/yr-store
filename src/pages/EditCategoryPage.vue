@@ -60,7 +60,8 @@
       function onSubmit() {
         const category = {
           name: name.value,
-          description: description.value
+          description: description.value,
+          id: getCategory.id
         }
         try {
           $store.updateCategory(category)
