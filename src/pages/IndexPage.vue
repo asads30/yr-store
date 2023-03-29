@@ -30,6 +30,8 @@ export default defineComponent({
     tg.enableClosingConfirmation()
     localStorage.setItem('id_store', id)
     localStorage.setItem('init_data', JSON.stringify(tg.initDataUnsafe))
+    console.log('01' + tg.initDataUnsafe)
+    console.log('02' + tg.initData)
   },
   setup() {
     return{

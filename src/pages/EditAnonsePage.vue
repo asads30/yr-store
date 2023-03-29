@@ -26,10 +26,6 @@
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
       </div>
-      <div class="anonse-footer">
-        <router-link to="/main" class="footer-btn1">Назад</router-link>
-        <q-btn label="Обновить" type="submit" class="footer-btn2"/>
-      </div>
     </q-form>
   </q-page>
 </template>
@@ -50,6 +46,17 @@ export default {
     const { getData, fetchData } = $store
     const idStore = localStorage.getItem('id_store')
     const $router = useRouter()
+    const tg = window.Telegram.WebApp
+    tg.MainButton.show()
+    tg.MainButton.enable()
+    tg.MainButton.setParams({
+      color: '#3478F6',
+      text_color: '#fff',
+      text: 'Сохранить'
+    })
+    tg.BackButton.show()
+    tg.onEvent('mainButtonClicked', onSubmit)
+    tg.onEvent('backButtonClicked', goMain)
     onMounted(() => {
       name.value = getData?.name
       description.value = getData?.description
