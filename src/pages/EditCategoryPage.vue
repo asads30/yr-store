@@ -30,66 +30,67 @@
 </template>
 
 <script>
-
-import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
-import { useContentStore } from 'stores/content'
-import { onMounted, ref } from 'vue'
-export default {
-  setup () {
-    const $q = useQuasar()
-    const $store = useContentStore()
-    const name = ref('')
-    const description = ref('')
-    const { getCategory } = $store
-    const $router = useRouter()
-    onMounted(() => {
-      name.value = getCategory?.name
-      description.value = getCategory?.description
-      const tg = window.Telegram.WebApp
-      tg.MainButton.show()
-      tg.MainButton.enable()
-      tg.MainButton.setParams({
-        color: '#3478F6',
-        text_color: '#fff',
-        text: 'СОХРАНИТЬ'
+  import { useQuasar } from 'quasar'
+  import { useRouter } from 'vue-router'
+  import { useContentStore } from 'stores/content'
+  import { onMounted, ref } from 'vue'
+  export default {
+    setup () {
+      const $q = useQuasar()
+      const $store = useContentStore()
+      const name = ref('')
+      const description = ref('')
+      const { getCategory } = $store
+      const $router = useRouter()
+      onMounted(() => {
+        name.value = getCategory?.name
+        description.value = getCategory?.description
+        const tg = window.Telegram.WebApp
+        tg.MainButton.show()
+        tg.MainButton.enable()
+        tg.MainButton.setParams({
+          color: '#280064',
+          text_color: '#fff',
+          text: 'СОХРАНИТЬ'
+        })
+        tg.BackButton.show()
+        tg.onEvent('mainButtonClicked', onSubmit)
+        tg.onEvent('backButtonClicked', goMain)
       })
-      tg.BackButton.show()
-      tg.onEvent('mainButtonClicked', onSubmit)
-      tg.onEvent('backButtonClicked', goMain)
-    })
-    function onSubmit() {
-      const category = {
-        name: name.value,
-        description: description.value
+      function onSubmit() {
+        const category = {
+          name: name.value,
+          description: description.value
+        }
+        try {
+          $store.updateCategory(category)
+          $q.notify({
+            type: 'positive',
+            message: 'Категория изменена',
+            position: 'top-right'
+          })
+          $router.push('/main')
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            message: 'Ошибка.'
+          })
+        }
+        tg.offEvent('mainButtonClicked', onSubmit)
+        tg.offEvent('backButtonClicked', goMain)
       }
-      try {
-        $store.updateCategory(category)
-        $q.notify({
-          type: 'positive',
-          message: 'Анонс изменен',
-          position: 'top-right'
-        })
+      function goMain(){
         $router.push('/main')
-      } catch (error) {
-        $q.notify({
-          type: 'negative',
-          message: 'Ошибка.'
-        })
+        tg.offEvent('mainButtonClicked', onSubmit)
+        tg.offEvent('backButtonClicked', goMain)
       }
-    }
-    function goMain(){
-      $router.push('/main')
-      tg.offEvent('mainButtonClicked', onSubmit)
-      tg.offEvent('backButtonClicked', goMain)
-    }
-    return {
-      name,
-      description,
-      category: getCategory
+      return {
+        name,
+        description,
+        category: getCategory
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>

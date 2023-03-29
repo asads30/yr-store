@@ -44,7 +44,6 @@ const tg = window.Telegram.WebApp
 tg.MainButton.show()
 tg.BackButton.show()
 tg.MainButton.enable()
-tg.BackButton.isVisible = true
 tg.MainButton.setParams({
   color: '#280064',
   text_color: '#fff',
@@ -65,14 +64,14 @@ function onSubmit (){
       position: 'top-right'
     })
     router.push('/main')
-    tg.offEvent('mainButtonClicked', onSubmit)
-    tg.offEvent('backButtonClicked', goMain)
   } catch (error) {
     $q.notify({
       type: 'negative',
       message: error
     })
   }
+  tg.offEvent('mainButtonClicked', onSubmit)
+  tg.offEvent('backButtonClicked', goMain)
 }
 function goMain(){
   router.push('/main')
@@ -80,7 +79,6 @@ function goMain(){
   tg.offEvent('backButtonClicked', goMain)
 }
 </script>
-
 
 <style lang="scss" scoped>
   .anonse{

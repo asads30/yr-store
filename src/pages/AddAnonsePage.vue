@@ -62,14 +62,14 @@
         position: 'top-right'
       })
       router.push('/main')
-      tg.offEvent('mainButtonClicked', onSubmit)
-      tg.offEvent('backButtonClicked', goMain)
     } catch (error) {
       $q.notify({
         type: 'negative',
         message: error
       })
     }
+    tg.offEvent('mainButtonClicked', onSubmit)
+    tg.offEvent('backButtonClicked', goMain)
   }
   function goMain(){
     router.push('/main')

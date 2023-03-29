@@ -30,71 +30,70 @@
 </template>
 
 <script>
-
-import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
-import { useContentStore } from 'stores/content'
-import { onMounted, ref } from 'vue'
-import { api } from 'boot/axios'
-export default {
-  setup () {
-    const $q = useQuasar()
-    const $store = useContentStore()
-    const name = ref('')
-    const description = ref('')
-    const { getData } = $store
-    const idStore = localStorage.getItem('id_store')
-    const $router = useRouter()
-    onMounted(() => {
-      name.value = getData?.name
-      description.value = getData?.description
-      const tg = window.Telegram.WebApp
-      tg.MainButton.show()
-      tg.MainButton.enable()
-      tg.MainButton.setParams({
-        color: '#3478F6',
-        text_color: '#fff',
-        text: 'Опубликовать'
+  import { useQuasar } from 'quasar'
+  import { useRouter } from 'vue-router'
+  import { useContentStore } from 'stores/content'
+  import { onMounted, ref } from 'vue'
+  import { api } from 'boot/axios'
+  export default {
+    setup () {
+      const $q = useQuasar()
+      const $store = useContentStore()
+      const name = ref('')
+      const description = ref('')
+      const { getData } = $store
+      const idStore = localStorage.getItem('id_store')
+      const $router = useRouter()
+      onMounted(() => {
+        name.value = getData?.name
+        description.value = getData?.description
+        const tg = window.Telegram.WebApp
+        tg.MainButton.show()
+        tg.MainButton.enable()
+        tg.MainButton.setParams({
+          color: '#280064',
+          text_color: '#fff',
+          text: 'Опубликовать'
+        })
+        tg.BackButton.show()
+        tg.onEvent('mainButtonClicked', onSubmit)
+        tg.onEvent('backButtonClicked', goMain)
       })
-      tg.BackButton.show()
-      tg.onEvent('mainButtonClicked', onSubmit)
-      tg.onEvent('backButtonClicked', goMain)
-    })
-    function onSubmit () {
-      const anonse = {
-        name: name.value,
-        description: description.value
+      function onSubmit () {
+        const anonse = {
+          name: name.value,
+          description: description.value
+        }
+        try {
+          api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
+            if(response){
+              $q.notify({
+                type: 'positive',
+                message: 'Анонс изменен',
+                position: 'top-right'
+              })
+              $router.push('/main')
+            }
+          })
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            message: 'Ошибка.'
+          })
+        }
       }
-      try {
-        api.patch(`shop/admin/shop/${idStore}`, anonse).then((response) => {
-          if(response){
-            $q.notify({
-              type: 'positive',
-              message: 'Анонс изменен',
-              position: 'top-right'
-            })
-            $router.push('/main')
-          }
-        })
-      } catch (error) {
-        $q.notify({
-          type: 'negative',
-          message: 'Ошибка.'
-        })
+      function goMain(){
+        $router.push('/main')
+        tg.offEvent('mainButtonClicked', onSubmit)
+        tg.offEvent('backButtonClicked', goMain)
       }
-    }
-    function goMain(){
-      $router.push('/main')
-      tg.offEvent('mainButtonClicked', onSubmit)
-      tg.offEvent('backButtonClicked', goMain)
-    }
-    return {
-      name,
-      description,
-      anonse: getData
+      return {
+        name,
+        description,
+        anonse: getData
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
