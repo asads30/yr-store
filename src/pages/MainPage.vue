@@ -10,7 +10,7 @@
         <div class="category__top">
           <div class="category__box">
             <div class="category__title">{{ category?.name }}</div>
-            <router-link :to="'/category/' + category?.id">редактировать категорию</router-link>
+            <router-link :to="'/category/' + category?.id" class="category__edit">редактировать категорию</router-link>
           </div>
           <div class="category__description">{{ category?.description }}</div>
         </div>
@@ -78,7 +78,7 @@ const tg = window.Telegram.WebApp
 $q.loading.show()
 tg.MainButton.show()
 tg.MainButton.enable()
-if(anonse.name != null){
+if(anonse.name != ''){
   tg.MainButton.setParams({
     color: '#3478F6',
     text_color: '#fff',
@@ -94,10 +94,6 @@ if(anonse.name != null){
   tg.onEvent('mainButtonClicked', goAddAnonse)
 }
 tg.BackButton.hide()
-tg.BackButton.hide()
-onBeforeUnmount(() => {
-  $q.loading.hide()
-})
 onMounted(() => {
   fetchCategories()
   fetchData()

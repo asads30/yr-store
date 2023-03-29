@@ -28,7 +28,7 @@ export default defineComponent({
     const id = currentRoute.params.id
     tg.expand()
     tg.enableClosingConfirmation()
-    localStorage.setItem('id_store', 'fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5')
+    localStorage.setItem('id_store', id)
     localStorage.setItem('init_data', JSON.stringify(tg.initDataUnsafe))
   },
   setup() {

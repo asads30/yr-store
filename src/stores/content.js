@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
+import { id_store } from 'boot/helpers'
 
 export const useContentStore = defineStore('content', {
   state: () => ({
@@ -31,7 +32,7 @@ export const useContentStore = defineStore('content', {
   actions: {
     async fetchData() {
       try {
-        const res = await api.get(`shop/admin/shop/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`)
+        const res = await api.get(`shop/admin/shop/${id_store}`)
         this.data = res.data
       } catch (err) {
         console.error(err)
@@ -39,7 +40,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchCategories() {
       try {
-        const res = await api.get(`shop/admin/category/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`)
+        const res = await api.get(`shop/admin/category/${id_store}`)
         this.categories = res.data.categories
       } catch (err) {
         console.error(err)
@@ -47,7 +48,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchProducts() {
       try {
-        const res = await api.get(`shop/admin/product/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`)
+        const res = await api.get(`shop/admin/product/${id_store}`)
         this.products = res.data.products
       } catch (err) {
         console.error(err)
@@ -55,14 +56,14 @@ export const useContentStore = defineStore('content', {
     },
     async addAnonse(anonse) {
       try {
-        await api.patch(`shop/admin/shop/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`, anonse)
+        await api.patch(`shop/admin/shop/${id_store}`, anonse)
       } catch (err) {
         console.error(err)
       }
     },
     async addCategory(category) {
       try {
-        await api.post(`shop/admin/category/fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5`, category)
+        await api.post(`shop/admin/category/${id_store}`, category)
       } catch (err) {
         console.error(err)
       }

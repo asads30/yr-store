@@ -40,16 +40,15 @@ const name = ref('')
 const description = ref('')
 const tg = window.Telegram.WebApp
 tg.MainButton.show()
-tg.BackButton.show()
 tg.MainButton.enable()
-tg.BackButton.isVisible = true
 tg.MainButton.setParams({
   color: '#3478F6',
   text_color: '#fff',
   text: 'Опубликовать'
 })
+tg.BackButton.show()
 tg.onEvent('mainButtonClicked', onSubmit)
-tg.onEvent('BackButtonClicked', goMain)
+tg.onEvent('backButtonClicked', goMain)
 function onSubmit (){
   const anonse = {
     name: name.value,
@@ -64,7 +63,7 @@ function onSubmit (){
     })
     router.push('/main')
     tg.offEvent('mainButtonClicked', onSubmit)
-    tg.offEvent('BackButtonClicked', goMain)
+    tg.offEvent('backButtonClicked', goMain)
   } catch (error) {
     $q.notify({
       type: 'negative',
@@ -75,7 +74,7 @@ function onSubmit (){
 function goMain(){
   router.push('/main')
   tg.offEvent('mainButtonClicked', onSubmit)
-  tg.offEvent('BackButtonClicked', goMain)
+  tg.offEvent('backButtonClicked', goMain)
 }
 </script>
 
