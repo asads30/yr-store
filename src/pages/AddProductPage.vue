@@ -43,7 +43,9 @@
           lazy-rules
           hint="Максимум 255 символов"
         />
+        <button @click="test">Test</button>
       </div>
+
     </q-form>
   </q-page>
 </template>
@@ -74,7 +76,12 @@
   const category = ref('')
   const comment_after_buy = ref('')
   const { getCategories, getData, addProduct } = store
-  const categories = []
+  const categories = [
+    {
+      label: 'test',
+      value: 1
+    }
+  ]
   getCategories.filter((value, index) => {
     const item = {
       label: value.name,
@@ -83,18 +90,18 @@
     categories.push(item)
   })
   function onSubmit (){
-    const product = {
-      name: name.value,
-      description: description.value,
-      image: image.value,
-      price: price.value,
-      channel_id: getData?.id,
-      comment_after_buy: comment_after_buy.value,
-      userId: 386567097,
-      category_id: category.value.value
-    }
+    var formdata = new FormData();
+    let userid = localStorage.getItem('user_id')
+    formdata.append("name", name.value);
+    formdata.append("image", image.value);
+    formdata.append("description", description.value);
+    formdata.append("price", price.value);
+    formdata.append("channel_id", getData?.id);
+    formdata.append("comment_after_buy", comment_after_buy.value);
+    formdata.append("userId", userid);
+    formdata.append("category_id", category.value.value);
     try {
-      addProduct(product)
+      addProduct(formdata)
       $q.notify({
         type: 'positive',
         message: 'Товар добавлен',
@@ -114,5 +121,19 @@
     router.push('/main')
     tg.offEvent('mainButtonClicked', onSubmit)
     tg.offEvent('backButtonClicked', goMain)
+  }
+  function test(e){
+    e.preventDefault();
+    const product = {
+      name: name.value,
+      description: description.value,
+      image: image.value,
+      price: price.value,
+      channel_id: getData?.id,
+      comment_after_buy: comment_after_buy.value,
+      userId: 386567097,
+      category_id: category.value.value,
+    }
+    console.log(category.value.value)
   }
 </script>
