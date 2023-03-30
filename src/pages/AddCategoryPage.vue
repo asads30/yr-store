@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue"
 import { ref } from 'vue'
 import { useContentStore } from 'stores/content'
 import { useRouter } from 'vue-router'
@@ -41,6 +42,7 @@ const $q = useQuasar()
 const name = ref('')
 const description = ref('')
 const tg = window.Telegram.WebApp
+const { clearCategory } = store
 tg.MainButton.show()
 tg.BackButton.show()
 tg.MainButton.enable()
@@ -51,13 +53,24 @@ tg.MainButton.setParams({
 })
 tg.onEvent('mainButtonClicked', onSubmit)
 tg.onEvent('backButtonClicked', goMain)
+onMounted(() => {
+  clearCategory()
+})
 function onSubmit (){
   const category = {
     name: name.value,
     description: description.value
   }
   try {
-    store.addCategory(category)
+    try {
+      store.addCategory(category)
+    } catch (error) {
+      $q.notify({
+        type: 'positive',
+        message: error,
+        position: 'top-right'
+      })
+    }
     $q.notify({
       type: 'positive',
       message: 'Категория добавлена',

@@ -8,7 +8,8 @@ export const useContentStore = defineStore('content', {
     categories: [],
     category: null,
     products: [],
-    product: null
+    product: null,
+    addAnonse: false
   }),
 
   getters: {
@@ -56,7 +57,11 @@ export const useContentStore = defineStore('content', {
     },
     async addAnonse(anonse) {
       try {
-        await api.patch(`shop/admin/shop/${id_store}`, anonse)
+        await api.patch(`shop/admin/shop/${id_store}`, anonse).then((response) => {
+          if(response.status == 200){
+            this.addAnonse = true
+          }
+        })
       } catch (err) {
         console.error(err)
       }
@@ -89,6 +94,13 @@ export const useContentStore = defineStore('content', {
         this.category = category
       } catch (err) {
         console.error(err)
+      }
+    },
+    clearCategory(){
+      try {
+        this.category = null
+      } catch (error) {
+        console.log(error)
       }
     }
   }

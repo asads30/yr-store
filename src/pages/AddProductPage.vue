@@ -23,7 +23,7 @@
           hint="Максимум 255 символов"
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
-        <q-file outlined v-model="image" label="Outlined" />
+        <q-file outlined v-model="image" label="Фотография товара" />
         <q-input
           outlined
           v-model="price"
@@ -121,19 +121,5 @@
     router.push('/main')
     tg.offEvent('mainButtonClicked', onSubmit)
     tg.offEvent('backButtonClicked', goMain)
-  }
-  function test(e){
-    e.preventDefault();
-    const product = {
-      name: name.value,
-      description: description.value,
-      image: image.value,
-      price: price.value,
-      channel_id: getData?.id,
-      comment_after_buy: comment_after_buy.value,
-      userId: 386567097,
-      category_id: category.value.value,
-    }
-    console.log(category.value.value)
   }
 </script>

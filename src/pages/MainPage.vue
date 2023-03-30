@@ -37,13 +37,16 @@ import Product from './Product.vue'
 const store = useContentStore()
 const router = useRouter()
 const { getCategories } = storeToRefs(store)
+const { addAnonse } = storeToRefs(store)
 const { fetchCategories } = store
 const { fetchData } = store
 const { fetchCategory } = store
 const categories = getCategories
 const tg = window.Telegram.WebApp
-tg.MainButton.show()
-tg.MainButton.enable()
+if(addAnonse === false){
+  tg.MainButton.show()
+  tg.MainButton.enable()
+}
 tg.MainButton.setParams({
   color: '#280064',
   text_color: '#fff',
