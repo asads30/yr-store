@@ -21,14 +21,13 @@
 <script setup>
   import { onMounted } from "vue"
   import { useRouter } from 'vue-router'
-  onMounted(() => {
-    const router = useRouter()
-    const tg = window.Telegram.WebApp
-    const id = router.params.id
-    tg.expand()
-    tg.enableClosingConfirmation()
-    localStorage.setItem('id_store', id)
-    localStorage.setItem('init_data', tg.initData)
-    localStorage.setItem('user_id', tg.initDataUnsafe.user.id)
-  })
+  const router = useRouter()
+  const tg = window.Telegram.WebApp
+  const id = router.currentRoute.params.id
+  console.log(router)
+  tg.expand()
+  tg.enableClosingConfirmation()
+  localStorage.setItem('id_store', id)
+  localStorage.setItem('init_data', tg.initData)
+  localStorage.setItem('user_id', tg.initDataUnsafe.user.id)
 </script>
