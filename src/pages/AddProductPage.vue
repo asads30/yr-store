@@ -43,7 +43,6 @@
           lazy-rules
           hint="Максимум 255 символов"
         />
-        <button @click="test">Test</button>
       </div>
 
     </q-form>
