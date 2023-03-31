@@ -19,9 +19,9 @@
 </template>
 
 <script setup>
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
-  const id = router.currentRoute.params.id
+  import { useRoute } from 'vue-router'
+  const route = useRoute()
+  const id = route.params.id
   const tg = window.Telegram.WebApp
   tg.expand()
   tg.enableClosingConfirmation()
