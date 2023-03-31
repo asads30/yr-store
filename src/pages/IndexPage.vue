@@ -21,8 +21,11 @@
 <script setup>
   import { useRouter } from 'vue-router'
   const router = useRouter()
+  const id = router.currentRoute.params.id
   const tg = window.Telegram.WebApp
   tg.expand()
   tg.enableClosingConfirmation()
-  console.log(router)
+  localStorage.setItem('id_store', id)
+  localStorage.setItem('init_data', tg.initData)
+  localStorage.setItem('user_id', tg.initDataUnsafe.user.id)
 </script>
