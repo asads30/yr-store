@@ -19,15 +19,10 @@
 </template>
 
 <script setup>
-  import { onMounted } from "vue"
   import { useRouter } from 'vue-router'
   const router = useRouter()
   const tg = window.Telegram.WebApp
-  const id = router.currentRoute.params.id
-  console.log(router)
   tg.expand()
   tg.enableClosingConfirmation()
-  localStorage.setItem('id_store', id)
-  localStorage.setItem('init_data', tg.initData)
-  localStorage.setItem('user_id', tg.initDataUnsafe.user.id)
+  console.log(router)
 </script>
