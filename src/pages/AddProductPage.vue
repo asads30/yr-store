@@ -74,7 +74,7 @@
   const price = ref('')
   const category = ref('')
   const comment_after_buy = ref('')
-  const { getCategories, getData, addProduct } = store
+  const { getCategories, getData, addProduct, fetchData } = store
   const categories = [
     {
       label: 'test',
@@ -106,6 +106,11 @@
         message: 'Товар добавлен',
         position: 'top-right'
       })
+      try {
+        fetchData()
+      } catch (error) {
+        console.log(error)
+      }
       router.push('/main')
     } catch (error) {
       $q.notify({
