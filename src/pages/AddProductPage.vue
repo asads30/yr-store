@@ -94,7 +94,7 @@
     formdata.append("name", name.value);
     formdata.append("image", image.value);
     formdata.append("description", description.value);
-    formdata.append("price", price.value);
+    formdata.append("price", price.value*100);
     formdata.append("channel_id", getData?.id);
     formdata.append("comment_after_buy", comment_after_buy.value);
     formdata.append("userId", userid);
