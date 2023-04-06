@@ -69,8 +69,8 @@
     },
     computed: {
       ...mapState(useContentStore, {
-        allCats: 'getCategories',
-        getData: 'getData'
+        allCats: 'categories',
+        storeInfo: 'store'
       })
     },
     methods: {
@@ -81,7 +81,7 @@
         formdata.append("image", this.image);
         formdata.append("description", this.description);
         formdata.append("price", this.price*100);
-        formdata.append("channel_id", getData?.id);
+        formdata.append("channel_id", storeInfo?.id);
         formdata.append("comment_after_buy", this.comment_after_buy);
         formdata.append("userId", userid);
         formdata.append("category_id", this.category.value);

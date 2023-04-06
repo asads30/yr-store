@@ -4,7 +4,7 @@ import { id_store } from 'boot/helpers'
 
 export const useContentStore = defineStore('content', {
   state: () => ({
-    data: null,
+    store: null,
     categories: [],
     products: [],
     selectCategories: []
@@ -12,7 +12,7 @@ export const useContentStore = defineStore('content', {
 
   getters: {
     getData (state) {
-      return state.data
+      return state.store
     },
     getCategories (state) {
       return state.categories
@@ -36,7 +36,7 @@ export const useContentStore = defineStore('content', {
     async fetchData() {
       try {
         const res = await api.get(`shop/admin/shop/${id_store}`)
-        this.data = res.data
+        this.store = res.data
       } catch (err) {
         console.error(err)
       }
