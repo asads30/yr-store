@@ -52,9 +52,9 @@
     setup(props){
       const store = useContentStore()
       const { getProducts } = store
-      const product = getProducts.find(product => product.id == props.id);
+      const products = getProducts.find(product => product.id == props.id);
       return {
-        product
+        products
       }
     }
   }
