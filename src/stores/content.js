@@ -44,9 +44,13 @@ export const useContentStore = defineStore('content', {
         const res = await api.get(`shop/admin/category/${id_store}`)
         const resCategories = res.data.categories
         this.categories = resCategories
-        resCategories.forEach(function(item) {
-          const product = api.get(`shop/admin/product/${id_store}/categories/${item.id}`)
-          this.products.push(product);
+      } catch (err) {
+        console.error(err)
+      }
+      try {
+        this.categories.forEach(function(item) {
+          const itemAdd = api.get(`shop/admin/product/${id_store}/categories/${item.id}`)
+          this.products.push(itemAdd);
         });
       } catch (err) {
         console.error(err)
