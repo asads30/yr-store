@@ -35,7 +35,7 @@
     computed: {
       ...mapState(useContentStore, {
         categories: 'getCategories',
-        anonse: 'getData'
+        anonse: 'getStoreInfo'
       })
     },
     components: {
