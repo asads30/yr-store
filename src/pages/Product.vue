@@ -51,7 +51,7 @@
     },
     setup(props){
       const store = useContentStore()
-      const { getProducts } = storeToRefs(store)
+      const { getProducts } = store
       const product = getProducts.find(product => product.id == props.id);
       return {
         product
