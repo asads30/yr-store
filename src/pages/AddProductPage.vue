@@ -106,7 +106,7 @@
         message: 'Товар добавлен',
         position: 'top-right'
       })
-      router.go(-1)
+      window.location.href = 'https://yr-store.netlify.app/#/main'
     } catch (error) {
       $q.notify({
         type: 'negative',

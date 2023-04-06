@@ -13,7 +13,7 @@
       <div class="category__content">
         <div class="category-title">{{ product?.name }}</div>
         <div class="category__des">{{ product?.description }}</div>
-        <div class="category__price">{{ product?.price.toLocaleString() }} ₽</div>
+        <div class="category__price">{{ product?.price.toLocaleString()/100 }} ₽</div>
       </div>
     </div>
     <router-link to="/add-product" class="category__item category__not">
