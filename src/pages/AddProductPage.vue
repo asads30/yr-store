@@ -106,7 +106,9 @@
         message: 'Товар добавлен',
         position: 'top-right'
       })
-      window.location.href = 'https://yr-store.netlify.app/#/main'
+      setTimeout(() => {
+        window.location.href = 'https://yr-store.netlify.app/#/main'
+      }, 1000);
     } catch (error) {
       $q.notify({
         type: 'negative',
