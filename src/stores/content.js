@@ -42,15 +42,12 @@ export const useContentStore = defineStore('content', {
     async fetchCategories() {
       try {
         const res = await api.get(`shop/admin/category/${id_store}`)
-        this.categories = res.data.categories
-      } catch (err) {
-        console.error(err)
-      }
-    },
-    async fetchProducts() {
-      try {
-        const res = await api.get(`shop/admin/product/${id_store}`)
-        this.products = res.data.products
+        const resCategories = res.data.categories
+        this.categories = resCategories
+        resCategories.forEach(function(item) {
+          const product = api.get(`shop/admin/product/${id_store}/categories/${item.id}`)
+          this.products.push(product);
+        });
       } catch (err) {
         console.error(err)
       }

@@ -74,7 +74,7 @@
   const price = ref('')
   const category = ref('')
   const comment_after_buy = ref('')
-  const { getCategories, getData, addProduct, fetchData } = store
+  const { getCategories, getData, addProduct, fetchCategories } = store
   const categories = [
     {
       label: 'test',
@@ -107,7 +107,7 @@
         position: 'top-right'
       })
       try {
-        fetchData()
+        fetchCategories()
       } catch (error) {
         console.log(error)
       }
