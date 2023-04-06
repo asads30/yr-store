@@ -55,13 +55,29 @@
       description: description.value
     }
     try {
-      store.addAnonse(anonse)
-      $q.notify({
-        type: 'positive',
-        message: 'Анонс добавлен',
-        position: 'top-right'
-      })
-      router.push('/main')
+      const add_anonse = store.addAnonse(anonse);
+      if(add_anonse == 'success'){
+        $q.notify({
+          type: 'positive',
+          message: 'Анонс добавлен',
+          position: 'top-right'
+        })
+        router.push('/main')
+      } else if(add_anonse == 'error') {
+        $q.notify({
+          type: 'negative',
+          message: 'Ошибка при изменении',
+          position: 'top-right'
+        })
+        router.push('/main')
+      } else{
+        $q.notify({
+          type: 'negative',
+          message: add_anonse,
+          position: 'top-right'
+        })
+        router.push('/main')
+      }
     } catch (error) {
       $q.notify({
         type: 'negative',

@@ -66,7 +66,7 @@ function onSubmit (){
       store.addCategory(category)
     } catch (error) {
       $q.notify({
-        type: 'positive',
+        type: 'negative',
         message: error,
         position: 'top-right'
       })

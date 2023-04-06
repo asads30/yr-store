@@ -57,10 +57,13 @@ export const useContentStore = defineStore('content', {
         await api.patch(`shop/admin/shop/${id_store}`, anonse).then((response) => {
           if(response.status == 200){
             this.addAnonse = true
+            return 'success'
+          } else{
+            return 'error'
           }
         })
       } catch (err) {
-        console.error(err)
+        return err
       }
     },
     async addCategory(category) {
