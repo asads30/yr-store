@@ -106,7 +106,7 @@
         message: 'Товар добавлен',
         position: 'top-right'
       })
-      router.go('/main')
+      router.go(-1)
     } catch (error) {
       $q.notify({
         type: 'negative',
