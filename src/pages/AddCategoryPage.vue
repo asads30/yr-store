@@ -48,19 +48,18 @@
           description: this.description
         }
         try {
-          await api.patch(`shop/admin/category/${id_store}`, category).then((response) => {
-            if(response.status == 200 || response.status === 304){
-              this.$router.push('/main');
-              this.$q.notify({
-                type: 'positive',
-                message: 'Категория добавлена',
-                position: 'top-right'
-              });
-              setTimeout(() => {
-                window.location.href = 'https://yr-store.netlify.app/#/main'
-              }, 1000);
-            }
-          })
+          const response = await api.post(`shop/admin/category/${id_store}`, category)
+          if(response.status == 200 || response.status === 304){
+            this.$router.push('/main');
+            this.$q.notify({
+              type: 'positive',
+              message: 'Категория добавлена',
+              position: 'top-right'
+            });
+            setTimeout(() => {
+              window.location.href = 'https://yr-store.netlify.app/#/main'
+            }, 1000);
+          }
         } catch (err) {
           this.$q.notify({
             type: 'negative',
