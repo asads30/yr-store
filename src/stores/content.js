@@ -90,10 +90,15 @@ export const useContentStore = defineStore('content', {
     },
     async updateCategory(category) {
       try {
-        await api.patch(`shop/admin/category/${id_store}/${category.id}`, category)
-        this.category = category
+        const result = await api.patch(`shop/admin/category/${id_store}/${category.id}`, category)
+        if(result.status == 200){
+          this.category = category
+          return 'success'
+        } else {
+          return 'error'
+        }
       } catch (err) {
-        console.error(err)
+        return 'error'
       }
     },
     clearCategory(){

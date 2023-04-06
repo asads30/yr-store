@@ -64,13 +64,22 @@
           id: getCategory.id
         }
         try {
-          $store.updateCategory(category)
-          $q.notify({
-            type: 'positive',
-            message: 'Категория изменена',
-            position: 'top-right'
-          })
-          $router.push('/main')
+          const result = $store.updateCategory(category)
+          if(result == 'success'){
+            $q.notify({
+              type: 'positive',
+              message: 'Категория изменена',
+              position: 'top-right'
+            })
+            $router.push('/main')
+          } else {
+            $q.notify({
+              type: 'negative',
+              message: 'Ошибка.'
+            })
+            $router.push('/main')
+          }
+
         } catch (error) {
           $q.notify({
             type: 'negative',
