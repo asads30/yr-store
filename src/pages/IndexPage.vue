@@ -18,14 +18,22 @@
   </q-page>
 </template>
 
-<script setup>
-  import { useRoute } from 'vue-router'
-  const route = useRoute()
-  const id = route.params.id
-  // const tg = window.Telegram.WebApp
-  // tg.expand()
-  // tg.enableClosingConfirmation()
-  localStorage.setItem('id_store', 'fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5')
-  localStorage.setItem('init_data', 'query_id=AAG5iwoXAAAAALmLCheEvkf-&user=%7B%22id%22%3A386567097%2C%22first_name%22%3A%22Asadbek%22%2C%22last_name%22%3A%22Ibragimov%22%2C%22username%22%3A%22wpbrouz%22%2C%22language_code%22%3A%22ru%22%2C%22is_premium%22%3Atrue%7D&auth_date=1680790119&hash=89f3a9372e59626f8d0c57fa946b8433eed41f24a5726d0596feda281b97f910')
-  // localStorage.setItem('user_id', tg.initDataUnsafe.user.id)
+<script>
+  import { mapActions } from 'pinia'
+
+  export default{
+    name: 'IndexPage',
+    methods: {
+      ...mapActions(useContentStore, ['fetchData']),
+    },
+    mounted(){
+      // const id = this.$route.params.id
+      // const tg = window.Telegram.WebApp
+      // tg.expand()
+      // tg.enableClosingConfirmation()
+      // localStorage.setItem('user_id', tg.initDataUnsafe.user.id)
+      localStorage.setItem('id_store', 'fefc4f1e4705752a99644bd7769776e5049303a4c35131a512bedeaca59b3cd5')
+      localStorage.setItem('init_data', 'query_id=AAG5iwoXAAAAALmLCheEvkf-&user=%7B%22id%22%3A386567097%2C%22first_name%22%3A%22Asadbek%22%2C%22last_name%22%3A%22Ibragimov%22%2C%22username%22%3A%22wpbrouz%22%2C%22language_code%22%3A%22ru%22%2C%22is_premium%22%3Atrue%7D&auth_date=1680790119&hash=89f3a9372e59626f8d0c57fa946b8433eed41f24a5726d0596feda281b97f910')
+    }
+  }
 </script>

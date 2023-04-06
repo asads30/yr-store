@@ -35,7 +35,7 @@
     computed: {
       ...mapState(useContentStore, {
         categories: 'getCategories',
-        anonse: 'getStoreInfo'
+        storeInfo: 'getStoreInfo'
       })
     },
     components: {
@@ -67,7 +67,7 @@
         text: 'ДАЛЕЕ'
       });
       tg.onEvent('mainButtonClicked', this.goAdd)
-      console.log(this.anonse)
+      console.log(this.storeInfo)
     },
     unmounted(){
       window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAdd)
