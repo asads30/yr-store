@@ -41,7 +41,6 @@ const { addAnonse } = storeToRefs(store)
 const { fetchCategories } = store
 const { fetchData } = store
 const { fetchCategory } = store
-const { fetchProducts } = store
 const categories = getCategories
 const tg = window.Telegram.WebApp
 if(addAnonse === false){
@@ -58,7 +57,6 @@ tg.BackButton.hide()
 onMounted(() => {
   fetchCategories()
   fetchData()
-  fetchProducts()
 })
 function goAddAnonse(){
   router.push('/add-anons')

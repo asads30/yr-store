@@ -42,20 +42,15 @@ export const useContentStore = defineStore('content', {
     async fetchCategories() {
       try {
         const res = await api.get(`shop/admin/category/${id_store}`)
-        const resCategories = res.data.categories
-        this.categories = resCategories
+        this.categories = res.data.categories
       } catch (err) {
         console.error(err)
       }
     },
     async fetchProducts() {
       try {
-        if(this.categories.length > 0){
-          this.categories.forEach(item => {
-            const res = api.get(`shop/admin/product/${id_store}/categories/${item.id}`)
-            this.products = res.data.products
-          })
-        }
+        const res = await api.get(`shop/admin/product/${id_store}`)
+        this.products = res.data.products
       } catch (err) {
         console.error(err)
       }
@@ -65,13 +60,10 @@ export const useContentStore = defineStore('content', {
         await api.patch(`shop/admin/shop/${id_store}`, anonse).then((response) => {
           if(response.status == 200){
             this.addAnonse = true
-            return 'success'
-          } else{
-            return 'error'
           }
         })
       } catch (err) {
-        return err
+        console.error(err)
       }
     },
     async addCategory(category) {

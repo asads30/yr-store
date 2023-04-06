@@ -31,12 +31,24 @@
 </template>
 
 <script>
-  import { useContentStore } from 'stores/content'
-
+  import { api } from 'boot/axios'
   export default {
     name: 'Product',
+    data() {
+      return {
+        products: []
+      }
+    },
     props: {
       id: Number
+    },
+    mounted() {
+      const id_store = localStorage.getItem('id_store')
+      api.get(`shop/admin/product/${id_store}/categories/${this.id}`).then((response => {
+        this.products = response.data.products
+      })).catch((error) => {
+        console.log(error)
+      })
     },
     methods: {
       background (buffer) {
@@ -49,13 +61,5 @@
         return 'data:image/png;base64,' + window.btoa( binary )
       }
     },
-    setup(props){
-      const store = useContentStore()
-      const { getProducts } = store
-      const products = getProducts.find(product => product.id == props.id);
-      return {
-        products
-      }
-    }
   }
 </script>
