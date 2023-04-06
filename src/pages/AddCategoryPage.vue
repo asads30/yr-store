@@ -30,67 +30,56 @@
   </q-page>
 </template>
 
-<script setup>
-import { onMounted } from "vue"
-import { ref } from 'vue'
-import { useContentStore } from 'stores/content'
-import { useRouter } from 'vue-router'
-import { useQuasar } from 'quasar'
-const store = useContentStore()
-const router = useRouter()
-const $q = useQuasar()
-const name = ref('')
-const description = ref('')
-const tg = window.Telegram.WebApp
-const { clearCategory } = store
-tg.MainButton.show()
-tg.BackButton.show()
-tg.MainButton.enable()
-tg.MainButton.setParams({
-  color: '#280064',
-  text_color: '#fff',
-  text: 'ОПУБЛИКОВАТЬ'
-})
-tg.onEvent('mainButtonClicked', onSubmit)
-tg.onEvent('backButtonClicked', goMain)
-onMounted(() => {
-  clearCategory()
-})
-function onSubmit (){
-  const category = {
-    name: name.value,
-    description: description.value
-  }
-  try {
-    try {
-      store.addCategory(category)
-    } catch (error) {
-      $q.notify({
-        type: 'negative',
-        message: error,
-        position: 'top-right'
-      })
+<script>
+  import { api } from 'boot/axios'
+  import { id_store } from 'boot/helpers'
+  import { mapActions } from 'pinia'
+  export default {
+    data() {
+      return {
+        name: '',
+        description: ''
+      }
+    },
+    methods: {
+      async goAdd(){
+        const category = {
+          name: this.name,
+          description: this.description
+        }
+        try {
+          await api.patch(`shop/admin/category/${id_store}`, category).then((response) => {
+            if(response.status == 200 || response.status === 304){
+              this.$router.push('/main');
+              this.$q.notify({
+                type: 'positive',
+                message: 'Категория добавлена',
+                position: 'top-right'
+              });
+              setTimeout(() => {
+                window.location.href = 'https://yr-store.netlify.app/#/main'
+              }, 1000);
+            }
+          })
+        } catch (err) {
+          this.$q.notify({
+            type: 'negative',
+            message: err,
+            position: 'top-right'
+          });
+        }
+      }
+    },
+    mounted(){
+      const tg = window.Telegram.WebApp;
+      tg.MainButton.setParams({
+        color: '#280064',
+        text_color: '#fff',
+        text: 'СОХРАНИТЬ'
+      });
+      tg.onEvent('mainButtonClicked', this.goSave)
     }
-    $q.notify({
-      type: 'positive',
-      message: 'Категория добавлена',
-      position: 'top-right'
-    })
-    router.push('/main')
-  } catch (error) {
-    $q.notify({
-      type: 'negative',
-      message: error
-    })
   }
-  tg.offEvent('mainButtonClicked', onSubmit)
-  tg.offEvent('backButtonClicked', goMain)
-}
-function goMain(){
-  router.push('/main')
-  tg.offEvent('mainButtonClicked', onSubmit)
-  tg.offEvent('backButtonClicked', goMain)
-}
 </script>
 
 <style lang="scss" scoped>

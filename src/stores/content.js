@@ -46,17 +46,6 @@ export const useContentStore = defineStore('content', {
         console.error(err)
       }
     },
-    async addAnonse(anonse) {
-      try {
-        await api.patch(`shop/admin/shop/${id_store}`, anonse).then((response) => {
-          if(response.status == 200){
-            this.fetchData()
-          }
-        })
-      } catch (err) {
-        console.error(err)
-      }
-    },
     async addCategory(category) {
       try {
         await api.post(`shop/admin/category/${id_store}`, category)

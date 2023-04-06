@@ -48,6 +48,11 @@
           await api.patch(`shop/admin/shop/${id_store}`, anonse).then((response) => {
             if(response.status == 200 || response.status === 304){
               this.$router.push('/main');
+              this.$q.notify({
+                type: 'positive',
+                message: 'Категория добавлена',
+                position: 'top-right'
+              });
             }
           })
         } catch (err) {
