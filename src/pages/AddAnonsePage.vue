@@ -57,7 +57,7 @@
         } catch (err) {
           this.$q.notify({
             type: 'negative',
-            message: err,
+            message: 'Ошибка сервера',
             position: 'top-right'
           });
         }

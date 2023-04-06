@@ -63,7 +63,7 @@
         } catch (err) {
           this.$q.notify({
             type: 'negative',
-            message: err,
+            message: 'Ошибка сервера',
             position: 'top-right'
           });
         }
@@ -74,9 +74,9 @@
       tg.MainButton.setParams({
         color: '#280064',
         text_color: '#fff',
-        text: 'СОХРАНИТЬ'
+        text: 'Добавить'
       });
-      tg.onEvent('mainButtonClicked', this.goSave)
+      tg.onEvent('mainButtonClicked', this.goAdd)
     }
   }
 </script>
