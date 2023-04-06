@@ -51,8 +51,10 @@
 
 <script>
   import { mapState } from 'pinia'
+  import { useContentStore } from '../stores/content'
   import { api } from 'boot/axios'
   import { id_store } from 'boot/helpers'
+
   export default {
     name: 'AddProductPage',
     data() {
