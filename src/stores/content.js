@@ -47,11 +47,15 @@ export const useContentStore = defineStore('content', {
       } catch (err) {
         console.error(err)
       }
+    },
+    async fetchProducts() {
       try {
-        this.categories.forEach(function(item) {
-          const itemAdd = api.get(`shop/admin/product/${id_store}/categories/${item.id}`)
-          this.products.push(itemAdd);
-        });
+        if(this.categories.length > 0){
+          this.categories.forEach(item => {
+            const res = api.get(`shop/admin/product/${id_store}/categories/${item.id}`)
+            this.products = res.data.products
+          })
+        }
       } catch (err) {
         console.error(err)
       }
