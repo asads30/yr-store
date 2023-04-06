@@ -32,8 +32,10 @@
 <script>
   import { useQuasar } from 'quasar'
   import { useRouter } from 'vue-router'
+  import { useRoute } from 'vue-route'
   import { useContentStore } from 'stores/content'
   import { onMounted, ref } from 'vue'
+  import { api } from 'boot/axios'
   export default {
     setup () {
       const $q = useQuasar()
@@ -42,9 +44,13 @@
       const description = ref('')
       const { getCategory } = $store
       const $router = useRouter()
+      const $route = useRoute()
       onMounted(() => {
-        name.value = getCategory?.name
-        description.value = getCategory?.description
+        const id_store = localStorage.getItem('id_store');
+        const id = $route.params.id
+        const current = api.get(`shop/admin/category/${id_store}/${id}`)
+        name.value = current.data?.name
+        description.value = current.data?.description
         const tg = window.Telegram.WebApp
         tg.MainButton.show()
         tg.MainButton.enable()
@@ -58,10 +64,11 @@
         tg.onEvent('backButtonClicked', goMain)
       })
       function onSubmit() {
+        const categoryId = $route.params.id
         const category = {
           name: name.value,
           description: description.value,
-          id: getCategory.id
+          id: categoryId
         }
         try {
           const result = $store.updateCategory(category)

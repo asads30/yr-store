@@ -16,6 +16,7 @@
         </div>
         <Product :id="category?.id" />
       </div>
+      <button @click="loadMore" class="category__load" v-if="categories.length > 10">Показать еще</button>
       <router-link to="/add-category" class="category__add">
         <div class="category__add-icon">
           <img src="~assets/add.svg" alt="">
@@ -69,5 +70,8 @@ function editCat(id){
     console.log(error)
   }
   router.push('/category/' + id)
+}
+function loadMore(){
+  fetchCategories(20);
 }
 </script>
