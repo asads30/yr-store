@@ -33,8 +33,8 @@
 <script>
   import { api } from 'boot/axios'
   import { id_store } from 'boot/helpers'
-  import { mapActions } from 'pinia'
   export default {
+    name: 'AddCategoryPage',
     data() {
       return {
         name: '',
