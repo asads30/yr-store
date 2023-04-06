@@ -44,83 +44,87 @@
           hint="Максимум 255 символов"
         />
       </div>
-
+      {{ selectCategories }}
     </q-form>
   </q-page>
 </template>
 
-<script setup>
-  import { ref } from 'vue'
-  import { useContentStore } from 'stores/content'
-  import { useRouter } from 'vue-router'
-  import { useQuasar } from 'quasar'
-  const store = useContentStore()
-  const router = useRouter()
-  const $q = useQuasar()
-  const tg = window.Telegram.WebApp
-  tg.MainButton.show()
-  tg.MainButton.enable()
-  tg.MainButton.setParams({
-    color: '#280064',
-    text_color: '#fff',
-    text: 'ОПУБЛИКОВАТЬ'
-  })
-  tg.BackButton.show()
-  tg.onEvent('mainButtonClicked', onSubmit)
-  tg.onEvent('backButtonClicked', goMain)
-  const name = ref('')
-  const description = ref('')
-  const image = ref(null)
-  const price = ref('')
-  const category = ref('')
-  const comment_after_buy = ref('')
-  const { getCategories, getData, addProduct } = store
-  const categories = [
-    {
-      label: 'test',
-      value: 1
+<script>
+  import { mapState } from 'pinia'
+  import { api } from 'boot/axios'
+  import { id_store } from 'boot/helpers'
+  export default {
+    name: 'AddProductPage',
+    data() {
+      return {
+        name: '',
+        description: '',
+        image: null,
+        price: '',
+        category: null,
+        comment_after_buy: '',
+        categories: []
+      }
+    },
+    computed: {
+      ...mapState(useContentStore, {
+        categoriesGet: 'getCategories',
+        selectCategories: 'getSelectCategories',
+        getData: 'getData'
+      }),
+      getCategories(){
+        categoriesGet.filter((value) => {
+          const item = {
+            label: value.name,
+            value: value.id
+          }
+          categories.push(item)
+        })
+      }
+    },
+    methods: {
+      async goAddProduct(){
+        var formdata = new FormData();
+        let userid = localStorage.getItem('user_id')
+        formdata.append("name", this.name);
+        formdata.append("image", this.image);
+        formdata.append("description", this.description);
+        formdata.append("price", this.price*100);
+        formdata.append("channel_id", getData?.id);
+        formdata.append("comment_after_buy", this.comment_after_buy);
+        formdata.append("userId", userid);
+        formdata.append("category_id", this.category.value);
+        try {
+          const response = await api.post(`shop/admin/product/${id_store}`, formdata)
+          if(response.status == 200 || response.status === 304){
+            this.$router.push('/main');
+            this.$q.notify({
+              type: 'positive',
+              message: 'Товар добавлен',
+              position: 'top-right'
+            });
+            setTimeout(() => {
+              window.location.href = 'https://yr-store.netlify.app/#/main'
+            }, 1000);
+          }
+        } catch (err) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Ошибка сервера',
+            position: 'top-right'
+          });
+        }
+      }
+    },
+    mounted(){
+      const tg = window.Telegram.WebApp;
+      tg.MainButton.setParams({
+        color: '#280064',
+        text_color: '#fff',
+        text: 'ОПУБЛИКОВАТЬ'
+      });
+      tg.onEvent('mainButtonClicked', this.goAddProduct)
+      this.getCategories();
     }
-  ]
-  getCategories.filter((value, index) => {
-    const item = {
-      label: value.name,
-      value: value.id
-    }
-    categories.push(item)
-  })
-  function onSubmit (){
-    var formdata = new FormData();
-    let userid = localStorage.getItem('user_id')
-    formdata.append("name", name.value);
-    formdata.append("image", image.value);
-    formdata.append("description", description.value);
-    formdata.append("price", price.value*100);
-    formdata.append("channel_id", getData?.id);
-    formdata.append("comment_after_buy", comment_after_buy.value);
-    formdata.append("userId", userid);
-    formdata.append("category_id", category.value.value);
-    try {
-      addProduct(formdata)
-      $q.notify({
-        type: 'positive',
-        message: 'Товар добавлен',
-        position: 'top-right'
-      })
-      setTimeout(() => {
-        window.location.href = 'https://yr-store.netlify.app/#/main'
-      }, 1000);
-    } catch (error) {
-      $q.notify({
-        type: 'negative',
-        message: error
-      })
-    }
-    tg.offEvent('mainButtonClicked', onSubmit)
-    tg.offEvent('backButtonClicked', goMain)
-  }
-  function goMain(){
-    router.push('/main')
-    tg.offEvent('mainButtonClicked', onSubmit)
-    tg.offEvent('backButtonClicked', goMain)
   }
 </script>

@@ -6,7 +6,8 @@ export const useContentStore = defineStore('content', {
   state: () => ({
     data: null,
     categories: [],
-    products: []
+    products: [],
+    selectCategories: []
   }),
 
   getters: {
@@ -18,6 +19,16 @@ export const useContentStore = defineStore('content', {
     },
     getProducts(state) {
       return state.products
+    },
+    getSelectCategories(state) {
+      state.categories.filter((value) => {
+        const item = {
+          label: value.name,
+          value: value.id
+        }
+        selectCategories.push(item)
+      })
+      return state.selectCategories
     }
   },
 
