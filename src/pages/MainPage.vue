@@ -69,7 +69,7 @@
       tg.onEvent('mainButtonClicked', this.goAdd)
     },
     unmounted(){
-      tg.offEvent('mainButtonClicked', this.goAdd)
+      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAdd)
     }
   }
 </script>
