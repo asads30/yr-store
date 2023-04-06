@@ -71,16 +71,7 @@
       ...mapState(useContentStore, {
         allCats: 'getCategories',
         getData: 'getData'
-      }),
-      getCategories(){
-        this.allCats.filter((value) => {
-          const item = {
-            label: value.name,
-            value: value.id
-          }
-          this.categories.push(item)
-        })
-      }
+      })
     },
     methods: {
       async goAddProduct(){
@@ -114,6 +105,15 @@
             position: 'top-right'
           });
         }
+      },
+      getCategories(){
+        this.allCats.filter((value) => {
+          const item = {
+            label: value.name,
+            value: value.id
+          }
+          this.categories.push(item)
+        })
       }
     },
     mounted(){
