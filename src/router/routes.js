@@ -28,14 +28,6 @@ const routes = [
   },
 
   {
-    path: '/edit-anons',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/EditAnonsePage.vue') }
-    ]
-  },
-
-  {
     path: '/add-category',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -64,6 +56,15 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/EditCategoryPage.vue') }
+    ],
+    props: true
+  },
+
+  {
+    path: '/product/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EditProduct.vue') }
     ],
     props: true
   },

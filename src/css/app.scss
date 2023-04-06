@@ -194,6 +194,8 @@ body{
     }
     &__item{
       width: calc(50% - 8px);
+      color: #000;
+      text-decoration: none;
     }
     &__img{
       border-top-left-radius: 12px;
@@ -297,4 +299,10 @@ body{
 }
 .q-field{
   padding-bottom: 30px;
+}
+.form-product{
+  overflow-y: scroll;
+}
+.delete-product{
+  padding-bottom: 20px;
 }

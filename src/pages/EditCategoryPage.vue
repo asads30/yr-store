@@ -1,8 +1,8 @@
 <template>
-  <q-page class="anonse">
+  <q-page class="flex flex-start justify-between column anonse">
     <q-form
       @submit="onSubmit"
-      class="anonse-form"
+      class="anonse-form flex flex-start justify-between column"
     >
       <div class="anonse-main">
         <div class="page-title">
@@ -11,9 +11,10 @@
         <q-input
           outlined
           v-model="name"
-          label="Название"
+          label="Название *"
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите название']"
+          hint="Максимум 128 символов"
         />
         <q-input
           outlined
@@ -21,8 +22,8 @@
           v-model="description"
           label="Описание *"
           lazy-rules
-          hint="Максимум 255 символов"
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
+          hint="Максимум 255 символов"
         />
       </div>
     </q-form>
@@ -30,80 +31,79 @@
 </template>
 
 <script>
-  import { useQuasar } from 'quasar'
-  import { useRoute } from 'vue-router'
-  import { useContentStore } from 'stores/content'
-  import { onMounted, ref } from 'vue'
   import { api } from 'boot/axios'
+  import { id_store } from 'boot/helpers'
   export default {
-    setup () {
-      const $q = useQuasar()
-      const $store = useContentStore()
-      const name = ref('')
-      const description = ref('')
-      const { getCategory } = $store
-      const $route = useRoute()
-      onMounted(() => {
-        const id_store = localStorage.getItem('id_store');
-        const id = $route.params.id
-        const current = api.get(`shop/admin/category/${id_store}/${id}`)
-        name.value = current.data?.name
-        description.value = current.data?.description
-        const tg = window.Telegram.WebApp
-        tg.MainButton.show()
-        tg.MainButton.enable()
-        tg.MainButton.setParams({
-          color: '#280064',
-          text_color: '#fff',
-          text: 'СОХРАНИТЬ'
-        })
-        tg.BackButton.show()
-        tg.onEvent('mainButtonClicked', onSubmit)
-        tg.onEvent('backButtonClicked', goMain)
-      })
-      function onSubmit() {
-        const categoryId = $route.params.id
+    name: 'EditCategoryPage',
+    data() {
+      return {
+        name: '',
+        description: ''
+      }
+    },
+    methods: {
+      async goEditCategory(){
         const category = {
-          name: name.value,
-          description: description.value,
-          id: categoryId
+          name: this.name,
+          description: this.description
         }
+        const id = this.$route.params.id;
         try {
-          const result = $store.updateCategory(category)
-          if(result == 'success'){
-            $q.notify({
+          const response = await api.patch(`shop/admin/category/${id_store}/${id}`, category)
+          if(response.status == 200 || response.status === 304){
+            this.$router.push('/main');
+            this.$q.notify({
               type: 'positive',
               message: 'Категория изменена',
               position: 'top-right'
-            })
-            $route.push('/main')
-          } else {
-            $q.notify({
-              type: 'negative',
-              message: 'Ошибка.'
-            })
-            $route.push('/main')
+            });
+            setTimeout(() => {
+              window.location.href = 'https://yr-store.netlify.app/#/main'
+            }, 1000);
           }
-
-        } catch (error) {
-          $q.notify({
+        } catch (err) {
+          this.$q.notify({
             type: 'negative',
-            message: 'Ошибка.'
-          })
+            message: 'Ошибка сервера',
+            position: 'top-right'
+          });
         }
-        tg.offEvent('mainButtonClicked', onSubmit)
-        tg.offEvent('backButtonClicked', goMain)
+      },
+      goBackCategoryEdit(){
+        this.$route.push('/main')
+      },
+      async fetchEditCategory(){
+        const id = this.$route.params.id;
+        try {
+          const res = await api.get(`shop/admin/category/${id_store}/${id}`);
+          if(res.status == 200 || res.status === 304){
+            this.name = res.data.name;
+            this.description = res.data.description;
+          }
+        } catch (error) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Ошибка сервера',
+            position: 'top-right'
+          });
+        }
       }
-      function goMain(){
-        $route.push('/main')
-        tg.offEvent('mainButtonClicked', onSubmit)
-        tg.offEvent('backButtonClicked', goMain)
-      }
-      return {
-        name,
-        description,
-        category: getCategory
-      }
+    },
+    mounted(){
+      this.fetchEditCategory();
+      const tg = window.Telegram.WebApp;
+      tg.MainButton.setParams({
+        color: '#280064',
+        text_color: '#fff',
+        text: 'СОХРАНИТЬ'
+      });
+      tg.BackButton.show();
+      tg.onEvent('mainButtonClicked', this.goEditCategory)
+      tg.onEvent('backButtonClicked', this.goBackCategoryEdit);
+    },
+    unmounted(){
+      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditCategory)
+      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategoryEdit)
     }
   }
 </script>
@@ -112,20 +112,17 @@
   .anonse{
     padding: 12px;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
   .anonse-form{
     height: calc(100vh - 112px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
   .page-title>h3{
     margin: 0 0 25px;
     font-size: 18px;
     font-weight: 700;
     line-height: 20px;
+  }
+  .q-field{
+    padding-bottom: 30px;
   }
 </style>

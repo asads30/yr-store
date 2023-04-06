@@ -5,8 +5,9 @@
       size="3em"
       v-if="loading"
     />
-    <div
+    <router-link
       class="category__item"
+      :to="'/product/' + product.id"
       v-for="product in products"
       :key="product?.id"
       v-else
@@ -20,7 +21,7 @@
         <div class="category__des">{{ product?.description }}</div>
         <div class="category__price">{{ product?.price/100 }} ₽</div>
       </div>
-    </div>
+    </router-link>
     <router-link to="/add-product" class="category__item category__not">
       <div class="category__img category__not-img"></div>
       <div class="category__content category__not-content">

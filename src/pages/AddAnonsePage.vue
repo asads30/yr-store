@@ -67,6 +67,9 @@
       connectInfo(){
         this.name = this.storeInfo.name;
         this.description = this.storeInfo.description;
+      },
+      goBack(){
+        this.$route.push('/main')
       }
     },
     computed: {
@@ -81,8 +84,14 @@
         text_color: '#fff',
         text: 'СОХРАНИТЬ'
       });
+      tg.BackButton.show();
       tg.onEvent('mainButtonClicked', this.goSave);
+      tg.onEvent('backButtonClicked', this.goBack);
       this.connectInfo();
+    },
+    unmounted(){
+      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goSave)
+      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBack)
     }
   }
 </script>

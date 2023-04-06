@@ -42,7 +42,7 @@
       }
     },
     methods: {
-      async goAdd(){
+      async goAddCategory(){
         const category = {
           name: this.name,
           description: this.description
@@ -67,6 +67,9 @@
             position: 'top-right'
           });
         }
+      },
+      goBackCategory(){
+        this.$route.push('/main')
       }
     },
     mounted(){
@@ -74,9 +77,15 @@
       tg.MainButton.setParams({
         color: '#280064',
         text_color: '#fff',
-        text: 'Добавить'
+        text: 'ДОБАВИТЬ'
       });
-      tg.onEvent('mainButtonClicked', this.goAdd)
+      tg.BackButton.show();
+      tg.onEvent('mainButtonClicked', this.goAddCategory);
+      tg.onEvent('backButtonClicked', this.goBackCategory);
+    },
+    unmounted(){
+      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddCategory)
+      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategory)
     }
   }
 </script>

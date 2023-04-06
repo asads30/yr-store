@@ -5,7 +5,7 @@
     >
       <div class="anonse-main">
         <div class="page-title">
-          <h3>Добавление товара</h3>
+          <h3>Изменение товара</h3>
         </div>
         <q-input
           outlined
@@ -23,7 +23,7 @@
           hint="Максимум 255 символов"
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
-        <q-file outlined v-model="image" label="Фотография товара" />
+        <q-file outlined v-model="new_image" label="Фотография (новая)" />
         <q-input
           outlined
           v-model="price"
@@ -32,7 +32,6 @@
           :rules="[ val => val && val.length > 0 && val > 0 || 'Пожалуйста, введите цену']"
           hint="Минимум 1 рубль"
         />
-        <q-select outlined v-model="category" :options="categories" label="Категория" />
         <div class="add-custom"></div>
         <div class="add-title">Покупатель получит это после совершения покупки</div>
         <q-input
@@ -43,42 +42,43 @@
           lazy-rules
           hint="Максимум 255 символов"
         />
+        <div class="delete-product">
+          <q-btn color="red" label="Удалить товар" @click="deleteProduct" class="full-width" />
+        </div>
       </div>
     </q-form>
   </q-page>
 </template>
 
 <script>
-  import { mapState } from 'pinia'
-  import { useContentStore } from '../stores/content'
   import { api } from 'boot/axios'
   import { id_store } from 'boot/helpers'
+  import { mapState } from 'pinia'
+  import { useContentStore } from '../stores/content'
 
   export default {
-    name: 'AddProductPage',
+    name: 'EditProductPage',
     data() {
       return {
         name: '',
         description: '',
-        image: null,
+        new_image: null,
         price: '',
-        category: null,
         comment_after_buy: '',
-        categories: []
       }
     },
     computed: {
       ...mapState(useContentStore, {
-        allCats: 'categories',
         storeInfo: 'storeinfo'
       })
     },
     methods: {
-      async goAddProduct(){
+      async goEditProduct(){
         var formdata = new FormData();
         let userid = localStorage.getItem('user_id')
+        const id = this.$route.params.id;
         formdata.append("name", this.name);
-        formdata.append("image", this.image);
+        formdata.append("image", this.new_image);
         formdata.append("description", this.description);
         formdata.append("price", this.price*100);
         formdata.append("channel_id", this.storeInfo?.id);
@@ -86,12 +86,12 @@
         formdata.append("userId", userid);
         formdata.append("category_id", this.category.value);
         try {
-          const response = await api.post(`shop/admin/product/${id_store}`, formdata)
+          const response = await api.patch(`shop/admin/product/${id_store}/${id}`, formdata)
           if(response.status == 200 || response.status === 304){
             this.$router.push('/main');
             this.$q.notify({
               type: 'positive',
-              message: 'Товар добавлен',
+              message: 'Товар изменен',
               position: 'top-right'
             });
             setTimeout(() => {
@@ -106,34 +106,67 @@
           });
         }
       },
-      getCategories(){
-        this.allCats.filter((value) => {
-          const item = {
-            label: value.name,
-            value: value.id
-          }
-          this.categories.push(item)
-        })
-      },
-      goBack(){
+      goBackEditProduct(){
         this.$route.push('/main')
+      },
+      async fetchEditProduct(){
+        const id = this.$route.params.id;
+        try {
+          const res = await api.get(`shop/admin/product/${id_store}/products/${id}`);
+          if(res.status == 200 || res.status === 304){
+            this.name = res.data.name;
+            this.description = res.data.description;
+            this.price = res.data.price/100;
+            this.category = res.data.category;
+            this.comment_after_buy = res.data.comment_after_buy;
+          }
+        } catch (error) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Ошибка сервера',
+            position: 'top-right'
+          });
+        }
+      },
+      async deleteProduct(){
+        const id = this.$route.params.id;
+        try {
+          const res = await api.patch(`shop/admin/product/${id_store}/${id}?status=0`);
+          if(res.status == 200 || res.status === 304){
+            this.$router.push('/main');
+            this.$q.notify({
+              type: 'positive',
+              message: 'Товар удален',
+              position: 'top-right'
+            });
+            setTimeout(() => {
+              window.location.href = 'https://yr-store.netlify.app/#/main'
+            }, 1000);
+          }
+        } catch (error) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Ошибка сервера',
+            position: 'top-right'
+          });
+        }
       }
     },
     mounted(){
+      this.fetchEditProduct();
       const tg = window.Telegram.WebApp;
       tg.MainButton.setParams({
         color: '#280064',
         text_color: '#fff',
-        text: 'ОПУБЛИКОВАТЬ'
+        text: 'СОХРАНИТЬ'
       });
       tg.BackButton.show();
-      tg.onEvent('mainButtonClicked', this.goAddProduct)
-      tg.onEvent('backButtonClicked', this.goBackProduct)
-      this.getCategories();
+      tg.onEvent('mainButtonClicked', this.goEditProduct);
+      tg.onEvent('backButtonClicked', this.goBackEditProduct);
     },
     unmounted(){
-      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddProduct)
-      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackProduct)
+      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
+      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
     }
   }
 </script>
