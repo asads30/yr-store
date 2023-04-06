@@ -67,6 +67,7 @@
         text: 'ДАЛЕЕ'
       });
       tg.onEvent('mainButtonClicked', this.goAdd)
+      console.log(this.anonse)
     },
     unmounted(){
       window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAdd)
