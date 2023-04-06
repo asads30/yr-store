@@ -31,8 +31,7 @@
 
 <script>
   import { useQuasar } from 'quasar'
-  import { useRouter } from 'vue-router'
-  import { useRoute } from 'vue-route'
+  import { useRoute } from 'vue-router'
   import { useContentStore } from 'stores/content'
   import { onMounted, ref } from 'vue'
   import { api } from 'boot/axios'
@@ -43,7 +42,6 @@
       const name = ref('')
       const description = ref('')
       const { getCategory } = $store
-      const $router = useRouter()
       const $route = useRoute()
       onMounted(() => {
         const id_store = localStorage.getItem('id_store');
@@ -78,13 +76,13 @@
               message: 'Категория изменена',
               position: 'top-right'
             })
-            $router.push('/main')
+            $route.push('/main')
           } else {
             $q.notify({
               type: 'negative',
               message: 'Ошибка.'
             })
-            $router.push('/main')
+            $route.push('/main')
           }
 
         } catch (error) {
@@ -97,7 +95,7 @@
         tg.offEvent('backButtonClicked', goMain)
       }
       function goMain(){
-        $router.push('/main')
+        $route.push('/main')
         tg.offEvent('mainButtonClicked', onSubmit)
         tg.offEvent('backButtonClicked', goMain)
       }

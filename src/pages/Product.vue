@@ -1,10 +1,15 @@
 <template>
   <div class="category__list">
+    <q-spinner
+      color="primary"
+      size="3em"
+      v-if="loading"
+    />
     <div
       class="category__item"
       v-for="product in products"
       :key="product?.id"
-      v-show="products"
+      v-else
     >
       <div
         class="category__img"
@@ -36,7 +41,8 @@
     name: 'Product',
     data() {
       return {
-        products: []
+        products: [],
+        loading: true
       }
     },
     props: {
@@ -45,6 +51,7 @@
     mounted() {
       const id_store = localStorage.getItem('id_store')
       api.get(`shop/admin/product/${id_store}/categories/${this.id}`).then((response => {
+        this.loading = false
         this.products = response.data.products
       })).catch((error) => {
         console.log(error)

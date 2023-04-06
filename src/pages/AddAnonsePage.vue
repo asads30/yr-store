@@ -28,68 +28,45 @@
   </q-page>
 </template>
 
-<script setup>
-  import { ref } from 'vue'
-  import { useContentStore } from 'stores/content'
-  import { useRouter } from 'vue-router'
-  import { useQuasar } from 'quasar'
-  const store = useContentStore()
-  const router = useRouter()
-  const $q = useQuasar()
-  const name = ref('')
-  const description = ref('')
-  const tg = window.Telegram.WebApp
-  tg.MainButton.show()
-  tg.MainButton.enable()
-  tg.MainButton.setParams({
-    color: '#280064',
-    text_color: '#fff',
-    text: 'СОХРАНИТЬ'
-  })
-  tg.BackButton.show()
-  tg.onEvent('mainButtonClicked', onSubmit)
-  tg.onEvent('backButtonClicked', goMain)
-  function onSubmit (){
-    const anonse = {
-      name: name.value,
-      description: description.value
-    }
-    try {
-      const add_anonse = store.addAnonse(anonse);
-      if(add_anonse == 'success'){
-        $q.notify({
-          type: 'positive',
-          message: 'Анонс добавлен',
-          position: 'top-right'
-        })
-        router.push('/main')
-      } else if(add_anonse == 'error') {
-        $q.notify({
-          type: 'negative',
-          message: 'Ошибка при изменении',
-          position: 'top-right'
-        })
-        router.push('/main')
-      } else{
-        $q.notify({
-          type: 'negative',
-          message: add_anonse,
-          position: 'top-right'
-        })
-        router.push('/main')
+<script>
+  import { api } from 'boot/axios'
+  import { id_store } from 'boot/helpers'
+  export default {
+    data() {
+      return {
+        name: '',
+        description: ''
       }
-    } catch (error) {
-      $q.notify({
-        type: 'negative',
-        message: error
-      })
+    },
+    methods: {
+      async goSave(){
+        const anonse = {
+          name: this.name,
+          description: this.description
+        }
+        try {
+          await api.patch(`shop/admin/shop/${id_store}`, anonse).then((response) => {
+            if(response.status == 200 || response.status === 304){
+              this.$router.push('/main');
+            }
+          })
+        } catch (err) {
+          this.$q.notify({
+            type: 'negative',
+            message: err,
+            position: 'top-right'
+          });
+        }
+      }
+    },
+    mounted(){
+      const tg = window.Telegram.WebApp;
+      tg.MainButton.setParams({
+        color: '#280064',
+        text_color: '#fff',
+        text: 'СОХРАНИТЬ'
+      });
+      tg.onEvent('mainButtonClicked', this.goSave)
     }
-    tg.offEvent('mainButtonClicked', onSubmit)
-    tg.offEvent('backButtonClicked', goMain)
-  }
-  function goMain(){
-    router.push('/main')
-    tg.offEvent('mainButtonClicked', onSubmit)
-    tg.offEvent('backButtonClicked', goMain)
   }
 </script>

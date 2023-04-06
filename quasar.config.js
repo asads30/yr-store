@@ -51,11 +51,13 @@ module.exports = configure(function (ctx) {
         'Cookies',
         'LocalStorage',
         'SessionStorage',
-        'Loading'
+        'Loading',
+        'LoadingBar'
       ],
       config: {
         notify: {},
-        loading: {}
+        loading: {},
+        loadingBar: {}
       }
     },
     animations: [],

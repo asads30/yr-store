@@ -6,10 +6,7 @@ export const useContentStore = defineStore('content', {
   state: () => ({
     data: null,
     categories: [],
-    category: null,
-    products: [],
-    product: null,
-    addAnonse: false
+    products: []
   }),
 
   getters: {
@@ -21,12 +18,6 @@ export const useContentStore = defineStore('content', {
     },
     getProducts(state) {
       return state.products
-    },
-    getCategory(state){
-      return state.category
-    },
-    getProduct(state){
-      return state.product
     }
   },
 
@@ -41,7 +32,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchCategories() {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}?page=1&pageSize=30`)
+        const res = await api.get(`shop/admin/category/${id_store}?page=1&pageSize=100`)
         this.categories = res.data.categories
       } catch (err) {
         console.error(err)
@@ -49,7 +40,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchProducts() {
       try {
-        const res = await api.get(`shop/admin/product/${id_store}`)
+        const res = await api.get(`shop/admin/product/${id_store}?page=1&pageSize=100`)
         this.products = res.data.products
       } catch (err) {
         console.error(err)
@@ -59,7 +50,7 @@ export const useContentStore = defineStore('content', {
       try {
         await api.patch(`shop/admin/shop/${id_store}`, anonse).then((response) => {
           if(response.status == 200){
-            this.addAnonse = true
+            this.fetchData()
           }
         })
       } catch (err) {
