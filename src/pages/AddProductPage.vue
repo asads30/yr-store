@@ -44,7 +44,6 @@
           hint="Максимум 255 символов"
         />
       </div>
-      {{ selectCategories }}
     </q-form>
   </q-page>
 </template>
@@ -70,17 +69,16 @@
     },
     computed: {
       ...mapState(useContentStore, {
-        categoriesGet: 'getCategories',
-        selectCategories: 'getSelectCategories',
+        allCats: 'getCategories',
         getData: 'getData'
       }),
       getCategories(){
-        categoriesGet.filter((value) => {
+        this.allCats.filter((value) => {
           const item = {
             label: value.name,
             value: value.id
           }
-          categories.push(item)
+          this.categories.push(item)
         })
       }
     },
