@@ -54,7 +54,8 @@ tg.MainButton.setParams({
 })
 tg.onEvent('mainButtonClicked', goAddAnonse)
 tg.BackButton.hide()
-onMounted(() => {
+onMounted(async () => {
+  await router.isReady()
   fetchCategories()
   fetchData()
 })
