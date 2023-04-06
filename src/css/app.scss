@@ -7,17 +7,17 @@ body{
 }
 
 ::-webkit-scrollbar-track {
-    background-color: rgb(40, 88, 247, 0.05);
+    background-color: rgba(251, 123, 255, 0.05);
 }
 
 ::-webkit-scrollbar {
-    width: 1px;
-    height: 1px;
-    background-color: rgb(40, 88, 247, 0.05);
+    width: 2px;
+    height: 2px;
+    background-color: rgba(225, 78, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(49, 118, 246, 0.4);
+    background-color: rgba(118, 31, 175, 0.4);
 }
 
 .layout{

@@ -29,6 +29,8 @@
 </template>
 
 <script>
+  import { mapState } from 'pinia'
+  import { useContentStore } from '../stores/content'
   import { api } from 'boot/axios'
   import { id_store } from 'boot/helpers'
   export default {
@@ -61,7 +63,16 @@
             position: 'top-right'
           });
         }
+      },
+      connectInfo(){
+        this.name = this.storeInfo.name;
+        this.description = this.storeInfo.description;
       }
+    },
+    computed: {
+      ...mapState(useContentStore, {
+        storeInfo: 'getStoreInfo'
+      })
     },
     mounted(){
       const tg = window.Telegram.WebApp;
@@ -70,7 +81,8 @@
         text_color: '#fff',
         text: 'СОХРАНИТЬ'
       });
-      tg.onEvent('mainButtonClicked', this.goSave)
+      tg.onEvent('mainButtonClicked', this.goSave);
+      this.connectInfo();
     }
   }
 </script>

@@ -21,13 +21,6 @@ export const useContentStore = defineStore('content', {
       return state.products
     },
     getSelectCategories(state) {
-      state.categories.filter((value) => {
-        const item = {
-          label: value.name,
-          value: value.id
-        }
-        selectCategories.push(item)
-      })
       return state.selectCategories
     }
   },

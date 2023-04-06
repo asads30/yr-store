@@ -64,10 +64,9 @@
       tg.MainButton.setParams({
         color: '#280064',
         text_color: '#fff',
-        text: 'ДАЛЕЕ'
+        text: 'АНОНС'
       });
       tg.onEvent('mainButtonClicked', this.goAdd)
-      console.log(this.storeInfo)
     },
     unmounted(){
       window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAdd)
