@@ -46,7 +46,7 @@
       ...mapActions(useContentStore, ['fetchCategories']),
       ...mapActions(useContentStore, ['fetchProducts']),
       goAdd(){
-        this.$router.push('/add-anons')
+        this.$router.push('/add-anons');
       }
     },
     beforeCreate(){

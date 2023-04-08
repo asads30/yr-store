@@ -107,7 +107,7 @@
         }
       },
       goBackEditProduct(){
-        this.$route.push('/main')
+        this.$router.push({ path: '/main' })
       },
       async fetchEditProduct(){
         const id = this.$route.params.id;
@@ -163,10 +163,6 @@
       tg.BackButton.show();
       tg.onEvent('mainButtonClicked', this.goEditProduct);
       tg.onEvent('backButtonClicked', this.goBackEditProduct);
-    },
-    unmounted(){
-      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
-      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
     }
   }
 </script>

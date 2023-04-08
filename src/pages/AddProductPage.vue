@@ -115,8 +115,8 @@
           this.categories.push(item)
         })
       },
-      goBack(){
-        this.$route.push('/main')
+      goBackProduct(){
+        this.$router.push({ path: '/main' })
       }
     },
     mounted(){
@@ -127,13 +127,9 @@
         text: 'ОПУБЛИКОВАТЬ'
       });
       tg.BackButton.show();
-      tg.onEvent('mainButtonClicked', this.goAddProduct)
-      tg.onEvent('backButtonClicked', this.goBackProduct)
+      tg.onEvent('mainButtonClicked', this.goAddProduct);
+      tg.onEvent('backButtonClicked', this.goBackProduct);
       this.getCategories();
-    },
-    unmounted(){
-      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddProduct)
-      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackProduct)
     }
   }
 </script>

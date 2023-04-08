@@ -70,7 +70,7 @@
         }
       },
       goBackCategoryEdit(){
-        this.$route.push('/main')
+        this.$router.push({ path: '/main' })
       },
       async fetchEditCategory(){
         const id = this.$route.params.id;
@@ -98,12 +98,8 @@
         text: 'СОХРАНИТЬ'
       });
       tg.BackButton.show();
-      tg.onEvent('mainButtonClicked', this.goEditCategory)
+      tg.onEvent('mainButtonClicked', this.goEditCategory);
       tg.onEvent('backButtonClicked', this.goBackCategoryEdit);
-    },
-    unmounted(){
-      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditCategory)
-      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategoryEdit)
     }
   }
 </script>
