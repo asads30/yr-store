@@ -69,7 +69,7 @@
         this.description = this.storeInfo.description;
       },
       goBack(){
-        this.$route.push('/main')
+        this.$router.push({ path: '/main' })
       }
     },
     computed: {
@@ -88,10 +88,6 @@
       tg.onEvent('mainButtonClicked', this.goSave);
       tg.onEvent('backButtonClicked', this.goBack);
       this.connectInfo();
-    },
-    unmounted(){
-      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goSave)
-      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBack)
     }
   }
 </script>

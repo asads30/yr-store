@@ -69,7 +69,7 @@
         }
       },
       goBackCategory(){
-        this.$route.push('/main')
+        this.$router.push({ path: '/main' })
       }
     },
     mounted(){
@@ -82,10 +82,6 @@
       tg.BackButton.show();
       tg.onEvent('mainButtonClicked', this.goAddCategory);
       tg.onEvent('backButtonClicked', this.goBackCategory);
-    },
-    unmounted(){
-      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddCategory)
-      window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategory)
     }
   }
 </script>

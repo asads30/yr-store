@@ -58,18 +58,8 @@
       this.fetchProducts();
       this.$q.loading.hide();
       const tg = window.Telegram.WebApp;
-      tg.MainButton.show();
-      tg.MainButton.enable();
+      tg.MainButton.hide();
       tg.BackButton.hide();
-      tg.MainButton.setParams({
-        color: '#280064',
-        text_color: '#fff',
-        text: 'АНОНС'
-      });
-      tg.onEvent('mainButtonClicked', this.goAdd)
-    },
-    unmounted(){
-      window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAdd)
     }
   }
 </script>
