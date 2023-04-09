@@ -121,6 +121,8 @@
     },
     mounted(){
       const tg = window.Telegram.WebApp;
+      tg.MainButton.show();
+      tg.MainButton.enable();
       tg.MainButton.setParams({
         color: '#280064',
         text_color: '#fff',
