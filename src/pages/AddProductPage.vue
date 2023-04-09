@@ -105,6 +105,8 @@
             position: 'top-right'
           });
         }
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddProduct);
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackProduct);
       },
       getCategories(){
         this.allCats.filter((value) => {
@@ -116,7 +118,9 @@
         })
       },
       goBackProduct(){
-        this.$router.push({ path: '/main' })
+        this.$router.push({ path: '/main' });
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddProduct);
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackProduct);
       }
     },
     mounted(){

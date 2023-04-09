@@ -105,9 +105,13 @@
             position: 'top-right'
           });
         }
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
       },
       goBackEditProduct(){
-        this.$router.push({ path: '/main' })
+        this.$router.push({ path: '/main' });
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
       },
       async fetchEditProduct(){
         const id = this.$route.params.id;
@@ -131,7 +135,7 @@
       async deleteProduct(){
         const id = this.$route.params.id;
         try {
-          const res = await api.patch(`shop/admin/product/${id_store}/${id}?status=0`);
+          const res = await api.patch(`shop/admin/product/${id_store}/${id}/?status=0`);
           if(res.status == 200 || res.status === 304){
             this.$router.push('/main');
             this.$q.notify({
@@ -150,6 +154,8 @@
             position: 'top-right'
           });
         }
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
       }
     },
     mounted(){

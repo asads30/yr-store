@@ -68,9 +68,13 @@
             position: 'top-right'
           });
         }
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditCategory);
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategoryEdit);
       },
       goBackCategoryEdit(){
-        this.$router.push({ path: '/main' })
+        this.$router.push({ path: '/main' });
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditCategory);
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategoryEdit);
       },
       async fetchEditCategory(){
         const id = this.$route.params.id;

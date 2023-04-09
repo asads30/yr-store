@@ -67,9 +67,13 @@
             position: 'top-right'
           });
         }
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategory);
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddCategory);
       },
       goBackCategory(){
-        this.$router.push({ path: '/main' })
+        this.$router.push({ path: '/main' });
+        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackCategory);
+        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddCategory);
       }
     },
     mounted(){
