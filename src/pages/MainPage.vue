@@ -42,7 +42,6 @@
       Product
     },
     methods: {
-      ...mapActions(useContentStore, ['fetchData']),
       ...mapActions(useContentStore, ['fetchCategories']),
       ...mapActions(useContentStore, ['fetchProducts']),
       goAdd(){
@@ -53,7 +52,6 @@
       this.$q.loading.show();
     },
     mounted(){
-      this.fetchData();
       this.fetchCategories();
       this.fetchProducts();
       this.$q.loading.hide();
