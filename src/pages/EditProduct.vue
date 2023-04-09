@@ -23,7 +23,6 @@
           hint="Максимум 255 символов"
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
-        <q-file outlined v-model="new_image" label="Фотография (новая)" />
         <q-input
           outlined
           v-model="price"
@@ -62,7 +61,6 @@
       return {
         name: '',
         description: '',
-        new_image: null,
         price: '',
         comment_after_buy: '',
       }
@@ -78,7 +76,6 @@
         let userid = localStorage.getItem('user_id')
         const id = this.$route.params.id;
         formdata.append("name", this.name);
-        formdata.append("image", this.new_image);
         formdata.append("description", this.description);
         formdata.append("price", this.price*100);
         formdata.append("channel_id", this.storeInfo?.id);
@@ -134,8 +131,11 @@
       },
       async deleteProduct(){
         const id = this.$route.params.id;
+        const deleteProduct = {
+          status: 0
+        }
         try {
-          const res = await api.patch(`shop/admin/product/${id_store}/${id}/?status=0`);
+          const res = await api.patch(`shop/admin/product/${id_store}/${id}`, deleteProduct);
           if(res.status == 200 || res.status === 304){
             this.$router.push('/main');
             this.$q.notify({
