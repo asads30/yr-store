@@ -65,10 +65,10 @@
         const data = {
           name: this.name,
           description: this.description,
-          price: this.price
+          price: this.price*100
         }
         try {
-          const response = await api.patch(`shop/admin/product/${id_store}/${id}`, data)
+          const response = await api.patch(`shop/admin/product/${id_store}/${id}?name=${data.name}&description=${data.description}&price=${data.price}`, data)
           if(response.status == 200 || response.status === 304){
             this.$router.push('/main');
             this.$q.notify({
