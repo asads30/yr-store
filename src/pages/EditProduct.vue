@@ -70,7 +70,7 @@
         formdata.append("channel_id", this.storeInfo?.id);
         formdata.append("userId", userid);
         try {
-          const response = await api.patch(`shop/admin/product/${id_store}/${id}?name=${this.name}?description=${this.description}?price=${this.price}`, formdata)
+          const response = await api.patch(`shop/admin/product/${id_store}/${id}?name=${this.name}&?description=${this.description}&?price=${this.price}`, formdata)
           if(response.status == 200 || response.status === 304){
             this.$router.push('/main');
             this.$q.notify({
