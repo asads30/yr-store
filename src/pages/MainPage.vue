@@ -42,6 +42,7 @@
       Product
     },
     methods: {
+      ...mapActions(useContentStore, ['fetchData']),
       ...mapActions(useContentStore, ['fetchCategories']),
       ...mapActions(useContentStore, ['fetchProducts']),
       goAdd(){
@@ -54,6 +55,7 @@
     mounted(){
       this.fetchCategories();
       this.fetchProducts();
+      this.fetchData();
       this.$q.loading.hide();
       const tg = window.Telegram.WebApp;
       tg.MainButton.hide();
