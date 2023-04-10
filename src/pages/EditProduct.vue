@@ -61,16 +61,14 @@
     },
     methods: {
       async goEditProduct(){
-        var formdata = new FormData();
-        let userid = localStorage.getItem('user_id')
         const id = this.$route.params.id;
-        formdata.append("name", this.name);
-        formdata.append("description", this.description);
-        formdata.append("price", this.price*100);
-        formdata.append("channel_id", this.storeInfo?.id);
-        formdata.append("userId", userid);
+        const data = {
+          name: this.name,
+          description: this.description,
+          price: this.price
+        }
         try {
-          const response = await api.patch(`shop/admin/product/${id_store}/${id}?name=${this.name}&?description=${this.description}&?price=${this.price}`, formdata)
+          const response = await api.patch(`shop/admin/product/${id_store}/${id}`, data)
           if(response.status == 200 || response.status === 304){
             this.$router.push('/main');
             this.$q.notify({
