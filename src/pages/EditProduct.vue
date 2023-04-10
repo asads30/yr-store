@@ -31,16 +31,6 @@
           :rules="[ val => val && val.length > 0 && val > 0 || 'Пожалуйста, введите цену']"
           hint="Минимум 1 рубль"
         />
-        <div class="add-custom"></div>
-        <div class="add-title">Покупатель получит это после совершения покупки</div>
-        <q-input
-          outlined
-          type="textarea"
-          v-model="comment_after_buy"
-          label="Сообщение для покупателя"
-          lazy-rules
-          hint="Максимум 255 символов"
-        />
         <div class="delete-product">
           <q-btn color="red" label="Удалить товар" @click="deleteProduct" class="full-width" />
         </div>
@@ -61,8 +51,7 @@
       return {
         name: '',
         description: '',
-        price: '',
-        comment_after_buy: '',
+        price: ''
       }
     },
     computed: {
@@ -79,9 +68,7 @@
         formdata.append("description", this.description);
         formdata.append("price", this.price*100);
         formdata.append("channel_id", this.storeInfo?.id);
-        formdata.append("comment_after_buy", this.comment_after_buy);
         formdata.append("userId", userid);
-        formdata.append("category_id", this.category.value);
         try {
           const response = await api.patch(`shop/admin/product/${id_store}/${id}`, formdata)
           if(response.status == 200 || response.status === 304){
@@ -118,8 +105,6 @@
             this.name = res.data.name;
             this.description = res.data.description;
             this.price = res.data.price/100;
-            this.category = res.data.category;
-            this.comment_after_buy = res.data.comment_after_buy;
           }
         } catch (error) {
           this.$q.notify({
