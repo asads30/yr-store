@@ -58,6 +58,9 @@
       loadMore(){
         if (this.length > this.categories.length) return;
         this.length = this.length + 3;
+      },
+      goClose(){
+        window.Telegram.WebApp.close();
       }
     },
     beforeCreate(){
@@ -67,7 +70,13 @@
       this.fetchCategories();
       this.$q.loading.hide();
       const tg = window.Telegram.WebApp;
-      tg.MainButton.hide();
+      tg.MainButton.setParams({
+        color: '#280064',
+        text_color: '#fff',
+        text: 'ЗАКРЫТЬ'
+      });
+      tg.BackButton.show();
+      tg.onEvent('mainButtonClicked', this.goClose);
       tg.BackButton.hide();
     }
   }
