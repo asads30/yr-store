@@ -16,7 +16,6 @@
         />
         <q-input
           outlined
-          type="textarea"
           v-model="description"
           label="Описание *"
           lazy-rules
@@ -37,7 +36,6 @@
         <div class="add-title">Покупатель получит это после совершения покупки</div>
         <q-input
           outlined
-          type="textarea"
           v-model="comment_after_buy"
           label="Сообщение для покупателя"
           lazy-rules
