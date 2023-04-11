@@ -41,6 +41,7 @@
           lazy-rules
           hint="Максимум 255 символов"
         />
+        <input type="text" placeholder="fdsfdsfd">
       </div>
     </q-form>
   </q-page>
