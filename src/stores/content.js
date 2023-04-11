@@ -17,9 +17,15 @@ export const useContentStore = defineStore('content', {
     getCategories (state) {
       return state.categories
     },
+    getAllCategories (state) {
+      return state.categories
+    },
     getProducts(state) {
       const activeProducts = state.products.filter((product) => product.status == 1)
       return activeProducts
+    },
+    getProductsById: (state) => {
+      return (productId) => state.products.find((product) => product.id === productId)
     },
     getSelectCategories(state) {
       return state.selectCategories

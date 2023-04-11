@@ -3,7 +3,7 @@
     <div class="categories">
       <div
         class="category"
-        v-for="category in categories"
+        v-for="category in cats"
         :key="category?.id"
       >
         <div class="category__top">
@@ -15,6 +15,7 @@
         </div>
         <Product :id="category?.id" />
       </div>
+      <q-btn color="blue" label="Загрузить еще" @click="loadMore" class="full-width load-more" v-if="length < categories.length" />
       <router-link to="/add-category" class="category__add">
         <div class="category__add-icon">
           <img src="~assets/add.svg" alt="">
@@ -32,21 +33,31 @@
   import { useContentStore } from '../stores/content'
   import Product from './Product'
   export default {
+    data() {
+      return {
+        length: 5
+      }
+    },
     computed: {
       ...mapState(useContentStore, {
         categories: 'getCategories',
         storeInfo: 'getStoreInfo'
-      })
+      }),
+      cats() {
+        return this.categories.slice(0, this.length);
+      },
     },
     components: {
       Product
     },
     methods: {
-      ...mapActions(useContentStore, ['fetchData']),
       ...mapActions(useContentStore, ['fetchCategories']),
-      ...mapActions(useContentStore, ['fetchProducts']),
       goAdd(){
         this.$router.push('/add-anons');
+      },
+      loadMore(){
+        if (this.length > this.categories.length) return;
+        this.length = this.length + 3;
       }
     },
     beforeCreate(){
@@ -54,8 +65,6 @@
     },
     mounted(){
       this.fetchCategories();
-      this.fetchProducts();
-      this.fetchData();
       this.$q.loading.hide();
       const tg = window.Telegram.WebApp;
       tg.MainButton.hide();
