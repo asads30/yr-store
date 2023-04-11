@@ -75,7 +75,7 @@
         text_color: '#fff',
         text: 'ЗАКРЫТЬ'
       });
-      tg.BackButton.show();
+      tg.MainButton.show();
       tg.onEvent('mainButtonClicked', this.goClose);
       tg.BackButton.hide();
     }
