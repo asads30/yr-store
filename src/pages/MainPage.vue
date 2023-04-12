@@ -70,6 +70,8 @@
       this.fetchCategories();
       this.$q.loading.hide();
       const tg = window.Telegram.WebApp;
+      tg.MainButton.hide();
+      tg.BackButton.hide();
       // tg.MainButton.show();
       // tg.MainButton.enable();
       // tg.MainButton.setParams({
@@ -78,7 +80,6 @@
       //   text: 'ГОТОВО'
       // });
       // tg.onEvent('mainButtonClicked', this.goClose);
-      tg.BackButton.hide();
     }
   }
 </script>
