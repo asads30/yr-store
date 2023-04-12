@@ -59,9 +59,9 @@
         if (this.length > this.categories.length) return;
         this.length = this.length + 3;
       },
-      goClose(){
-        window.Telegram.WebApp.close();
-      }
+      // goClose(){
+      //   window.Telegram.WebApp.close();
+      // }
     },
     beforeCreate(){
       this.$q.loading.show();
@@ -70,13 +70,14 @@
       this.fetchCategories();
       this.$q.loading.hide();
       const tg = window.Telegram.WebApp;
-      tg.MainButton.setParams({
-        color: '#280064',
-        text_color: '#fff',
-        text: 'ГОТОВО'
-      });
-      tg.MainButton.show();
-      tg.onEvent('mainButtonClicked', this.goClose);
+      // tg.MainButton.show();
+      // tg.MainButton.enable();
+      // tg.MainButton.setParams({
+      //   color: '#280064',
+      //   text_color: '#fff',
+      //   text: 'ГОТОВО'
+      // });
+      // tg.onEvent('mainButtonClicked', this.goClose);
       tg.BackButton.hide();
     }
   }

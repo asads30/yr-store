@@ -1,7 +1,6 @@
 <template>
   <q-page class="flex flex-start justify-between column anonse">
     <q-form
-      @submit="onSubmit"
       class="anonse-form flex flex-start justify-between column"
     >
       <div class="anonse-main">
