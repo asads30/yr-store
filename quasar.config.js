@@ -36,11 +36,11 @@ module.exports = configure(function (ctx) {
       port: 8080,
       open: true,
       proxy: {
-        '/zapi': {
+        '/api': {
           target: 'http://89.108.71.13:3000/',
           changeOrigin: true,
           pathRewrite: {
-            '^/zapi': ''
+            '^/api': ''
           }
         }
       }
