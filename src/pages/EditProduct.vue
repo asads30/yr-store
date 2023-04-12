@@ -1,7 +1,6 @@
 <template>
   <q-page class="anonse form-product">
     <q-form
-      @submit="goEditProduct"
       class="q-form anonse-form"
     >
       <div class="anonse-main">
@@ -139,6 +138,8 @@
     mounted(){
       this.fetchEditProduct();
       const tg = window.Telegram.WebApp;
+      tg.MainButton.show();
+      tg.MainButton.enable();
       tg.MainButton.setParams({
         text: 'СОХРАНИТЬ'
       });
