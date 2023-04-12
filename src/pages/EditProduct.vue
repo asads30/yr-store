@@ -87,13 +87,9 @@
             position: 'top-right'
           });
         }
-        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
-        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
       },
       goBackEditProduct(){
         this.$router.push({ path: '/main' });
-        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
-        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
       },
       async fetchEditProduct(){
         const id = this.$route.params.id;
@@ -137,8 +133,6 @@
             position: 'top-right'
           });
         }
-        window.Telegram.WebApp.offEvent('mainButtonClicked', this.goEditProduct);
-        window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackEditProduct);
       }
     },
     mounted(){

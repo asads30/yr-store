@@ -73,7 +73,7 @@
       tg.MainButton.setParams({
         color: '#280064',
         text_color: '#fff',
-        text: 'ЗАКРЫТЬ'
+        text: 'ГОТОВО'
       });
       tg.MainButton.show();
       tg.onEvent('mainButtonClicked', this.goClose);
