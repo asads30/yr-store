@@ -24,6 +24,9 @@
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
           hint="Максимум 255 символов"
         />
+        <div class="delete-product">
+          <q-btn color="red" label="Удалить категорию" @click="deleteCategory" class="full-width" />
+        </div>
       </div>
     </q-form>
   </q-page>
@@ -82,6 +85,32 @@
           if(res.status == 200 || res.status === 304){
             this.name = res.data.name;
             this.description = res.data.description;
+          }
+        } catch (error) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Ошибка сервера',
+            position: 'top-right'
+          });
+        }
+      },
+      async deleteCategory(){
+        const id = this.$route.params.id;
+        const deleteCategory = {
+          status: 0
+        }
+        try {
+          const res = await api.patch(`shop/admin/category/${id_store}/${id}`, deleteCategory);
+          if(res.status == 200 || res.status === 304){
+            this.$router.push('/main');
+            this.$q.notify({
+              type: 'positive',
+              message: 'Категория удалена',
+              position: 'top-right'
+            });
+            setTimeout(() => {
+              window.location.href = 'https://myyarmarka.ru/#/main'
+            }, 1000);
           }
         } catch (error) {
           this.$q.notify({

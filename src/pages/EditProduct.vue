@@ -123,7 +123,7 @@
               position: 'top-right'
             });
             setTimeout(() => {
-              window.location.href = 'https://yr-store.netlify.app/#/main'
+              window.location.href = 'https://myyarmarka.ru/#/main'
             }, 1000);
           }
         } catch (error) {
