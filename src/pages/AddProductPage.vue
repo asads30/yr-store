@@ -30,6 +30,7 @@
           lazy-rules
           :rules="[ val => val && val.length > 0 && val > 0 || 'Пожалуйста, введите цену']"
           hint="Минимум 1 рубль"
+          v-on:keyup="setNum"
         />
         <q-select outlined v-model="category" :options="categories" label="Категория" />
         <div class="add-custom"></div>
@@ -59,7 +60,7 @@
         name: '',
         description: '',
         image: null,
-        price: '',
+        price: 0,
         category: null,
         comment_after_buy: '',
         categories: []
@@ -119,6 +120,10 @@
         this.$router.push({ path: '/main' });
         window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddProduct);
         window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackProduct);
+      },
+      setNum(v) {
+        const val = v.target.value.replace(/[^0-9]/g, "");
+        this.price = val;
       }
     },
     mounted(){
