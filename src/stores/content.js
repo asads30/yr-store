@@ -15,10 +15,12 @@ export const useContentStore = defineStore('content', {
       return state.storeinfo
     },
     getCategories (state) {
-      return state.categories
+      const activeCategories = state.categories.filter((category) => category.status == 1)
+      return activeCategories
     },
     getAllCategories (state) {
-      return state.categories
+      const activeCategories = state.categories.filter((category) => category.status == 1)
+      return activeCategories
     },
     getProducts(state) {
       const activeProducts = state.products.filter((product) => product.status == 1)
