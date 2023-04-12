@@ -68,7 +68,7 @@
     },
     computed: {
       ...mapState(useContentStore, {
-        allCats: 'categories',
+        allCats: 'getAllCategories',
         storeInfo: 'storeinfo'
       })
     },
