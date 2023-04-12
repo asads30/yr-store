@@ -25,6 +25,7 @@
         </div>
       </router-link>
     </div>
+    <button class="quit" @click="goClose">Готово</button>
   </q-page>
 </template>
 
@@ -59,9 +60,9 @@
         if (this.length > this.categories.length) return;
         this.length = this.length + 3;
       },
-      // goClose(){
-      //   window.Telegram.WebApp.close();
-      // }
+      goClose(){
+        window.Telegram.WebApp.close();
+      }
     },
     beforeCreate(){
       this.$q.loading.show();
@@ -72,14 +73,12 @@
       const tg = window.Telegram.WebApp;
       tg.MainButton.hide();
       tg.BackButton.hide();
-      // tg.MainButton.show();
-      // tg.MainButton.enable();
-      // tg.MainButton.setParams({
-      //   color: '#280064',
-      //   text_color: '#fff',
-      //   text: 'ГОТОВО'
-      // });
-      // tg.onEvent('mainButtonClicked', this.goClose);
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  .categories{
+    padding-bottom: 55px;
+  }
+</style>
