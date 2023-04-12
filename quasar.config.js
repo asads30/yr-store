@@ -37,7 +37,7 @@ module.exports = configure(function (ctx) {
       open: true,
       proxy: {
         '/api': {
-          target: 'http://90.156.227.182:3000/',
+          target: 'http://89.108.71.13:3000/',
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''
