@@ -40,7 +40,7 @@ module.exports = configure(function (ctx) {
           target: 'http://89.108.71.13:3000/',
           changeOrigin: true,
           pathRewrite: {
-            '^/zapi': ''
+            '^/api': ''
           }
         }
       }
