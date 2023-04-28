@@ -19,7 +19,7 @@
       <div class="category__content">
         <div class="category-title">{{ product?.name }}</div>
         <div class="category__des">{{ product?.description }}</div>
-        <div class="category__price">{{ product?.price/100 }} ₽</div>
+        <div class="category__price">{{ product?.price }} ₽</div>
       </div>
     </router-link>
     <router-link to="/add-product" class="category__item category__not">

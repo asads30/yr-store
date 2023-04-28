@@ -98,7 +98,7 @@
           if(res.status == 200 || res.status === 304){
             this.name = res.data.name;
             this.description = res.data.description;
-            this.price = res.data.price/100;
+            this.price = res.data.price;
           }
         } catch (error) {
           this.$q.notify({
