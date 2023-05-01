@@ -28,8 +28,8 @@
           v-model="price"
           label="Цена *"
           lazy-rules
-          :rules="[ val => val && val.length > 0 && val > 0 || 'Пожалуйста, введите цену']"
-          hint="Минимум 1 рубль"
+          :rules="[ val => val && val.length > 0 && val > 70 || 'Минимальная цена 70 руб']"
+          hint="Минимум 70 рублей"
           v-on:keyup="setNum"
         />
         <q-select outlined v-model="category" :options="categories" label="Категория" />
