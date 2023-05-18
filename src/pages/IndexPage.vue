@@ -24,7 +24,7 @@
   export default{
     name: 'IndexPage',
     methods: {
-      ...mapActions(useContentStore, ['fetchData']),
+      ...mapActions(useContentStore, ['fetchData, fetchCategories']),
       backTelegram(){
         window.Telegram.WebApp.close();
       }
@@ -38,6 +38,7 @@
       localStorage.setItem('id_store', id);
       localStorage.setItem('init_data', tg.initData);
       this.fetchData();
+      this.fetchCategories();
     }
   }
 </script>
