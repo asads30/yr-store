@@ -24,7 +24,7 @@
   export default{
     name: 'IndexPage',
     methods: {
-      ...mapActions(useContentStore, ['fetchData, fetchCategories']),
+      ...mapActions(useContentStore, ['fetchData', 'fetchCategories']),
       backTelegram(){
         window.Telegram.WebApp.close();
       }
