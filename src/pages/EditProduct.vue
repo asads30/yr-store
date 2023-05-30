@@ -94,7 +94,7 @@
       async fetchEditProduct(){
         const id = this.$route.params.id;
         try {
-          const res = await api.get(`shop/admin/product/${id_store}/products/${id}`);
+          const res = await api.get(`shop/admin/product/${id_store}/products/${id}`, { cache: false });
           if(res.status == 200 || res.status === 304){
             this.name = res.data.name;
             this.description = res.data.description;

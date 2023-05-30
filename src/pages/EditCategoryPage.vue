@@ -81,7 +81,7 @@
       async fetchEditCategory(){
         const id = this.$route.params.id;
         try {
-          const res = await api.get(`shop/admin/category/${id_store}/${id}`);
+          const res = await api.get(`shop/admin/category/${id_store}/${id}`, { cache: false });
           if(res.status == 200 || res.status === 304){
             this.name = res.data.name;
             this.description = res.data.description;
