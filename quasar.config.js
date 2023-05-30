@@ -37,7 +37,7 @@ module.exports = configure(function (ctx) {
       open: true,
       proxy: {
         '/api': {
-          target: 'https://wpaka.site/',
+          target: 'http://89.108.71.13:3000/',
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''

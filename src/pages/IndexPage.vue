@@ -39,6 +39,9 @@
       localStorage.setItem('init_data', tg.initData);
       this.fetchData();
       this.fetchCategories();
+    },
+    beforeCreate(){
+      localStorage.clear();
     }
   }
 </script>
