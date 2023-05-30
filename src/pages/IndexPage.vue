@@ -30,6 +30,11 @@
       }
     },
     mounted(){
+      try {
+        localStorage.clear();
+      } catch (error) {
+        console.log(error)
+      }
       const id = this.$route.params.id;
       const tg = window.Telegram.WebApp;
       tg.expand();
@@ -40,7 +45,7 @@
       this.fetchData();
       this.fetchCategories();
     },
-    beforeCreate(){
+    created(){
       localStorage.clear();
     }
   }
