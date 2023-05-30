@@ -24,7 +24,7 @@ module.exports = configure(function (ctx) {
       'roboto-font',
       'material-icons',
     ],
-    preFetch: true,
+    preFetch: false,
     build: {
       vueRouterMode: 'hash',
       chainWebpack () {}
