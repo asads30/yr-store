@@ -45,7 +45,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchCategories() {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}?page=1&pageSize=100`)
+        const res = await api.get(`shop/admin/category/${id_store}`)
         this.categories = res.data.categories
       } catch (err) {
         console.error(err)
