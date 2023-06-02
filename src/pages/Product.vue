@@ -51,7 +51,7 @@
     },
     mounted() {
       const id_store = localStorage.getItem('id_store')
-      api.get(`shop/admin/product/${id_store}/categories/${this.id}`, { cache: false }).then((response => {
+      api.get(`shop/admin/product/${id_store}/categories/${this.id}`).then((response => {
         const activeProducts = response.data.products.filter((product) => product.status == 1)
         this.loading = false
         this.products = activeProducts

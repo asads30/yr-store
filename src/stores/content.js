@@ -37,7 +37,7 @@ export const useContentStore = defineStore('content', {
   actions: {
     async fetchData() {
       try {
-        const res = await api.get(`shop/admin/shop/${id_store}`, { cache: false })
+        const res = await api.get(`shop/admin/shop/${id_store}`)
         this.storeinfo = res.data
       } catch (err) {
         console.error(err)
@@ -45,7 +45,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchCategories() {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}?page=1&pageSize=100`, { cache: false })
+        const res = await api.get(`shop/admin/category/${id_store}?page=1&pageSize=100`)
         this.categories = res.data.categories
       } catch (err) {
         console.error(err)
@@ -53,7 +53,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchProducts() {
       try {
-        const res = await api.get(`shop/admin/product/${id_store}?page=1&pageSize=100`, { cache: false })
+        const res = await api.get(`shop/admin/product/${id_store}?page=1&pageSize=100`)
         this.products = res.data.products
       } catch (err) {
         console.error(err)
@@ -75,7 +75,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchCategory(id) {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}/${id}`, { cache: false })
+        const res = await api.get(`shop/admin/category/${id_store}/${id}`)
         this.category = res.data
       } catch (err) {
         console.error(err)
