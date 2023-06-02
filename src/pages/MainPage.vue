@@ -73,6 +73,12 @@
       const tg = window.Telegram.WebApp;
       tg.MainButton.hide();
       tg.BackButton.hide();
+      if (localStorage.getItem("reload") === "false") {
+        localStorage.removeItem("reload");
+      } else {
+        localStorage.setItem("reload", "false");
+        window.location = window.location;
+      }
     }
   }
 </script>
