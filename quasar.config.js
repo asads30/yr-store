@@ -24,7 +24,7 @@ module.exports = configure(function (ctx) {
       'roboto-font',
       'material-icons',
     ],
-    preFetch: false,
+    preFetch: true,
     build: {
       vueRouterMode: 'hash',
       chainWebpack () {}
@@ -37,7 +37,7 @@ module.exports = configure(function (ctx) {
       open: true,
       proxy: {
         '/api': {
-          target: 'http://89.108.71.13:3000/',
+          target: 'https://wpaka.site/',
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''
