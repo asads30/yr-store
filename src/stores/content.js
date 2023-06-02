@@ -53,7 +53,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchProducts() {
       try {
-        const res = await api.get(`shop/admin/product/${id_store}?page=1&pageSize=100`)
+        const res = await api.get(`shop/admin/product/${id_store}`)
         this.products = res.data.products
       } catch (err) {
         console.error(err)
