@@ -50,6 +50,8 @@ export const useContentStore = defineStore('content', {
       } catch (err) {
         console.error(err)
       }
+      console.log(id_store + '001')
+      console.log(localStorage.getItem('id_store'));
     },
     async fetchProducts() {
       try {
@@ -80,7 +82,6 @@ export const useContentStore = defineStore('content', {
       } catch (err) {
         console.error(err)
       }
-      console.log(id + '001')
     },
     async updateCategory(category) {
       try {
