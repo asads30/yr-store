@@ -37,7 +37,7 @@ export const useContentStore = defineStore('content', {
   actions: {
     async fetchData() {
       try {
-        const res = await api.get(`shop/admin/shop/${id_store}&timestamp=${new Date().getTime()}`)
+        const res = await api.get(`shop/admin/shop/${id_store}`)
         this.storeinfo = res.data
       } catch (err) {
         console.error(err)
@@ -45,7 +45,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchCategories() {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}&timestamp=${new Date().getTime()}`)
+        const res = await api.get(`shop/admin/category/${id_store}`)
         this.categories = res.data.categories
       } catch (err) {
         console.error(err)
@@ -53,7 +53,7 @@ export const useContentStore = defineStore('content', {
     },
     async fetchProducts() {
       try {
-        const res = await api.get(`shop/admin/product/${id_store}&timestamp=${new Date().getTime()}`)
+        const res = await api.get(`shop/admin/product/${id_store}`)
         this.products = res.data.products
       } catch (err) {
         console.error(err)
@@ -61,21 +61,21 @@ export const useContentStore = defineStore('content', {
     },
     async addCategory(category) {
       try {
-        await api.post(`shop/admin/category/${id_store}&timestamp=${new Date().getTime()}`, category)
+        await api.post(`shop/admin/category/${id_store}`, category)
       } catch (err) {
         console.error(err)
       }
     },
     async addProduct(product) {
       try {
-        await api.post(`shop/admin/product/${id_store}&timestamp=${new Date().getTime()}`, product)
+        await api.post(`shop/admin/product/${id_store}`, product)
       } catch (err) {
         console.error(err)
       }
     },
     async fetchCategory(id) {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}/${id}&timestamp=${new Date().getTime()}`)
+        const res = await api.get(`shop/admin/category/${id_store}/${id}`)
         this.category = res.data
       } catch (err) {
         console.error(err)
