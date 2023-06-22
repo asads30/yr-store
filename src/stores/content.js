@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
-import { id_store } from 'boot/helpers'
 
 export const useContentStore = defineStore('content', {
   state: () => ({
@@ -37,7 +36,7 @@ export const useContentStore = defineStore('content', {
   actions: {
     async fetchData() {
       try {
-        const res = await api.get(`shop/admin/shop/${id_store}`)
+        const res = await api.get(`shop/admin/shop/${localStorage.getItem('id_store')}`)
         this.storeinfo = res.data
       } catch (err) {
         console.error(err)
@@ -45,17 +44,15 @@ export const useContentStore = defineStore('content', {
     },
     async fetchCategories() {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}`)
+        const res = await api.get(`shop/admin/category/${localStorage.getItem('id_store')}`)
         this.categories = res.data.categories
       } catch (err) {
         console.error(err)
       }
-      console.log(id_store + '001')
-      console.log(localStorage.getItem('id_store'));
     },
     async fetchProducts() {
       try {
-        const res = await api.get(`shop/admin/product/${id_store}`)
+        const res = await api.get(`shop/admin/product/${localStorage.getItem('id_store')}`)
         this.products = res.data.products
       } catch (err) {
         console.error(err)
@@ -63,21 +60,21 @@ export const useContentStore = defineStore('content', {
     },
     async addCategory(category) {
       try {
-        await api.post(`shop/admin/category/${id_store}`, category)
+        await api.post(`shop/admin/category/${localStorage.getItem('id_store')}`, category)
       } catch (err) {
         console.error(err)
       }
     },
     async addProduct(product) {
       try {
-        await api.post(`shop/admin/product/${id_store}`, product)
+        await api.post(`shop/admin/product/${localStorage.getItem('id_store')}`, product)
       } catch (err) {
         console.error(err)
       }
     },
     async fetchCategory(id) {
       try {
-        const res = await api.get(`shop/admin/category/${id_store}/${id}`)
+        const res = await api.get(`shop/admin/category/${localStorage.getItem('id_store')}/${id}`)
         this.category = res.data
       } catch (err) {
         console.error(err)
@@ -85,7 +82,7 @@ export const useContentStore = defineStore('content', {
     },
     async updateCategory(category) {
       try {
-        const result = await api.patch(`shop/admin/category/${id_store}/${category.id}`, category)
+        const result = await api.patch(`shop/admin/category/${localStorage.getItem('id_store')}/${category.id}`, category)
         if(result.status == 200){
           this.category = category
           return 'success'

@@ -24,13 +24,6 @@
   import { useContentStore } from '../stores/content'
   export default{
     name: 'IndexPage',
-    preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-      console.log(currentRoute + ' 02')
-      console.log(previousRoute + ' 03')
-      console.log(redirect + ' 04')
-      console.log(urlPath + ' 05')
-      console.log(publicPath + ' 06')
-    },
     methods: {
       ...mapActions(useContentStore, ['fetchData', 'fetchCategories']),
       backTelegram(){
