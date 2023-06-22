@@ -13,7 +13,6 @@
       <div class="start__bottom">
         <q-btn outline color="primary" label="Вернуться в Телеграм" class="start__back" @click="backTelegram" />
         <q-btn color="primary" label="Продолжить" class="start__next" to="/main" />
-        <a href="https://myyarmarka.ru/#/main" color="primary" label="Продолжить" class="start__next">Продолжить</a>
       </div>
     </div>
   </q-page>
