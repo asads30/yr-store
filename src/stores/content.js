@@ -80,6 +80,7 @@ export const useContentStore = defineStore('content', {
       } catch (err) {
         console.error(err)
       }
+      console.log(id + '001')
     },
     async updateCategory(category) {
       try {

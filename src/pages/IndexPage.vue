@@ -13,6 +13,7 @@
       <div class="start__bottom">
         <q-btn outline color="primary" label="Вернуться в Телеграм" class="start__back" @click="backTelegram" />
         <q-btn color="primary" label="Продолжить" class="start__next" to="/main" />
+        <a href="https://myyarmarka.ru/#/main" color="primary" label="Продолжить" class="start__next">Продолжить</a>
       </div>
     </div>
   </q-page>
@@ -23,6 +24,13 @@
   import { useContentStore } from '../stores/content'
   export default{
     name: 'IndexPage',
+    preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+      console.log(currentRoute + ' 02')
+      console.log(previousRoute + ' 03')
+      console.log(redirect + ' 04')
+      console.log(urlPath + ' 05')
+      console.log(publicPath + ' 06')
+    },
     methods: {
       ...mapActions(useContentStore, ['fetchData', 'fetchCategories']),
       backTelegram(){
@@ -44,6 +52,7 @@
       localStorage.setItem('init_data', tg.initData);
       this.fetchData();
       this.fetchCategories();
+      console.log(id + ' 01')
     },
     created(){
       localStorage.clear();
