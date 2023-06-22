@@ -45,7 +45,6 @@
       localStorage.setItem('init_data', tg.initData);
       this.fetchData();
       this.fetchCategories();
-      console.log(id + ' 01')
     },
     created(){
       localStorage.clear();
