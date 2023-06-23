@@ -103,12 +103,20 @@
             }, 1000);
           }
         } catch (err) {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Ошибка сервера',
-            position: 'top-right'
-          });
-          console.log(err)
+          
+          if(err.code == 'ERR_BAD_REQUEST'){
+            this.$q.notify({
+              type: 'negative',
+              message: 'Фотография большого размера, попробуйте уменьшить',
+              position: 'top-right'
+            });
+          } else{
+            this.$q.notify({
+              type: 'negative',
+              message: 'Ошибка сервера',
+              position: 'top-right'
+            });
+          }
         }
         window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddProduct);
         window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackProduct);
