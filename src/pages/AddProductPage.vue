@@ -108,6 +108,7 @@
             message: 'Ошибка сервера',
             position: 'top-right'
           });
+          console.log(err)
         }
         window.Telegram.WebApp.offEvent('mainButtonClicked', this.goAddProduct);
         window.Telegram.WebApp.offEvent('backButtonClicked', this.goBackProduct);
