@@ -26,6 +26,7 @@
           outlined 
           v-model="image" 
           label="Фотография товара"
+          hint="Максимальный размер фотографии 512 кб"
           :filter="checkFileSize"
           @rejected="onRejected"
         />
@@ -140,7 +141,7 @@
         this.price = val;
       },
       checkFileSize (files) {
-        return files.filter(file => file.size < 2097152)
+        return files.filter(file => file.size < 524288)
       },
       onRejected (rejectedEntries) {
         this.$q.notify({
