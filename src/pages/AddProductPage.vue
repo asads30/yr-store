@@ -22,7 +22,13 @@
           hint="Максимум 255 символов"
           :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите описание']"
         />
-        <q-file outlined v-model="image" label="Фотография товара" />
+        <q-file 
+          outlined 
+          v-model="image" 
+          label="Фотография товара"
+          :filter="checkFileSize"
+          @rejected="onRejected"
+        />
         <q-input
           outlined
           v-model="price"
@@ -123,6 +129,17 @@
       setNum(v) {
         const val = v.target.value.replace(/[^0-9]/g, "");
         this.price = val;
+      },
+      checkFileSize (files) {
+        return files.filter(file => file.size < 2097152)
+      },
+      onRejected (rejectedEntries) {
+        this.$q.notify({
+          type: 'negative',
+          message: 'Максимальный размер фотографии 1 мб',
+          position: 'top-right'
+        });
+        console.log(rejectedEntries)
       }
     },
     mounted(){
