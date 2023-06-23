@@ -34,7 +34,7 @@
           v-model="price"
           label="Цена *"
           lazy-rules
-          :rules="[ val => val && val.length > 0 && val > 70 || 'Минимальная цена 70 руб']"
+          :rules="[ val => val && val.length > 0 && val > 69 || 'Минимальная цена 70 руб']"
           hint="Минимум 70 рублей"
           v-on:keyup="setNum"
         />
